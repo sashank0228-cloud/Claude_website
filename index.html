@@ -1151,10 +1151,195 @@
         flex-direction: column;
       }
     }
+    /* VIDEO MODAL */
+    #videoModal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+    #videoModal.active { display: flex; }
+    .modal-box {
+      position: relative;
+      width: 90vw;
+      max-width: 900px;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 20px;
+    }
+    .modal-close {
+      position: absolute;
+      top: -14px;
+      right: -14px;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-size: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s;
+      z-index: 1;
+    }
+    .modal-close:hover { background: var(--accent2); color: #fff; }
+    .modal-iframe-wrap {
+      position: relative;
+      padding-top: 56.25%;
+    }
+    .modal-iframe-wrap iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: 2px;
+    }
+    .modal-yt-btn {
+      display: inline-block;
+      margin-top: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .modal-yt-btn:hover { color: var(--accent3); }
+    body.modal-open { overflow: hidden; }
+
+    /* PROGRESS TRACKER */
+    .progress-badge {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      color: var(--accent3);
+      border: 1px solid var(--accent3);
+      padding: 4px 10px;
+      border-radius: 20px;
+      white-space: nowrap;
+      transition: all 0.3s;
+    }
+    .progress-badge.complete {
+      background: var(--accent3);
+      color: var(--bg);
+      animation: badgePulse 0.5s ease;
+    }
+    @keyframes badgePulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+    .topic-card { position: relative; }
+    .progress-check {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 2;
+      cursor: pointer;
+    }
+    .check-box {
+      display: block;
+      width: 22px;
+      height: 22px;
+      border: 1.5px solid var(--border);
+      border-radius: 3px;
+      background: var(--surface);
+      transition: all 0.2s;
+    }
+    .check-box.checked {
+      background: var(--accent3);
+      border-color: var(--accent3);
+    }
+    .check-box.checked::after {
+      content: '✓';
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      color: var(--bg);
+      font-size: 13px;
+      font-weight: bold;
+    }
+    .topic-card.explored { border-color: var(--accent3) !important; }
+
+    /* HERO SUB-LINK */
+    .hero-sub-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 14px;
+    }
+    .hero-sub-link a { color: var(--accent3); text-decoration: none; }
+    .hero-sub-link a:hover { text-decoration: underline; }
+
+    /* VIDEO FILTER */
+    .yt-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 36px;
+    }
+    .filter-btn {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      border-radius: 2px;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--muted);
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .filter-btn:hover { border-color: var(--accent3); color: var(--accent3); }
+    .filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+    /* CALLOUT COPY BUTTON */
+    .callout { position: relative; }
+    .callout-copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+
+    /* ROADMAP COMPLETED STATE */
+    .roadmap-item.completed .roadmap-dot {
+      background: var(--accent3) !important;
+      color: var(--bg) !important;
+      border-color: var(--accent3) !important;
+    }
+    .roadmap-item.completed .roadmap-content h4 {
+      text-decoration: line-through;
+      opacity: 0.6;
+    }
+    .roadmap-item { cursor: pointer; }
+    .roadmap-item:hover .roadmap-dot { filter: brightness(1.2); }
+
   </style>
 </head>
 
 <body>
+
+  <!-- VIDEO MODAL -->
+  <div id="videoModal" role="dialog" aria-modal="true" aria-label="Video Player">
+    <div class="modal-box">
+      <button id="closeModal" class="modal-close" aria-label="Close video">✕</button>
+      <div class="modal-iframe-wrap">
+        <iframe id="videoIframe" src="" frameborder="0" allowfullscreen
+          allow="autoplay; encrypted-media; picture-in-picture"></iframe>
+      </div>
+      <a id="modalYtLink" href="#" target="_blank" rel="noopener" class="modal-yt-btn">↗ Open on YouTube</a>
+    </div>
+  </div>
 
   <!-- NAV -->
   <nav aria-label="Main Navigation">
@@ -1166,6 +1351,7 @@
       <li><a href="#roadmap">Roadmap</a></li>
       <li><a href="#faq">FAQ</a></li>
     </ul>
+    <div class="progress-badge" id="progressBadge" title="Topics explored">0 / 8</div>
   </nav>
 
   <main>
@@ -1176,10 +1362,10 @@
       <p class="hero-sub">Everything you need to harness Claude's full potential — agents, context management, token
         optimization, CLAUDE.md, prompt engineering, and beyond.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="#topics">▶ Explore All Topics</a>
-        <a class="btn btn-outline" href="#videos">🎬 Watch Video Playlist</a>
-        <a class="btn btn-outline" href="https://docs.claude.com" target="_blank" rel="noopener">📖 Official Docs ↗</a>
+        <a class="btn btn-primary" href="#topics">▶ Start Learning — Topic 01</a>
+        <a class="btn btn-outline" href="#videos">Watch 17 Videos</a>
       </div>
+      <p class="hero-sub-link">Looking for the official docs? <a href="https://docs.claude.com" target="_blank" rel="noopener">docs.claude.com ↗</a></p>
       <div class="hero-meta">
         <div>Reading Time <span>~15 min</span></div>
         <div>Topics Covered <span>7 Core Concepts</span></div>
@@ -1193,12 +1379,12 @@
     <section class="topics-section" id="topics">
       <div class="section-label">What You'll Learn</div>
       <h2 class="section-title">7 Concepts That Unlock Claude's Power</h2>
-      <p class="section-desc">Click any card to watch the best YouTube video on that topic. Each concept builds on the
-        last — master them in order.</p>
+      <p class="section-desc">Click any card to watch the video in-page — no tab switching. Check the box when you've explored a topic.</p>
 
       <div class="topics-grid">
 
-        <a class="topic-card c1" href="https://www.youtube.com/watch?v=nWzXyjXCoCE" target="_blank" rel="noopener">
+        <a class="topic-card c1" href="https://www.youtube.com/watch?v=nWzXyjXCoCE" target="_blank" rel="noopener" data-video-id="nWzXyjXCoCE">
+          <label class="progress-check" onclick="event.stopPropagation();event.preventDefault();toggleProgress(0)" title="Mark as explored"><span class="check-box" id="check-0"></span></label>
           <span class="card-icon">🎯</span>
           <div class="card-num">01 — Foundation</div>
           <div class="card-title">Prompt Harness Engineering</div>
@@ -1209,7 +1395,8 @@
           <div class="card-cta">▶ Watch on YouTube →</div>
         </a>
 
-        <a class="topic-card c2" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener">
+        <a class="topic-card c2" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener" data-video-id="S_oN3vlzpMw">
+          <label class="progress-check" onclick="event.stopPropagation();event.preventDefault();toggleProgress(1)" title="Mark as explored"><span class="check-box" id="check-1"></span></label>
           <span class="card-icon">🤖</span>
           <div class="card-num">02 — Automation</div>
           <div class="card-title">AI Agents</div>
@@ -1220,7 +1407,8 @@
           <div class="card-cta">▶ Watch on YouTube →</div>
         </a>
 
-        <a class="topic-card c3" href="https://www.youtube.com/watch?v=h7QJL2_gEXA" target="_blank" rel="noopener">
+        <a class="topic-card c3" href="https://www.youtube.com/watch?v=h7QJL2_gEXA" target="_blank" rel="noopener" data-video-id="h7QJL2_gEXA">
+          <label class="progress-check" onclick="event.stopPropagation();event.preventDefault();toggleProgress(2)" title="Mark as explored"><span class="check-box" id="check-2"></span></label>
           <span class="card-icon">📄</span>
           <div class="card-num">03 — Configuration</div>
           <div class="card-title">CLAUDE.md Files</div>
@@ -1231,7 +1419,8 @@
           <div class="card-cta">▶ Watch on YouTube →</div>
         </a>
 
-        <a class="topic-card c4" href="https://www.youtube.com/watch?v=E6seSBly2Ok" target="_blank" rel="noopener">
+        <a class="topic-card c4" href="https://www.youtube.com/watch?v=E6seSBly2Ok" target="_blank" rel="noopener" data-video-id="E6seSBly2Ok">
+          <label class="progress-check" onclick="event.stopPropagation();event.preventDefault();toggleProgress(3)" title="Mark as explored"><span class="check-box" id="check-3"></span></label>
           <span class="card-icon">🗺️</span>
           <div class="card-num">04 — Strategy</div>
           <div class="card-title">Planning & Task Management</div>
@@ -1242,7 +1431,8 @@
           <div class="card-cta">▶ Watch on YouTube →</div>
         </a>
 
-        <a class="topic-card c5" href="https://www.youtube.com/watch?v=-zzbkh9B-5Q" target="_blank" rel="noopener">
+        <a class="topic-card c5" href="https://www.youtube.com/watch?v=-zzbkh9B-5Q" target="_blank" rel="noopener" data-video-id="-zzbkh9B-5Q">
+          <label class="progress-check" onclick="event.stopPropagation();event.preventDefault();toggleProgress(4)" title="Mark as explored"><span class="check-box" id="check-4"></span></label>
           <span class="card-icon">🏗️</span>
           <div class="card-num">05 — Scale</div>
           <div class="card-title">Agent Teams & Orchestration</div>
@@ -1254,7 +1444,8 @@
         </a>
 
         <a class="topic-card c6" href="https://www.youtube.com/watch?v=I1EGbrH5Xdk&t=65s" target="_blank"
-          rel="noopener">
+          rel="noopener" data-video-id="I1EGbrH5Xdk" data-start="65">
+          <label class="progress-check" onclick="event.stopPropagation();event.preventDefault();toggleProgress(5)" title="Mark as explored"><span class="check-box" id="check-5"></span></label>
           <span class="card-icon">🧠</span>
           <div class="card-num">06 — Memory</div>
           <div class="card-title">Context Window Management</div>
@@ -1265,7 +1456,8 @@
           <div class="card-cta">▶ Watch on YouTube →</div>
         </a>
 
-        <a class="topic-card c7" href="https://www.youtube.com/watch?v=49V-5Ock8LU" target="_blank" rel="noopener">
+        <a class="topic-card c7" href="https://www.youtube.com/watch?v=49V-5Ock8LU" target="_blank" rel="noopener" data-video-id="49V-5Ock8LU">
+          <label class="progress-check" onclick="event.stopPropagation();event.preventDefault();toggleProgress(6)" title="Mark as explored"><span class="check-box" id="check-6"></span></label>
           <span class="card-icon">💰</span>
           <div class="card-num">07 — Efficiency</div>
           <div class="card-title">Token Savings</div>
@@ -1277,6 +1469,7 @@
         </a>
 
         <a class="topic-card c8" href="https://docs.claude.com/en/api/getting-started" target="_blank" rel="noopener">
+          <label class="progress-check" onclick="event.stopPropagation();event.preventDefault();toggleProgress(7)" title="Mark as explored"><span class="check-box" id="check-7"></span></label>
           <span class="card-icon">🔌</span>
           <div class="card-num">08 — Extension</div>
           <div class="card-title">API Integrations</div>
@@ -1310,6 +1503,7 @@
           </p>
 
           <div class="callout">
+            <button class="copy-btn callout-copy-btn" onclick="copyCallout(this)" aria-label="Copy to clipboard">Copy</button>
             <strong>Pro Pattern — The 4-Part Harness</strong>
             <b>Role</b>: Who is Claude in this conversation? &nbsp;·&nbsp; <b>Context</b>: What does it need to know?
             &nbsp;·&nbsp; <b>Task</b>: What exactly should it do? &nbsp;·&nbsp; <b>Format</b>: How should the output
@@ -1354,6 +1548,7 @@
             observes the result, then decides the next step. This cycle repeats until the goal is achieved.</p>
 
           <div class="callout green">
+            <button class="copy-btn callout-copy-btn" onclick="copyCallout(this)" aria-label="Copy to clipboard">Copy</button>
             <strong>The 3 Laws of Good Agents</strong>
             1. Give Claude a <b>goal</b>, not a script. &nbsp;·&nbsp;
             2. Provide exactly the tools the goal requires. &nbsp;·&nbsp;
@@ -1412,6 +1607,7 @@
           </p>
 
           <div class="callout yellow">
+            <button class="copy-btn callout-copy-btn" onclick="copyCallout(this)" aria-label="Copy to clipboard">Copy</button>
             <strong>What Belongs in CLAUDE.md</strong>
             Project overview &amp; folder structure &nbsp;·&nbsp; Tech stack + versions &nbsp;·&nbsp; Naming conventions
             &nbsp;·&nbsp; What Claude should NEVER do &nbsp;·&nbsp; Test &amp; build commands &nbsp;·&nbsp; Key
@@ -1454,6 +1650,7 @@
             updates as it works — so you always know what's done, what's in progress, and what's next.</p>
 
           <div class="callout">
+            <button class="copy-btn callout-copy-btn" onclick="copyCallout(this)" aria-label="Copy to clipboard">Copy</button>
             <strong>Planning Prompt Template</strong>
             "Before you write any code, think through: (1) what files will need to change, (2) what could go wrong, (3)
             what you'll do first, second, and third. Write a numbered plan, then wait for my approval before starting."
@@ -1474,6 +1671,7 @@
           </p>
 
           <div class="callout pink">
+            <button class="copy-btn callout-copy-btn" onclick="copyCallout(this)" aria-label="Copy to clipboard">Copy</button>
             <strong>Orchestrator Pattern</strong>
             Orchestrator receives goal → breaks it into subtasks → spins up subagents with specific roles → collects
             results → synthesises final output. The orchestrator manages and integrates — it never does the work itself.
@@ -1495,6 +1693,7 @@
             crisp session handoff notes, and avoid re-injecting information Claude already has.</p>
 
           <div class="callout green">
+            <button class="copy-btn callout-copy-btn" onclick="copyCallout(this)" aria-label="Copy to clipboard">Copy</button>
             <strong>The Golden Rule of Context</strong>
             Before every message, ask: "Does Claude still have the context it needs, or am I re-injecting information it
             already has?" This habit alone will dramatically improve response quality and cut costs.
@@ -1528,6 +1727,7 @@
             compact early and often, (5) use session handoff notes.</p>
 
           <div class="callout yellow">
+            <button class="copy-btn callout-copy-btn" onclick="copyCallout(this)" aria-label="Copy to clipboard">Copy</button>
             <strong>Quick Token Wins — Do These Today</strong>
             ✓ Create CLAUDE.md before every project session &nbsp;·&nbsp;
             ✓ Write your full task spec before opening a session &nbsp;·&nbsp;
@@ -1554,10 +1754,21 @@
       <p class="section-desc">Every video recommended in this guide, in one place. Grouped by topic — click any card to
         open directly on YouTube.</p>
 
+      <div class="yt-filters" id="ytFilters">
+        <button class="filter-btn active" onclick="filterVideos(this,'all')">All (17)</button>
+        <button class="filter-btn" onclick="filterVideos(this,'beginner')">Beginner</button>
+        <button class="filter-btn" onclick="filterVideos(this,'prompts')">Prompts</button>
+        <button class="filter-btn" onclick="filterVideos(this,'agents')">Agents</button>
+        <button class="filter-btn" onclick="filterVideos(this,'claudemd')">CLAUDE.md</button>
+        <button class="filter-btn" onclick="filterVideos(this,'planning')">Planning</button>
+        <button class="filter-btn" onclick="filterVideos(this,'context')">Context</button>
+        <button class="filter-btn" onclick="filterVideos(this,'tokens')">Tokens</button>
+      </div>
+
       <div class="yt-grid">
 
         <!-- Start Here -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=jw0pMr54Ztc" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=jw0pMr54Ztc" target="_blank" rel="noopener" data-category="beginner">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #0d1b2a, #1b4332);">📘<div class="yt-play">▶
             </div>
           </div>
@@ -1571,7 +1782,7 @@
         </a>
 
         <!-- Prompt Harness Engineering -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=nWzXyjXCoCE" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=nWzXyjXCoCE" target="_blank" rel="noopener" data-category="prompts">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #0f3460, #533483);">🎯<div class="yt-play">▶
             </div>
           </div>
@@ -1585,7 +1796,7 @@
         </a>
 
         <!-- AI Agents -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener" data-category="agents">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #1b1b2f, #2b2d42);">🤖<div class="yt-play">▶
             </div>
           </div>
@@ -1598,7 +1809,7 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=EH5jx5qPabU" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=EH5jx5qPabU" target="_blank" rel="noopener" data-category="agents">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #1b2f1b, #2d422d);">🤖<div class="yt-play">▶
             </div>
           </div>
@@ -1611,7 +1822,7 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=gHB4JFG9i3k&t=88s" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=gHB4JFG9i3k&t=88s" target="_blank" rel="noopener" data-category="agents claudemd">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #240046, #5a189a);">💻<div class="yt-play">▶
             </div>
           </div>
@@ -1624,7 +1835,7 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=XASPkhYLtnk" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=XASPkhYLtnk" target="_blank" rel="noopener" data-category="agents">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #2f1b2f, #422d42);">🤖<div class="yt-play">▶
             </div>
           </div>
@@ -1637,7 +1848,7 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank" rel="noopener" data-category="agents planning">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #12372a, #436850);">⚡<div class="yt-play">▶
             </div>
           </div>
@@ -1651,7 +1862,7 @@
         </a>
 
         <!-- CLAUDE.md Files -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=h7QJL2_gEXA" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=h7QJL2_gEXA" target="_blank" rel="noopener" data-category="claudemd">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #240046, #3d0066);">📄<div class="yt-play">▶
             </div>
           </div>
@@ -1665,7 +1876,7 @@
         </a>
 
         <!-- Planning & Task Management -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=E6seSBly2Ok" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=E6seSBly2Ok" target="_blank" rel="noopener" data-category="planning">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #1a2f1a, #2d4a2d);">🗺️<div class="yt-play">▶
             </div>
           </div>
@@ -1678,7 +1889,7 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=UYzCXC2hh0I" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=UYzCXC2hh0I" target="_blank" rel="noopener" data-category="planning">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #2a2f1a, #3d4a2d);">🗺️<div class="yt-play">▶
             </div>
           </div>
@@ -1692,7 +1903,7 @@
         </a>
 
         <!-- Agent Teams & Orchestration -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=-zzbkh9B-5Q" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=-zzbkh9B-5Q" target="_blank" rel="noopener" data-category="agents">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #370617, #9d0208);">🏗️<div class="yt-play">▶
             </div>
           </div>
@@ -1705,7 +1916,7 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=-BhfcPseWFQ" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=-BhfcPseWFQ" target="_blank" rel="noopener" data-category="agents">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #3d0a0a, #7a0404);">🏗️<div class="yt-play">▶
             </div>
           </div>
@@ -1719,7 +1930,7 @@
         </a>
 
         <!-- Context Window Management -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=I1EGbrH5Xdk&t=65s" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=I1EGbrH5Xdk&t=65s" target="_blank" rel="noopener" data-category="context">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #0f2a4a, #1a4a6e);">🧠<div class="yt-play">▶
             </div>
           </div>
@@ -1732,7 +1943,7 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=lN5tLx2_7HQ" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=lN5tLx2_7HQ" target="_blank" rel="noopener" data-category="context">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #0a1f3a, #0f3060);">🧠<div class="yt-play">▶
             </div>
           </div>
@@ -1746,7 +1957,7 @@
         </a>
 
         <!-- Token Savings -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=49V-5Ock8LU" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=49V-5Ock8LU" target="_blank" rel="noopener" data-category="tokens">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #1a1a2e, #2e2e16);">💰<div class="yt-play">▶
             </div>
           </div>
@@ -1759,7 +1970,7 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=boilaC1Qo2c" target="_blank" rel="noopener">
+        <a class="yt-card" href="https://www.youtube.com/watch?v=boilaC1Qo2c" target="_blank" rel="noopener" data-category="tokens">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #2e2a16, #4a4010);">💰<div class="yt-play">▶
             </div>
           </div>
@@ -1774,7 +1985,7 @@
 
         <!-- Udemy Course -->
         <a class="yt-card" href="https://www.udemy.com/course/ai-prompt-engineering-chatgpt-claude-claude-code/"
-          target="_blank" rel="noopener">
+          target="_blank" rel="noopener" data-category="prompts tokens">
           <div class="yt-thumb" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">🔬<div class="yt-play">▶
             </div>
           </div>
@@ -1817,7 +2028,7 @@
 
       <div class="roadmap-track">
 
-        <div class="roadmap-item">
+        <div class="roadmap-item" data-step="1">
           <div class="roadmap-dot">W1</div>
           <div class="roadmap-content">
             <h4>Week 1 — Get Comfortable with Claude</h4>
@@ -1832,7 +2043,7 @@
           </div>
         </div>
 
-        <div class="roadmap-item">
+        <div class="roadmap-item" data-step="2">
           <div class="roadmap-dot">W2</div>
           <div class="roadmap-content">
             <h4>Week 2 — Harness Engineering & Prompt Structure</h4>
@@ -1851,7 +2062,7 @@
           </div>
         </div>
 
-        <div class="roadmap-item">
+        <div class="roadmap-item" data-step="3">
           <div class="roadmap-dot">W3</div>
           <div class="roadmap-content">
             <h4>Week 3 — Context, Tokens & CLAUDE.md</h4>
@@ -1867,7 +2078,7 @@
           </div>
         </div>
 
-        <div class="roadmap-item">
+        <div class="roadmap-item" data-step="4">
           <div class="roadmap-dot">W4</div>
           <div class="roadmap-content">
             <h4>Week 4 — Agents, Planning & Automation</h4>
@@ -1883,7 +2094,7 @@
           </div>
         </div>
 
-        <div class="roadmap-item">
+        <div class="roadmap-item" data-step="5">
           <div class="roadmap-dot">W5</div>
           <div class="roadmap-content">
             <h4>Week 5+ — Agent Teams & Real Projects</h4>
@@ -1957,26 +2168,135 @@
   </footer>
 
   <script>
+    // --- VIDEO MODAL ---
+    const modal = document.getElementById('videoModal');
+    const iframe = document.getElementById('videoIframe');
+    const closeBtn = document.getElementById('closeModal');
+    const modalYtLink = document.getElementById('modalYtLink');
+
+    document.addEventListener('click', function(e) {
+      const card = e.target.closest('a[data-video-id]');
+      if (card) {
+        e.preventDefault();
+        const videoId = card.dataset.videoId;
+        const start = card.dataset.start || '0';
+        const ytUrl = card.href;
+        iframe.src = `https://www.youtube-nocookie.com/embed/${videoId}?autoplay=1&start=${start}`;
+        modalYtLink.href = ytUrl;
+        modal.classList.add('active');
+        document.body.classList.add('modal-open');
+        closeBtn.focus();
+      }
+    });
+
+    function closeModal() {
+      modal.classList.remove('active');
+      document.body.classList.remove('modal-open');
+      iframe.src = '';
+    }
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', function(e) {
+      if (e.target === modal) closeModal();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' && modal.classList.contains('active')) closeModal();
+    });
+
+    // --- PROGRESS TRACKER ---
+    function loadProgress() {
+      const saved = JSON.parse(localStorage.getItem('claudeos_progress') || '[]');
+      saved.forEach(function(idx) {
+        const box = document.getElementById('check-' + idx);
+        const card = box && box.closest('.topic-card');
+        if (box) box.classList.add('checked');
+        if (card) card.classList.add('explored');
+      });
+      updateBadge(saved.length);
+    }
+
+    function toggleProgress(idx) {
+      const box = document.getElementById('check-' + idx);
+      const card = box && box.closest('.topic-card');
+      const saved = JSON.parse(localStorage.getItem('claudeos_progress') || '[]');
+      const pos = saved.indexOf(idx);
+      if (pos === -1) {
+        saved.push(idx);
+        if (box) box.classList.add('checked');
+        if (card) card.classList.add('explored');
+      } else {
+        saved.splice(pos, 1);
+        if (box) box.classList.remove('checked');
+        if (card) card.classList.remove('explored');
+      }
+      localStorage.setItem('claudeos_progress', JSON.stringify(saved));
+      updateBadge(saved.length);
+    }
+
+    function updateBadge(count) {
+      const badge = document.getElementById('progressBadge');
+      if (!badge) return;
+      badge.textContent = count + ' / 8';
+      if (count === 8) {
+        badge.classList.add('complete');
+        badge.title = 'All topics explored!';
+      } else {
+        badge.classList.remove('complete');
+        badge.title = 'Topics explored';
+      }
+    }
+
+    // --- ROADMAP PROGRESS ---
+    document.querySelectorAll('.roadmap-item').forEach(function(item) {
+      const step = item.getAttribute('data-step');
+      if (localStorage.getItem('roadmap_' + step) === 'true') {
+        item.classList.add('completed');
+      }
+      item.addEventListener('click', function(e) {
+        if (e.target.closest('a')) return;
+        const isCompleted = this.classList.toggle('completed');
+        localStorage.setItem('roadmap_' + step, isCompleted);
+      });
+    });
+
+    // --- VIDEO FILTER ---
+    function filterVideos(btn, category) {
+      document.querySelectorAll('.filter-btn').forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      document.querySelectorAll('.yt-card').forEach(function(card) {
+        if (category === 'all' || (card.dataset.category || '').indexOf(category) !== -1) {
+          card.style.display = '';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // --- COPY CODE ---
     function copyCode(button) {
       const wrapper = button.closest('.code-wrapper');
       const codeBlock = wrapper.querySelector('.code-block');
-
-      // .innerText intelligently respects <br> tags and visual line breaks
-      const textToCopy = codeBlock.innerText;
-
-      navigator.clipboard.writeText(textToCopy).then(() => {
-        const originalText = button.innerText;
+      navigator.clipboard.writeText(codeBlock.innerText).then(function() {
         button.innerText = 'Copied!';
         button.classList.add('copied');
-
-        setTimeout(() => {
-          button.innerText = originalText;
-          button.classList.remove('copied');
-        }, 2000);
-      }).catch(err => {
-        console.error('Failed to copy text: ', err);
-      });
+        setTimeout(function() { button.innerText = 'Copy'; button.classList.remove('copied'); }, 2000);
+      }).catch(function(err) { console.error('Copy failed:', err); });
     }
+
+    // --- COPY CALLOUT ---
+    function copyCallout(button) {
+      const callout = button.closest('.callout');
+      const clone = callout.cloneNode(true);
+      clone.querySelector('.copy-btn') && clone.querySelector('.copy-btn').remove();
+      navigator.clipboard.writeText(clone.innerText.trim()).then(function() {
+        button.innerText = 'Copied!';
+        button.classList.add('copied');
+        setTimeout(function() { button.innerText = 'Copy'; button.classList.remove('copied'); }, 2000);
+      }).catch(function(err) { console.error('Copy failed:', err); });
+    }
+
+    // --- INIT ---
+    loadProgress();
   </script>
 </body>
 
