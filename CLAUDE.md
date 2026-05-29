@@ -1,92 +1,112 @@
-# CLAUDE.md — Project Memory for Claude Zero to Hero
+# CLAUDE.md
 
-This file is read by Claude at the start of every session. It contains all project context, conventions, and constraints needed to work on this site without re-explanation.
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
 ---
 
 ## Project Overview
 
 **Name:** Claude: Zero to Hero — The Definitive Beginner's Guide  
-**Type:** Static single-page website (pure HTML/CSS/vanilla JS)  
-**Purpose:** A public learning hub for beginners learning to use Claude AI — covering prompt engineering, agents, CLAUDE.md, planning, orchestration, context management, and token optimisation.  
-**Audience:** Absolute beginners through intermediate Claude users.
+**Type:** Static single-page website (pure HTML/CSS/vanilla JS — no build step, no framework)  
+**Purpose:** Public learning hub for Claude AI — prompt engineering, agents, CLAUDE.md, planning, orchestration, context management, token optimisation.  
+**Deployed file:** `index.html` only.
+
+---
+
+## Critical Git Rule
+
+**Only ever `git add index.html`.** Never stage or commit `My website.html` (legacy copy — do not touch it).
 
 ---
 
 ## File Structure
 
 ```
-/
-└── index.html       # Entire site — one self-contained file (THE ONLY FILE TO EDIT/COMMIT)
-└── My website.html  # Legacy copy — DO NOT TOUCH, DO NOT COMMIT
-└── README.md        # Project documentation
-└── CLAUDE.md        # This file
+index.html       ← entire site, one self-contained file (~2700 lines)
+My website.html  ← DO NOT TOUCH, DO NOT COMMIT
+README.md
+CLAUDE.md
 ```
 
-The site is intentionally **one file**. Do not split it into separate CSS/JS files unless explicitly asked.
-
-> **Git rule:** Only ever `git add index.html`. Never stage or commit `My website.html`.
+No build tools. No package.json. No dependencies. Edit `index.html` directly and open in a browser to preview.
 
 ---
 
-## Tech Stack
+## index.html Architecture
 
-- Pure HTML5 + CSS3 + vanilla JS (no frameworks, no build tools)
-- Google Fonts: `Syne` (headings), `DM Serif Display` (body), `IBM Plex Mono` (mono/labels)
-- No external CSS libraries or JS dependencies
-- Responsive via CSS Grid + `clamp()` + one `@media (max-width: 640px)` breakpoint
-- All JS lives in a single `<script>` block at the bottom of `<body>`
+The file has three blocks in order:
 
----
+1. **`<style>` block** (`<head>`) — all CSS, ~1700 lines
+2. **`<body>` HTML** — all markup
+3. **`<script>` block** (bottom of `<body>`) — all JS, ~350 lines
 
-## CSS Architecture
-
-All styles live in a single `<style>` block in `<head>`. Key design tokens are in `:root`:
+### CSS layout (`:root` tokens)
 
 ```css
 :root {
-  --bg: #0a0a0f;
-  --surface: #12121a;
-  --surface2: #1c1c28;
-  --border: #2a2a3a;
-  --accent: #6c63ff;      /* purple — primary */
-  --accent2: #ff6b9d;     /* pink */
-  --accent3: #00d4aa;     /* teal/green */
-  --text: #e8e8f0;
-  --muted: #888899;
+  --bg: #0a0a0f;        --surface: #12121a;   --surface2: #1c1c28;
+  --border: #2a2a3a;    --accent: #6c63ff;    --accent2: #ff6b9d;
+  --accent3: #00d4aa;   --text: #e8e8f0;      --muted: #888899;
 }
 ```
 
-**Never hardcode colours** outside of `:root`. Always use CSS variables.
+Never hardcode colours outside `:root`. The only exceptions are `.c1`–`.c8` topic card accent colours (intentionally hardcoded per card).
 
-Topic card accent colours (`.c1` through `.c8`) are the only exception — they are intentionally hardcoded per card.
+### HTML sections (body order)
+
+| Element | ID / Class | Notes |
+|---|---|---|
+| Loading screen | `#loader` | Counts 0→100, slides up on complete |
+| Reading progress bar | `#readingProgress` | Fixed top, fills on scroll |
+| Scroll-to-top button | `#scrollTopBtn` | Appears after 400px scroll |
+| Side navigation | `.side-nav` | Fixed right, scroll-spy via IntersectionObserver |
+| Floating widget | `.floating-widget` | Fixed bottom-right "Live Status" badge |
+| Video modal | `#videoModal` | Hidden overlay; triggered by `a[data-video-id]` clicks |
+| Top nav | `<nav>` | Fixed, gains `.scrolled` class after 60px scroll |
+| Hero | `.hero` | Canvas particles (`#hero-canvas`) + animated headline |
+| Marquee | `.marquee-container` | Infinite scrolling topic labels |
+| Social proof | `.social-proof` | Stats/brand logos strip |
+| Topics grid | `#topics` | 8 `.topic-card` elements (`.c1`–`.c8`) |
+| Deep dives | `#deep` | Long-form prose + callouts + code blocks |
+| Video grid | `#videos` | Filter bar + 17 `.yt-card` elements |
+| Roadmap | `#roadmap` | Aurora animated bg + 5 clickable week items |
+| FAQ | `#faq` | Native `<details>` collapsibles |
+| Footer | `<footer>` | Links + tagline |
 
 ---
 
-## Page Sections (in order)
+## JS Functions Reference
 
-1. `#videoModal` — in-page video modal (injected before `<nav>`, hidden by default)
-2. `<nav>` — fixed top nav with logo, anchor links, and progress badge (`#progressBadge`)
-3. `.hero` — full-viewport hero with 2 CTAs and meta stats
-4. `.topics-section` (`#topics`) — 8 topic cards in a CSS Grid
-5. `.deep-section` (`#deep`) — long-form written content for all topics
-6. `.yt-section` (`#videos`) — filter bar + 17-card YouTube grid
-7. `.roadmap` (`#roadmap`) — 5-week learning roadmap (click-to-complete)
-8. `.faq-section` (`#faq`) — collapsible FAQ section
-9. `<footer>` — logo, links, tagline
+All JS is in the single `<script>` block at the bottom of `<body>`. Sections in order:
+
+| Section | Key functions |
+|---|---|
+| Hero canvas | `initCanvas()` — 90 multi-color particles, connecting lines (<130px), mouse repel |
+| Side nav spy | `IntersectionObserver` on `section[id]` → toggles `.active` on `.side-nav a` |
+| Loading screen | IIFE — eased counter 0→100 over 2.2s, then `loader.classList.add('done')` slides it up |
+| Nav scroll state | `scroll` listener → `nav.classList.toggle('scrolled', scrollY > 60)` |
+| Reading progress | `scroll` listener → `#readingProgress` width as % of page scrolled |
+| Top nav active | `updateTopNav()` — highlights `.nav-links a` matching current section |
+| Scroll reveal | `revealObserver` (IntersectionObserver, threshold 0.08) → adds `.visible` to `.reveal` elements |
+| Card stagger | `cardObserver` — sets `opacity`/`transform` on `.topic-card` and `.yt-card` with 70ms stagger |
+| Hero word reveal | IIFE — wraps each word in `.word-span`, sets staggered `animation-delay` |
+| Video modal | Event delegation on `a[data-video-id]` → `youtube-nocookie.com/embed` iframe; `closeModal()` clears src |
+| Progress tracker | `toggleProgress(idx)`, `loadProgress()`, `updateBadge(count)` — `localStorage` key `claudeos_progress` |
+| Roadmap progress | Inline listeners on `.roadmap-item[data-step]` → `localStorage` key `roadmap_{step}` |
+| Video filter | `filterVideos(btn, category)` — show/hide `.yt-card` by `data-category` |
+| Copy code | `copyCode(button)` — copies `.code-block` innerText |
+| Copy callout | `copyCallout(button)` — clones `.callout`, strips button, copies innerText |
 
 ---
 
-## Topic Cards — Current State
+## Topic Cards (`#topics`)
 
-Each `.topic-card` either opens the in-page video modal (c1–c7) or links to external docs (c8). Cards have:
-- `data-video-id` — YouTube video ID (c1–c7 only; triggers the modal on click)
-- `data-start` — optional timestamp in seconds (e.g. c6 starts at 65s)
-- A `.progress-check` label for the localStorage progress tracker
-- An `.explored` class added by JS when the checkbox is ticked
+Cards `.c1`–`.c7` open the video modal; `.c8` links to external docs.
 
-| Class | Topic | Video ID / Link |
-|-------|-------|------|
+Each card requires: `href`, `data-video-id` (YouTube cards only), optionally `data-start` (seconds), a `.progress-check` label with `onclick="toggleProgress(N)"` and `id="check-N"`.
+
+| Class | Topic | Video ID |
+|---|---|---|
 | `.c1` | Prompt Harness Engineering | `nWzXyjXCoCE` |
 | `.c2` | AI Agents | `S_oN3vlzpMw` |
 | `.c3` | CLAUDE.md Files | `h7QJL2_gEXA` |
@@ -94,97 +114,60 @@ Each `.topic-card` either opens the in-page video modal (c1–c7) or links to ex
 | `.c5` | Agent Teams & Orchestration | `-zzbkh9B-5Q` |
 | `.c6` | Context Window Management | `I1EGbrH5Xdk` (start=65) |
 | `.c7` | Token Savings | `49V-5Ock8LU` |
-| `.c8` | Claude API | `https://docs.claude.com/en/api/getting-started` (no modal) |
+| `.c8` | Claude API | docs.claude.com link (no modal) |
 
 ---
 
-## YouTube Video Grid — Current State (17 cards)
+## YouTube Video Grid (`#videos`)
 
-Cards are grouped by topic inside `.yt-grid`. Each `.yt-card` has:
-- `data-video-id` — triggers the in-page modal on click (16 YouTube cards; Udemy card has none)
-- `data-start` — timestamp in seconds where applicable
-- `data-category` — used by the filter bar JS (space-separated: e.g. `"agents claudemd"`)
-- `<img src="https://img.youtube.com/vi/{ID}/hqdefault.jpg">` thumbnail inside `.yt-thumb`
-
-Filter categories: `beginner` · `prompts` · `agents` · `claudemd` · `planning` · `context` · `tokens`
-
-Order:
-
-1. Start Here — `jw0pMr54Ztc` · `beginner`
-2. Prompt Harness Engineering — `nWzXyjXCoCE` · `prompts`
-3. AI Agents × 5 — `S_oN3vlzpMw`, `EH5jx5qPabU`, `XASPkhYLtnk` · `agents`; `gHB4JFG9i3k` (start=88) · `agents claudemd`; `tDGiWn0flK8` · `agents planning`
-4. CLAUDE.md Files × 1 — `h7QJL2_gEXA` · `claudemd`
-5. Planning & Task Management × 2 — `E6seSBly2Ok`, `UYzCXC2hh0I` · `planning`
-6. Agent Teams & Orchestration × 2 — `-zzbkh9B-5Q`, `-BhfcPseWFQ` · `agents`
-7. Context Window Management × 2 — `I1EGbrH5Xdk` (start=65), `lN5tLx2_7HQ` · `context`
-8. Token Savings × 2 — `49V-5Ock8LU`, `boilaC1Qo2c` · `tokens`
-9. Udemy Course — `https://www.udemy.com/course/ai-prompt-engineering-chatgpt-claude-claude-code/` · `prompts tokens` (no modal, no thumbnail)
+17 cards inside `.yt-grid`. Each `.yt-card` requires:
+- `href` — full YouTube URL
+- `data-video-id` — triggers modal (omit for the Udemy card)
+- `data-category` — space-separated filter keys: `beginner` `prompts` `agents` `claudemd` `planning` `context` `tokens`
+- `data-start` — seconds offset (optional)
+- `<img src="https://img.youtube.com/vi/{ID}/hqdefault.jpg">` inside `.yt-thumb`
 
 ---
 
-## Conventions
+## Animations & Motion
 
-- **Indentation:** 2 spaces throughout HTML and CSS
-- **Class naming:** kebab-case (e.g. `yt-card`, `topic-card`, `card-cta`)
-- **IDs:** used for anchor nav targets (`#topics`, `#deep`, `#videos`, `#roadmap`, `#faq`) and JS hooks (`#videoModal`, `#videoIframe`, `#closeModal`, `#modalYtLink`, `#progressBadge`, `#ytFilters`, `#check-0` through `#check-7`)
-- **Links:** always include `target="_blank" rel="noopener"` on external links
-- **Emoji:** used as decorative icons inside cards and headings — preserve them
-- **Comments:** section breaks use `<!-- SECTION NAME -->` format
-
----
-
-## Interactive Features — JS Functions
-
-All functions are in the `<script>` block at the bottom of `<body>`:
-
-| Function | Purpose |
-|---|---|
-| `openModal` / `closeModal` | Video modal — opened via event delegation on `a[data-video-id]` |
-| `toggleProgress(idx)` | Checks/unchecks a topic card (0–7), saves to `localStorage` key `claudeos_progress` |
-| `loadProgress()` | Restores checkbox + `.explored` state on page load |
-| `updateBadge(count)` | Updates the `#progressBadge` text; adds `.complete` class at 8/8 |
-| `filterVideos(btn, category)` | Shows/hides `.yt-card` elements by `data-category`; toggles `.active` on filter buttons |
-| `copyCode(button)` | Copies `.code-block` text from a `.code-wrapper` |
-| `copyCallout(button)` | Copies `.callout` text (clones element, removes button node, copies `.innerText`) |
-
-Roadmap items use inline event listeners (added in script block) — clicking a `.roadmap-item` toggles `.completed` and saves to `localStorage` key `roadmap_{step}`.
+- **`.reveal`** — add to any element to opt into scroll-triggered fade+slide-up (handled by `revealObserver`)
+- **Roadmap aurora** — CSS `::before` radial gradients + `@keyframes auroraShift` (8s infinite); grid overlay via `::after`
+- **Loading screen** — eased IIFE counter; overlay uses `transform: translateY(-100%)` to exit
+- **Hero canvas** — `<canvas id="hero-canvas">` inside `.hero`; `initCanvas()` draws particles + connecting lines; responds to `mousemove`
+- **Card stagger** — set by `cardObserver` inline via `style.opacity` / `style.transform` (not a CSS class)
+- **Word reveal** — `.word-span` elements injected by JS into `h1`; animated via `@keyframes wordUp`
 
 ---
 
 ## NEVER
 
-- Do not add external JS libraries or CSS frameworks
-- Do not split the file into multiple files unless explicitly asked
-- Do not remove `rel="noopener"` from external links
-- Do not change CSS variable names in `:root`
-- Do not alter the roadmap section links — they are curated and intentional
-- Do not add `<form>` elements — use button `onClick` handlers if interactivity is needed
-- **Do not stage or commit `My website.html`** — only ever commit `index.html`
+- Add external JS libraries or CSS frameworks
+- Split into multiple files
+- Remove `rel="noopener"` from external links
+- Change CSS variable names in `:root`
+- Alter the roadmap section resource links (curated)
+- Use `<form>` elements — use `<button onclick>` instead
+- `git add My website.html` — only ever commit `index.html`
 
 ---
 
 ## Common Tasks
 
-**Add a new YouTube card:**
-Copy an existing `.yt-card` block. Set `href`, `data-video-id`, `data-category`, and optionally `data-start`. Replace the `<img src="https://img.youtube.com/vi/{ID}/hqdefault.jpg">` with the correct video ID. Update `yt-topic`, `yt-title`, `yt-desc`, and `yt-badge` text. Add inside `.yt-grid` in the correct topic group.
+**Add a YouTube video card:** Copy any `.yt-card`, set `href`, `data-video-id`, `data-category`, update the `<img>` src with the video ID, update `yt-topic`/`yt-title`/`yt-desc`/`yt-badge`. Place in `.yt-grid` in the right topic group.
 
-**Update a topic card link:**
-Find `class="topic-card c[N]"` and update only the `href` attribute.
+**Add a topic card:** Copy an existing `.topic-card`, use next colour class (`.c9`+), add CSS for `.c9:hover` and `.c9::before`, add `data-video-id` if YouTube, add `.progress-check` label with `id="check-N"` and `toggleProgress(N)`. Update the badge count in `updateBadge` if total changes.
 
-**Add a new topic card:**
-Copy an existing `.topic-card`, increment the colour class (`.c9` etc.), add matching CSS rules for `.c9:hover` and `.c9::before`. Add `data-video-id` if it links to YouTube (triggers modal), or omit for external doc links. Add a `.progress-check` label with the next index and a matching `id="check-N"`. Update `toggleProgress(N)` in the label's onclick. Place inside `.topics-grid`.
+**Add a new section:** Follow `section-label` → `section-title` → `section-desc` → content pattern. Add `.reveal` to the `<section>`. Add `<li><a>` to both `<nav>` and `.side-nav`.
 
-**Change a colour:**
-Update the relevant CSS variable in `:root` — never hardcode elsewhere.
-
-**Add a new section:**
-Follow the existing pattern: `section-label` → `section-title` → `section-desc` → content. Add a corresponding `<li><a>` in the `<nav>`.
+**Change a colour:** Update `:root` only — never hardcode.
 
 ---
 
 ## Deployment
 
-Static file — no build step needed. Deploy via:
-- **Netlify Drop** — drag file to [app.netlify.com/drop](https://app.netlify.com/drop)
-- **GitHub Pages** — rename to `index.html`, push to repo, enable Pages in Settings
+No build step. Static file only.
+
+- **GitHub Pages** — push `index.html` to repo, enable Pages in Settings
+- **Netlify Drop** — drag `index.html` to app.netlify.com/drop
 - **Vercel** — `vercel` CLI in project folder
