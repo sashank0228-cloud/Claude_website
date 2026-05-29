@@ -803,7 +803,17 @@
       font-size: 42px;
       position: relative;
       overflow: hidden;
+      background: var(--surface2);
     }
+    .yt-thumb img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+    .yt-card:hover .yt-thumb img { transform: scale(1.05); }
 
     .yt-play {
       position: absolute;
@@ -1768,9 +1778,10 @@
       <div class="yt-grid">
 
         <!-- Start Here -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=jw0pMr54Ztc" target="_blank" rel="noopener" data-category="beginner">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #0d1b2a, #1b4332);">📘<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=jw0pMr54Ztc" target="_blank" rel="noopener" data-category="beginner" data-video-id="jw0pMr54Ztc">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/jw0pMr54Ztc/hqdefault.jpg" alt="The Ultimate Beginner's Guide To Claude" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Start Here · Beginner Overview</div>
@@ -1782,9 +1793,10 @@
         </a>
 
         <!-- Prompt Harness Engineering -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=nWzXyjXCoCE" target="_blank" rel="noopener" data-category="prompts">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #0f3460, #533483);">🎯<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=nWzXyjXCoCE" target="_blank" rel="noopener" data-category="prompts" data-video-id="nWzXyjXCoCE">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/nWzXyjXCoCE/hqdefault.jpg" alt="Claude AI Full Tutorial 2026" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Foundation · Prompt Harness Engineering</div>
@@ -1796,9 +1808,10 @@
         </a>
 
         <!-- AI Agents -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener" data-category="agents">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #1b1b2f, #2b2d42);">🤖<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener" data-category="agents" data-video-id="S_oN3vlzpMw">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/S_oN3vlzpMw/hqdefault.jpg" alt="How AI Agents & Claude Skills Work" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Agents · Context Windows · Claude Skills</div>
@@ -1809,9 +1822,10 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=EH5jx5qPabU" target="_blank" rel="noopener" data-category="agents">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #1b2f1b, #2d422d);">🤖<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=EH5jx5qPabU" target="_blank" rel="noopener" data-category="agents" data-video-id="EH5jx5qPabU">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/EH5jx5qPabU/hqdefault.jpg" alt="Teach Claude to Take Multi-Step Actions" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Automation · AI Agents</div>
@@ -1822,9 +1836,10 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=gHB4JFG9i3k&t=88s" target="_blank" rel="noopener" data-category="agents claudemd">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #240046, #5a189a);">💻<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=gHB4JFG9i3k&t=88s" target="_blank" rel="noopener" data-category="agents claudemd" data-video-id="gHB4JFG9i3k" data-start="88">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/gHB4JFG9i3k/hqdefault.jpg" alt="Claude Code: Build Your First AI Agent" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Claude Code · CLAUDE.md · No Code Required</div>
@@ -1835,9 +1850,10 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=XASPkhYLtnk" target="_blank" rel="noopener" data-category="agents">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #2f1b2f, #422d42);">🤖<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=XASPkhYLtnk" target="_blank" rel="noopener" data-category="agents" data-video-id="XASPkhYLtnk">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/XASPkhYLtnk/hqdefault.jpg" alt="AI Agents — Autonomous Workflows with Claude" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Automation · AI Agents</div>
@@ -1848,9 +1864,10 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank" rel="noopener" data-category="agents planning">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #12372a, #436850);">⚡<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank" rel="noopener" data-category="agents planning" data-video-id="tDGiWn0flK8">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/tDGiWn0flK8/hqdefault.jpg" alt="From Zero to Your First Agentic AI Workflow in 26 Minutes" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Agentic Workflows · Planning · Task Management</div>
@@ -1862,9 +1879,10 @@
         </a>
 
         <!-- CLAUDE.md Files -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=h7QJL2_gEXA" target="_blank" rel="noopener" data-category="claudemd">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #240046, #3d0066);">📄<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=h7QJL2_gEXA" target="_blank" rel="noopener" data-category="claudemd" data-video-id="h7QJL2_gEXA">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/h7QJL2_gEXA/hqdefault.jpg" alt="CLAUDE.md Files — Persistent Project Memory" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Configuration · CLAUDE.md Files</div>
@@ -1876,9 +1894,10 @@
         </a>
 
         <!-- Planning & Task Management -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=E6seSBly2Ok" target="_blank" rel="noopener" data-category="planning">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #1a2f1a, #2d4a2d);">🗺️<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=E6seSBly2Ok" target="_blank" rel="noopener" data-category="planning" data-video-id="E6seSBly2Ok">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/E6seSBly2Ok/hqdefault.jpg" alt="Planning & Task Management with Claude" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Strategy · Planning & Task Management</div>
@@ -1889,9 +1908,10 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=UYzCXC2hh0I" target="_blank" rel="noopener" data-category="planning">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #2a2f1a, #3d4a2d);">🗺️<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=UYzCXC2hh0I" target="_blank" rel="noopener" data-category="planning" data-video-id="UYzCXC2hh0I">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/UYzCXC2hh0I/hqdefault.jpg" alt="TodoWrite & Subtask Planning in Claude Code" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Strategy · Planning & Task Management</div>
@@ -1903,9 +1923,10 @@
         </a>
 
         <!-- Agent Teams & Orchestration -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=-zzbkh9B-5Q" target="_blank" rel="noopener" data-category="agents">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #370617, #9d0208);">🏗️<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=-zzbkh9B-5Q" target="_blank" rel="noopener" data-category="agents" data-video-id="-zzbkh9B-5Q">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/-zzbkh9B-5Q/hqdefault.jpg" alt="How to Build Claude Agent Teams Better Than 99% of People" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Agent Teams · Orchestration · Advanced</div>
@@ -1916,9 +1937,10 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=-BhfcPseWFQ" target="_blank" rel="noopener" data-category="agents">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #3d0a0a, #7a0404);">🏗️<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=-BhfcPseWFQ" target="_blank" rel="noopener" data-category="agents" data-video-id="-BhfcPseWFQ">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/-BhfcPseWFQ/hqdefault.jpg" alt="Agent Teams & Orchestration — Advanced Patterns" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Scale · Agent Teams & Orchestration</div>
@@ -1930,9 +1952,10 @@
         </a>
 
         <!-- Context Window Management -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=I1EGbrH5Xdk&t=65s" target="_blank" rel="noopener" data-category="context">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #0f2a4a, #1a4a6e);">🧠<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=I1EGbrH5Xdk&t=65s" target="_blank" rel="noopener" data-category="context" data-video-id="I1EGbrH5Xdk" data-start="65">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/I1EGbrH5Xdk/hqdefault.jpg" alt="Context Window Management — Master /compact" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Memory · Context Window Management</div>
@@ -1943,9 +1966,10 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=lN5tLx2_7HQ" target="_blank" rel="noopener" data-category="context">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #0a1f3a, #0f3060);">🧠<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=lN5tLx2_7HQ" target="_blank" rel="noopener" data-category="context" data-video-id="lN5tLx2_7HQ">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/lN5tLx2_7HQ/hqdefault.jpg" alt="Session Design & Context Strategy for Claude" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Memory · Context Window Management</div>
@@ -1957,9 +1981,10 @@
         </a>
 
         <!-- Token Savings -->
-        <a class="yt-card" href="https://www.youtube.com/watch?v=49V-5Ock8LU" target="_blank" rel="noopener" data-category="tokens">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #1a1a2e, #2e2e16);">💰<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=49V-5Ock8LU" target="_blank" rel="noopener" data-category="tokens" data-video-id="49V-5Ock8LU">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/49V-5Ock8LU/hqdefault.jpg" alt="Token Savings — Work Smarter, Not Longer" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Efficiency · Token Savings</div>
@@ -1970,9 +1995,10 @@
           </div>
         </a>
 
-        <a class="yt-card" href="https://www.youtube.com/watch?v=boilaC1Qo2c" target="_blank" rel="noopener" data-category="tokens">
-          <div class="yt-thumb" style="background: linear-gradient(135deg, #2e2a16, #4a4010);">💰<div class="yt-play">▶
-            </div>
+        <a class="yt-card" href="https://www.youtube.com/watch?v=boilaC1Qo2c" target="_blank" rel="noopener" data-category="tokens" data-video-id="boilaC1Qo2c">
+          <div class="yt-thumb">
+            <img src="https://img.youtube.com/vi/boilaC1Qo2c/hqdefault.jpg" alt="Prompt Compression & Batching for Token Efficiency" loading="lazy">
+            <div class="yt-play">▶</div>
           </div>
           <div class="yt-info">
             <div class="yt-topic">Efficiency · Token Savings</div>
