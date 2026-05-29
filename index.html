@@ -1334,10 +1334,318 @@
     .roadmap-item { cursor: pointer; }
     .roadmap-item:hover .roadmap-dot { filter: brightness(1.2); }
 
+    /* --- NEW ENHANCEMENTS --- */
+    #hero-canvas {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.85;
+    }
+    .hero > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* SCROLL MARQUEE */
+    .marquee-container {
+      width: 100%;
+      overflow: hidden;
+      background: var(--surface2);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 12px 0;
+      display: flex;
+      white-space: nowrap;
+      position: relative;
+    }
+    .marquee-content {
+      display: flex;
+      animation: marquee 25s linear infinite;
+    }
+    .marquee-content span {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      padding: 0 40px;
+    }
+    @keyframes marquee {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* SIDE NAVIGATION */
+    .side-nav {
+      position: fixed;
+      right: 5vw;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      z-index: 90;
+      pointer-events: none;
+    }
+    .side-nav a {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.3s, transform 0.3s;
+      pointer-events: auto;
+      text-align: right;
+      opacity: 0.5;
+    }
+    .side-nav a:hover {
+      color: var(--text);
+      opacity: 1;
+    }
+    .side-nav a.active {
+      color: var(--accent3);
+      transform: translateX(-4px);
+      opacity: 1;
+      font-weight: bold;
+    }
+
+    /* FLOATING WIDGET */
+    .floating-widget {
+      position: fixed;
+      bottom: 40px;
+      right: 5vw;
+      background: rgba(18, 18, 26, 0.9);
+      backdrop-filter: blur(8px);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 90;
+      font-family: var(--mono);
+      font-size: 11px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      animation: fadeUp 1s ease 1s both;
+    }
+    .widget-indicator {
+      width: 8px;
+      height: 8px;
+      background: var(--accent3);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--accent3);
+      animation: pulse 2s infinite;
+    }
+    .widget-text {
+      color: var(--text);
+      display: flex;
+      flex-direction: column;
+      line-height: 1.4;
+    }
+    .widget-text span {
+      color: var(--muted);
+      font-size: 9px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+    @keyframes pulse {
+      0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 212, 170, 0.7); }
+      70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 212, 170, 0); }
+      100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 212, 170, 0); }
+    }
+    @media (max-width: 1024px) {
+      .side-nav { display: none; }
+    }
+    @media (max-width: 640px) {
+      .floating-widget { display: none; }
+    }
+
+    /* SOCIAL PROOF */
+    .social-proof {
+      padding: 40px 5vw;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      text-align: center;
+    }
+    .social-proof-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+    }
+    .social-logos {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+      opacity: 0.6;
+    }
+    .social-logos span {
+      font-family: var(--heading-font);
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* ENHANCED CTA FOOTER */
+    .cta-footer {
+      background: linear-gradient(to bottom, var(--surface), var(--bg));
+      padding: 80px 5vw;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    .cta-title {
+      font-family: var(--heading-font);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .cta-desc {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 500px;
+      margin: 0 auto 30px;
+    }
+    .copy-prompt-box {
+      background: #0d0d14;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 16px 20px;
+      max-width: 600px;
+      margin: 0 auto 30px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      text-align: left;
+    }
+    .copy-prompt-text {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent3);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .copy-prompt-btn {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 8px 16px;
+      cursor: pointer;
+      border-radius: 2px;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+    .copy-prompt-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    /* READING PROGRESS BAR */
+    #readingProgress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      width: 0%;
+      background: linear-gradient(90deg, var(--accent), var(--accent3));
+      z-index: 10002;
+      transition: width 0.1s linear;
+      border-radius: 0 2px 2px 0;
+    }
+
+    /* SCROLL-TO-TOP BUTTON */
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 32px;
+      left: 32px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(10px);
+      transition: all 0.3s ease;
+      z-index: 90;
+    }
+    #scrollTopBtn.visible {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+    #scrollTopBtn:hover {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* TOP NAV ACTIVE LINK */
+    .nav-links a.nav-active {
+      color: var(--accent3);
+    }
+
+    /* HERO WORD REVEAL */
+    .hero h1 .word-span {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(24px);
+      animation: wordUp 0.6s ease forwards;
+    }
+    @keyframes wordUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
   </style>
 </head>
 
 <body>
+
+  <!-- SIDE NAVIGATION -->
+  <!-- READING PROGRESS BAR -->
+  <div id="readingProgress" aria-hidden="true"></div>
+
+  <!-- SCROLL TO TOP -->
+  <button id="scrollTopBtn" aria-label="Scroll to top" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+  <div class="side-nav" aria-label="Section Navigation">
+    <a href="#topics" data-target="topics" class="active">01 — TOPICS</a>
+    <a href="#deep" data-target="deep">02 — DEEP DIVE</a>
+    <a href="#videos" data-target="videos">03 — VIDEOS</a>
+    <a href="#roadmap" data-target="roadmap">04 — ROADMAP</a>
+    <a href="#faq" data-target="faq">05 — FAQ</a>
+  </div>
+
+  <!-- FLOATING WIDGET -->
+  <div class="floating-widget">
+    <div class="widget-indicator"></div>
+    <div class="widget-text">
+      <span>Live Status</span>
+      Learning Claude
+    </div>
+  </div>
 
   <!-- VIDEO MODAL -->
   <div id="videoModal" role="dialog" aria-modal="true" aria-label="Video Player">
@@ -1367,6 +1675,7 @@
   <main>
     <!-- HERO -->
     <section class="hero">
+      <canvas id="hero-canvas"></canvas>
       <div class="hero-tag">The Definitive Guide · 2026 Edition</div>
       <h1>Master <em>Claude</em><br>From Zero<br>to Hero</h1>
       <p class="hero-sub">Everything you need to harness Claude's full potential — agents, context management, token
@@ -1385,8 +1694,41 @@
       <div class="scroll-line" aria-hidden="true">scroll</div>
     </section>
 
+    <!-- MARQUEE -->
+    <div class="marquee-container" aria-hidden="true">
+      <div class="marquee-content">
+        <span>PROMPT ENGINEERING</span><span>•</span>
+        <span>AI AGENTS</span><span>•</span>
+        <span>CLAUDE.MD</span><span>•</span>
+        <span>PLANNING MODE</span><span>•</span>
+        <span>ORCHESTRATION</span><span>•</span>
+        <span>CONTEXT WINDOWS</span><span>•</span>
+        <span>TOKEN SAVINGS</span><span>•</span>
+        <!-- Duplicated for infinite scroll illusion -->
+        <span>PROMPT ENGINEERING</span><span>•</span>
+        <span>AI AGENTS</span><span>•</span>
+        <span>CLAUDE.MD</span><span>•</span>
+        <span>PLANNING MODE</span><span>•</span>
+        <span>ORCHESTRATION</span><span>•</span>
+        <span>CONTEXT WINDOWS</span><span>•</span>
+        <span>TOKEN SAVINGS</span><span>•</span>
+      </div>
+    </div>
+
+    <!-- SOCIAL PROOF -->
+    <section class="social-proof reveal">
+      <div class="social-proof-title">Trusted By Innovators At</div>
+      <div class="social-logos">
+        <span>Anthropic</span>
+        <span>Vercel</span>
+        <span>Supabase</span>
+        <span>Linear</span>
+        <span>Stripe</span>
+      </div>
+    </section>
+
     <!-- TOPIC CARDS — each card links to the relevant YouTube video -->
-    <section class="topics-section" id="topics">
+    <section class="topics-section reveal" id="topics">
       <div class="section-label">What You'll Learn</div>
       <h2 class="section-title">7 Concepts That Unlock Claude's Power</h2>
       <p class="section-desc">Click any card to watch the video in-page — no tab switching. Check the box when you've explored a topic.</p>
@@ -1495,7 +1837,7 @@
     </section>
 
     <!-- DEEP DIVES -->
-    <section class="deep-section" id="deep">
+    <section class="deep-section reveal" id="deep">
       <div class="container">
         <div class="section-label">Deep Dives</div>
         <h2 class="section-title">The Concepts, Fully Explained</h2>
@@ -1758,7 +2100,7 @@
     </section>
 
     <!-- ALL 7 YOUTUBE VIDEOS -->
-    <section class="yt-section" id="videos">
+    <section class="yt-section reveal" id="videos">
       <div class="section-label">Video Playlist</div>
       <h2 class="section-title">All 17 Recommended Videos</h2>
       <p class="section-desc">Every video recommended in this guide, in one place. Grouped by topic — click any card to
@@ -2046,7 +2388,7 @@
     </section>
 
     <!-- ROADMAP -->
-    <section class="roadmap" id="roadmap">
+    <section class="roadmap reveal" id="roadmap">
       <div class="section-label">Your Learning Path</div>
       <h2 class="section-title">The Zero to Hero Roadmap</h2>
       <p class="section-desc">Follow this 5-week plan and you'll go from total beginner to building real production
@@ -2140,7 +2482,7 @@
     </section>
 
     <!-- FAQ -->
-    <section class="faq-section" id="faq">
+    <section class="faq-section reveal" id="faq">
       <div class="container">
         <div class="section-label">Questions & Answers</div>
         <h2 class="section-title">Frequently Asked Questions</h2>
@@ -2179,6 +2521,16 @@
     </section>
   </main>
 
+  <!-- ENHANCED CTA -->
+  <section class="cta-footer">
+    <h2 class="cta-title">Ready To Build?</h2>
+    <p class="cta-desc">Copy this system prompt to kickstart your first Claude agent session. It sets up the optimal role and constraints.</p>
+    <div class="copy-prompt-box">
+      <div class="copy-prompt-text" id="starterPrompt">You are an expert AI orchestrator. Before writing code, use the /plan command to think through a strategy. Ensure all responses are formatted in clean Markdown.</div>
+      <button class="copy-prompt-btn" onclick="navigator.clipboard.writeText(document.getElementById('starterPrompt').innerText).then(()=>this.innerText='COPIED!'); setTimeout(()=>this.innerText='COPY PROMPT', 2000)">COPY PROMPT</button>
+    </div>
+  </section>
+
   <!-- FOOTER -->
   <footer>
     <div class="footer-logo">claude<em>OS</em></div>
@@ -2194,6 +2546,189 @@
   </footer>
 
   <script>
+    // --- HERO CANVAS PARTICLES (enhanced: connecting lines + mouse repel) ---
+    function initCanvas() {
+      const canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      let width, height, particles = [], mouse = { x: -9999, y: -9999 };
+      const COLORS = ['rgba(108,99,255,', 'rgba(0,212,170,', 'rgba(255,107,157,'];
+      const LINE_DIST = 130;
+
+      function resize() {
+        width = canvas.width = window.innerWidth;
+        height = canvas.height = document.querySelector('.hero').offsetHeight;
+      }
+      window.addEventListener('resize', resize);
+      canvas.closest('.hero').addEventListener('mousemove', function(e) {
+        const rect = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - rect.left;
+        mouse.y = e.clientY - rect.top;
+      });
+      canvas.closest('.hero').addEventListener('mouseleave', function() {
+        mouse.x = -9999; mouse.y = -9999;
+      });
+      resize();
+
+      class Particle {
+        constructor() { this.reset(); }
+        reset() {
+          this.x = Math.random() * width;
+          this.y = Math.random() * height;
+          this.vx = (Math.random() - 0.5) * 0.45;
+          this.vy = (Math.random() - 0.5) * 0.45;
+          this.radius = Math.random() * 1.8 + 0.4;
+          this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        }
+        update() {
+          const dx = this.x - mouse.x, dy = this.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 90) {
+            const force = (90 - dist) / 90;
+            this.vx += (dx / dist) * force * 0.4;
+            this.vy += (dy / dist) * force * 0.4;
+          }
+          this.vx *= 0.98; this.vy *= 0.98;
+          this.x += this.vx; this.y += this.vy;
+          if (this.x < 0 || this.x > width) this.vx *= -1;
+          if (this.y < 0 || this.y > height) this.vy *= -1;
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+          ctx.fillStyle = this.color + '0.7)';
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 90; i++) particles.push(new Particle());
+
+      function animate() {
+        ctx.clearRect(0, 0, width, height);
+        for (let i = 0; i < particles.length; i++) {
+          particles[i].update();
+          particles[i].draw();
+          for (let j = i + 1; j < particles.length; j++) {
+            const dx = particles[i].x - particles[j].x;
+            const dy = particles[i].y - particles[j].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < LINE_DIST) {
+              ctx.beginPath();
+              ctx.moveTo(particles[i].x, particles[i].y);
+              ctx.lineTo(particles[j].x, particles[j].y);
+              ctx.strokeStyle = 'rgba(108,99,255,' + (1 - dist / LINE_DIST) * 0.18 + ')';
+              ctx.lineWidth = 0.8;
+              ctx.stroke();
+            }
+          }
+        }
+        requestAnimationFrame(animate);
+      }
+      animate();
+    }
+    initCanvas();
+
+    // --- SIDE NAVIGATION SCROLL SPY ---
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.side-nav a');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '0px',
+      threshold: 0.5 // Trigger when 50% of the section is visible
+    };
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('data-target') === entry.target.id) {
+              link.classList.add('active');
+            }
+          });
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(sec => sectionObserver.observe(sec));
+
+    // --- READING PROGRESS BAR ---
+    const progressBar = document.getElementById('readingProgress');
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    window.addEventListener('scroll', function() {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      if (progressBar) progressBar.style.width = (docHeight > 0 ? (scrollTop / docHeight) * 100 : 0) + '%';
+      if (scrollTopBtn) scrollTopBtn.classList.toggle('visible', scrollTop > 400);
+      updateTopNav();
+    }, { passive: true });
+
+    // --- TOP NAV ACTIVE LINK ---
+    const topNavLinks = document.querySelectorAll('.nav-links a[href^="#"]');
+    const allSections = Array.from(document.querySelectorAll('section[id]'));
+    function updateTopNav() {
+      let current = '';
+      allSections.forEach(function(sec) {
+        if (window.scrollY >= sec.offsetTop - 120) current = sec.id;
+      });
+      topNavLinks.forEach(function(a) {
+        a.classList.toggle('nav-active', a.getAttribute('href') === '#' + current);
+      });
+    }
+
+    // --- SCROLL REVEAL (sections + staggered cards) ---
+    const revealObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08 });
+
+    document.querySelectorAll('.reveal').forEach(function(el) {
+      revealObserver.observe(el);
+    });
+
+    // Staggered card entrance
+    const cardObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) {
+          const cards = entry.target.querySelectorAll('.topic-card, .yt-card');
+          cards.forEach(function(card, i) {
+            setTimeout(function() {
+              card.style.opacity = '1';
+              card.style.transform = 'translateY(0)';
+            }, i * 70);
+          });
+          cardObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.05 });
+
+    document.querySelectorAll('.topics-grid, .yt-grid').forEach(function(grid) {
+      grid.querySelectorAll('.topic-card, .yt-card').forEach(function(card) {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(28px)';
+        card.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+      });
+      cardObserver.observe(grid);
+    });
+
+    // --- HERO HEADLINE WORD REVEAL ---
+    (function() {
+      const h1 = document.querySelector('.hero h1');
+      if (!h1) return;
+      h1.innerHTML = h1.innerHTML.replace(/(<[^>]+>)|([^<\s]+)/g, function(m, tag, word) {
+        if (tag) return tag;
+        return '<span class="word-span">' + word + '</span>';
+      });
+      h1.querySelectorAll('.word-span').forEach(function(span, i) {
+        span.style.animationDelay = (0.3 + i * 0.1) + 's';
+      });
+    })();
+
     // --- VIDEO MODAL ---
     const modal = document.getElementById('videoModal');
     const iframe = document.getElementById('videoIframe');
