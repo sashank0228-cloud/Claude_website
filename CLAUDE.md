@@ -17,9 +17,9 @@ This file is read by Claude at the start of every session. It contains all proje
 
 ```
 /
-└── claude-zero-to-hero-blog.html   # Entire site — one self-contained file
-└── README.md                       # Project documentation
-└── CLAUDE.md                       # This file
+└── index.html     # Entire site — one self-contained file
+└── README.md      # Project documentation
+└── CLAUDE.md      # This file
 ```
 
 The site is intentionally **one file**. Do not split it into separate CSS/JS files unless explicitly asked.
@@ -63,11 +63,12 @@ Topic card accent colours (`.c1` through `.c7`) are the only exception — they 
 
 1. `<nav>` — fixed top nav with logo and anchor links
 2. `.hero` — full-viewport hero with headline, CTAs, and meta stats
-3. `.topics-section` (`#topics`) — 7 topic cards in a CSS Grid
-4. `.deep-section` (`#deep`) — long-form written content for all 7 topics
-5. `.yt-section` (`#videos`) — YouTube video card grid (17 cards)
+3. `.topics-section` (`#topics`) — 8 topic cards in a CSS Grid
+4. `.deep-section` (`#deep`) — long-form written content for all topics
+5. `.yt-section` (`#videos`) — YouTube video card grid
 6. `.roadmap` (`#roadmap`) — 5-week learning roadmap
-7. `<footer>` — logo, links, tagline
+7. `.faq-section` (`#faq`) — collapsible FAQ section
+8. `<footer>` — logo, links, tagline
 
 ---
 
@@ -84,6 +85,7 @@ Each `.topic-card` links to a YouTube video. Current mapping:
 | `.c5` | Agent Teams & Orchestration | `https://www.youtube.com/watch?v=-zzbkh9B-5Q` |
 | `.c6` | Context Window Management | `https://www.youtube.com/watch?v=I1EGbrH5Xdk&t=65s` |
 | `.c7` | Token Savings | `https://www.youtube.com/watch?v=49V-5Ock8LU` |
+| `.c8` | Claude API | `https://docs.claude.com/en/api/getting-started` |
 
 ---
 

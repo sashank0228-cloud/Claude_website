@@ -1,758 +1,1983 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claude: Zero to Hero — The Definitive Beginner's Guide</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --surface2: #1c1c28;
-    --border: #2a2a3a;
-    --accent: #6c63ff;
-    --accent2: #ff6b9d;
-    --accent3: #00d4aa;
-    --text: #e8e8f0;
-    --muted: #888899;
-    --heading-font: 'Syne', sans-serif;
-    --body-font: 'DM Serif Display', serif;
-    --mono: 'IBM Plex Mono', monospace;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description"
+    content="The definitive beginner's guide to mastering Claude AI. Learn prompt engineering, agents, CLAUDE.md, and token optimization.">
+  <meta property="og:title" content="Claude: Zero to Hero — The Definitive Beginner's Guide">
+  <meta property="og:description"
+    content="Everything you need to harness Claude's full potential — agents, context management, token optimization, and beyond.">
+  <meta property="og:type" content="website">
+  <title>Claude: Zero to Hero — The Definitive Beginner's Guide</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Serif+Display:ital@0;1&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --surface: #12121a;
+      --surface2: #1c1c28;
+      --border: #2a2a3a;
+      --accent: #6c63ff;
+      --accent2: #ff6b9d;
+      --accent3: #00d4aa;
+      --text: #e8e8f0;
+      --muted: #888899;
+      --heading-font: 'Syne', sans-serif;
+      --body-font: 'DM Serif Display', serif;
+      --mono: 'IBM Plex Mono', monospace;
+    }
 
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { scroll-behavior: smooth; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--body-font);
-    font-size: 18px;
-    line-height: 1.75;
-    overflow-x: hidden;
-  }
+    ::selection {
+      background: var(--accent);
+      color: #fff;
+    }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
-    pointer-events: none;
-    z-index: 9999;
-    opacity: 0.4;
-  }
+    *:focus-visible {
+      outline: 2px dashed var(--accent3);
+      outline-offset: 4px;
+    }
 
-  /* NAV */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 18px 5vw;
-    display: flex; justify-content: space-between; align-items: center;
-    background: rgba(10,10,15,0.88);
-    backdrop-filter: blur(14px);
-    border-bottom: 1px solid rgba(255,255,255,0.05);
-  }
-  .nav-logo { font-family: var(--heading-font); font-weight: 800; font-size: 18px; letter-spacing: -0.02em; text-decoration: none; color: var(--text); }
-  .nav-logo em { font-style: normal; color: var(--accent); }
-  .nav-links { display: flex; gap: 28px; list-style: none; }
-  .nav-links a { font-family: var(--mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.2s; }
-  .nav-links a:hover { color: var(--accent3); }
+    html {
+      scroll-behavior: smooth;
+    }
 
-  /* HERO */
-  .hero { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 80px 5vw 60px; position: relative; overflow: hidden; }
-  .hero::before { content: ''; position: absolute; top: -20%; right: -10%; width: 700px; height: 700px; background: radial-gradient(circle, rgba(108,99,255,0.18) 0%, transparent 65%); pointer-events: none; }
-  .hero::after { content: ''; position: absolute; bottom: -10%; left: -5%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,212,170,0.12) 0%, transparent 65%); pointer-events: none; }
-  .hero-tag { font-family: var(--mono); font-size: 12px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--accent3); margin-bottom: 24px; display: flex; align-items: center; gap: 10px; animation: fadeUp 0.6s ease both; }
-  .hero-tag::before { content: ''; display: inline-block; width: 32px; height: 1px; background: var(--accent3); }
-  .hero h1 { font-family: var(--heading-font); font-size: clamp(3rem, 8vw, 7rem); font-weight: 800; line-height: 0.95; letter-spacing: -0.03em; max-width: 900px; margin-bottom: 32px; animation: fadeUp 0.6s 0.15s ease both; }
-  .hero h1 em { font-style: normal; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  .hero-sub { font-family: var(--heading-font); font-size: clamp(1rem, 2vw, 1.2rem); color: var(--muted); max-width: 560px; margin-bottom: 40px; line-height: 1.6; animation: fadeUp 0.6s 0.3s ease both; }
-  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 48px; animation: fadeUp 0.6s 0.4s ease both; }
-  .btn { display: inline-flex; align-items: center; gap: 8px; padding: 13px 24px; border-radius: 2px; font-family: var(--mono); font-size: 12px; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; transition: all 0.2s; border: none; cursor: pointer; }
-  .btn-primary { background: var(--accent); color: #fff; }
-  .btn-primary:hover { background: #7d75ff; transform: translateY(-2px); }
-  .btn-outline { background: transparent; color: var(--text); border: 1px solid var(--border); }
-  .btn-outline:hover { border-color: var(--accent3); color: var(--accent3); transform: translateY(-2px); }
-  .hero-meta { font-family: var(--mono); font-size: 12px; color: var(--muted); display: flex; gap: 32px; flex-wrap: wrap; animation: fadeUp 0.6s 0.5s ease both; }
-  .hero-meta span { color: var(--accent); }
-  .scroll-line { position: absolute; bottom: 40px; left: 5vw; display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.1em; animation: bounce 2s ease-in-out infinite; }
-  .scroll-line::after { content: ''; display: block; width: 1px; height: 40px; background: linear-gradient(to bottom, var(--muted), transparent); }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--body-font);
+      font-size: 18px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
 
-  @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(28px); } to { opacity: 1; transform: translateY(0); } }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.4;
+    }
 
-  /* SHARED */
-  .section-label { font-family: var(--mono); font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; display: flex; align-items: center; gap: 12px; }
-  .section-label::before { content: ''; display: inline-block; width: 24px; height: 1px; background: var(--accent); }
-  .section-title { font-family: var(--heading-font); font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px; line-height: 1.05; }
-  .section-desc { color: var(--muted); font-size: 16px; margin-bottom: 56px; max-width: 560px; font-family: var(--heading-font); line-height: 1.6; }
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 18px 5vw;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 15, 0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
 
-  /* TOPIC CARDS */
-  .topics-section { padding: 100px 5vw; background: var(--surface); position: relative; }
-  .topics-section::before { content: '01'; position: absolute; top: 60px; right: 5vw; font-family: var(--heading-font); font-size: 140px; font-weight: 800; color: rgba(255,255,255,0.025); line-height: 1; pointer-events: none; user-select: none; }
-  .topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 20px; max-width: 1200px; }
-  .topic-card { background: var(--bg); border: 1px solid var(--border); border-radius: 2px; padding: 28px 28px 24px; position: relative; overflow: hidden; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; text-decoration: none; display: block; color: var(--text); }
-  .topic-card:hover { transform: translateY(-5px); box-shadow: 0 16px 40px rgba(0,0,0,0.4); }
-  .topic-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity 0.25s; }
-  .topic-card:hover::before { opacity: 1; }
-  .c1:hover { border-color: #6c63ff; } .c1::before { background: #6c63ff; }
-  .c2:hover { border-color: #ff6b9d; } .c2::before { background: #ff6b9d; }
-  .c3:hover { border-color: #00d4aa; } .c3::before { background: #00d4aa; }
-  .c4:hover { border-color: #ffbe0b; } .c4::before { background: #ffbe0b; }
-  .c5:hover { border-color: #fb5607; } .c5::before { background: #fb5607; }
-  .c6:hover { border-color: #3a86ff; } .c6::before { background: #3a86ff; }
-  .c7:hover { border-color: #8338ec; } .c7::before { background: #8338ec; }
-  .card-icon { font-size: 30px; margin-bottom: 18px; display: block; }
-  .card-num { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.15em; margin-bottom: 6px; }
-  .card-title { font-family: var(--heading-font); font-size: 19px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 10px; line-height: 1.2; }
-  .card-desc { font-size: 14px; color: var(--muted); line-height: 1.65; font-family: var(--heading-font); }
-  .card-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 18px; }
-  .tag { font-family: var(--mono); font-size: 10px; letter-spacing: 0.08em; padding: 4px 10px; border: 1px solid var(--border); border-radius: 1px; color: var(--muted); }
-  .card-cta { display: inline-flex; align-items: center; gap: 6px; margin-top: 16px; font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent3); opacity: 0; transform: translateX(-6px); transition: opacity 0.2s, transform 0.2s; }
-  .topic-card:hover .card-cta { opacity: 1; transform: translateX(0); }
+    .nav-logo {
+      font-family: var(--heading-font);
+      font-weight: 800;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text);
+    }
 
-  /* DEEP DIVES */
-  .deep-section { padding: 100px 5vw; }
-  .deep-section.alt { background: var(--surface); }
-  .container { max-width: 820px; margin: 0 auto; }
-  .content-block h3 { font-family: var(--heading-font); font-size: clamp(1.4rem, 3vw, 2rem); font-weight: 700; letter-spacing: -0.02em; margin: 52px 0 18px; line-height: 1.15; }
-  .content-block h3:first-child { margin-top: 0; }
-  .content-block p { color: #c0c0d0; margin-bottom: 18px; font-size: 17px; line-height: 1.8; }
-  .callout { background: var(--surface2); border-left: 3px solid var(--accent); padding: 18px 22px; border-radius: 0 2px 2px 0; margin: 28px 0; font-size: 15px; color: var(--text); font-family: var(--heading-font); line-height: 1.65; }
-  .callout.green { border-color: var(--accent3); }
-  .callout.pink { border-color: var(--accent2); }
-  .callout.yellow { border-color: #ffbe0b; }
-  .callout strong { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent); display: block; margin-bottom: 8px; }
-  .callout.green strong { color: var(--accent3); }
-  .callout.pink strong { color: var(--accent2); }
-  .callout.yellow strong { color: #ffbe0b; }
-  .code-block { background: #0d0d14; border: 1px solid var(--border); border-radius: 2px; padding: 22px 24px; margin: 24px 0; font-family: var(--mono); font-size: 13px; line-height: 1.75; overflow-x: auto; }
-  .code-block .comment { color: #484860; }
-  .code-block .keyword { color: var(--accent2); }
-  .code-block .string { color: var(--accent3); }
-  .code-block .value { color: #ffbe0b; }
-  .steps { counter-reset: step; margin: 28px 0; }
-  .step { display: flex; gap: 18px; margin-bottom: 24px; align-items: flex-start; }
-  .step-num { min-width: 38px; height: 38px; border: 1px solid var(--border); border-radius: 2px; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 12px; color: var(--accent); flex-shrink: 0; }
-  .step-content h4 { font-family: var(--heading-font); font-size: 16px; font-weight: 600; margin-bottom: 5px; }
-  .step-content p { font-size: 14px; color: var(--muted); margin-bottom: 0; }
-  .resource-row { display: flex; flex-wrap: wrap; gap: 12px; margin: 20px 0; }
-  .resource-pill { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border: 1px solid var(--border); border-radius: 2px; background: var(--surface2); font-family: var(--mono); font-size: 11px; letter-spacing: 0.06em; color: var(--text); text-decoration: none; transition: border-color 0.2s, transform 0.2s; }
-  .resource-pill:hover { border-color: var(--accent); transform: translateY(-2px); }
-  .resource-pill .pill-icon { font-size: 14px; }
+    .nav-logo em {
+      font-style: normal;
+      color: var(--accent);
+    }
 
-  /* YOUTUBE SECTION */
-  .yt-section { padding: 100px 5vw; background: var(--surface); }
-  .yt-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; max-width: 1100px; margin: 56px auto 0; }
-  .yt-card { background: var(--bg); border: 1px solid var(--border); border-radius: 2px; overflow: hidden; transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s; text-decoration: none; display: block; }
-  .yt-card:hover { border-color: #ff3333; transform: translateY(-4px); box-shadow: 0 12px 32px rgba(0,0,0,0.4); }
-  .yt-thumb { width: 100%; aspect-ratio: 16/9; display: flex; align-items: center; justify-content: center; font-size: 42px; position: relative; overflow: hidden; }
-  .yt-play { position: absolute; width: 50px; height: 50px; background: rgba(255,0,0,0.9); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 18px; color: white; padding-left: 5px; transition: transform 0.2s, background 0.2s; }
-  .yt-card:hover .yt-play { transform: scale(1.12); background: #ff0000; }
-  .yt-info { padding: 18px 20px 20px; }
-  .yt-topic { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent3); margin-bottom: 6px; }
-  .yt-title { font-family: var(--heading-font); font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.4; margin-bottom: 10px; }
-  .yt-desc { font-size: 13px; color: var(--muted); line-height: 1.55; font-family: var(--heading-font); margin-bottom: 10px; }
-  .yt-meta { font-family: var(--mono); font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 8px; }
-  .yt-badge { display: inline-block; padding: 2px 8px; border-radius: 1px; font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; background: rgba(108,99,255,0.15); color: var(--accent); border: 1px solid rgba(108,99,255,0.25); }
-  .yt-badge.green { background: rgba(0,212,170,0.1); color: var(--accent3); border-color: rgba(0,212,170,0.2); }
-  .yt-badge.red { background: rgba(255,68,68,0.1); color: #ff6666; border-color: rgba(255,68,68,0.2); }
+    .nav-links {
+      display: flex;
+      gap: 28px;
+      list-style: none;
+    }
 
-  /* ROADMAP */
-  .roadmap { padding: 100px 5vw; background: var(--bg); }
-  .roadmap-track { max-width: 720px; margin: 56px auto 0; position: relative; }
-  .roadmap-track::before { content: ''; position: absolute; left: 19px; top: 0; bottom: 0; width: 1px; background: linear-gradient(to bottom, var(--accent), var(--accent2), var(--accent3), #ffbe0b); }
-  .roadmap-item { display: flex; gap: 28px; margin-bottom: 44px; align-items: flex-start; position: relative; }
-  .roadmap-dot { min-width: 40px; height: 40px; border-radius: 50%; border: 2px solid; display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: 11px; flex-shrink: 0; background: var(--bg); position: relative; z-index: 1; }
-  .roadmap-item:nth-child(1) .roadmap-dot { border-color: var(--accent); color: var(--accent); }
-  .roadmap-item:nth-child(2) .roadmap-dot { border-color: var(--accent2); color: var(--accent2); }
-  .roadmap-item:nth-child(3) .roadmap-dot { border-color: var(--accent3); color: var(--accent3); }
-  .roadmap-item:nth-child(4) .roadmap-dot { border-color: #ffbe0b; color: #ffbe0b; }
-  .roadmap-item:nth-child(5) .roadmap-dot { border-color: #fb5607; color: #fb5607; }
-  .roadmap-content h4 { font-family: var(--heading-font); font-size: 19px; font-weight: 700; margin-bottom: 6px; }
-  .roadmap-content p { font-size: 14px; color: var(--muted); margin-bottom: 0; font-family: var(--heading-font); line-height: 1.65; }
-  .roadmap-resources { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
-  .roadmap-link { display: inline-flex; align-items: center; gap: 6px; font-family: var(--mono); font-size: 10px; letter-spacing: 0.06em; text-transform: uppercase; padding: 4px 10px; border: 1px solid var(--border); border-radius: 1px; color: var(--muted); text-decoration: none; transition: border-color 0.2s, color 0.2s; }
-  .roadmap-link:hover { border-color: var(--accent3); color: var(--accent3); }
-  .roadmap-badge { display: inline-block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; padding: 3px 10px; border: 1px solid var(--border); border-radius: 1px; color: var(--muted); margin-top: 10px; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
 
-  /* FOOTER */
-  footer { padding: 56px 5vw; background: var(--surface); border-top: 1px solid var(--border); text-align: center; }
-  .footer-logo { font-family: var(--heading-font); font-size: 30px; font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px; }
-  .footer-logo em { font-style: normal; background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-  footer p { font-size: 13px; color: var(--muted); font-family: var(--mono); line-height: 1.8; }
-  footer a { color: var(--accent3); text-decoration: none; }
-  footer a:hover { text-decoration: underline; }
+    .nav-links a:hover {
+      color: var(--accent3);
+    }
 
-  @media (max-width: 640px) {
-    .topics-grid, .yt-grid { grid-template-columns: 1fr; }
-    .nav-links { display: none; }
-    .hero { padding-top: 100px; }
-    .hero-ctas { flex-direction: column; }
-  }
-</style>
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 80px 5vw 60px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -20%;
+      right: -10%;
+      width: 700px;
+      height: 700px;
+      background: radial-gradient(circle, rgba(108, 99, 255, 0.18) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      bottom: -10%;
+      left: -5%;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(0, 212, 170, 0.12) 0%, transparent 65%);
+      pointer-events: none;
+    }
+
+    .hero-tag {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent3);
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: fadeUp 0.6s ease both;
+    }
+
+    .hero-tag::before {
+      content: '';
+      display: inline-block;
+      width: 32px;
+      height: 1px;
+      background: var(--accent3);
+    }
+
+    .hero h1 {
+      font-family: var(--heading-font);
+      font-size: clamp(3rem, 8vw, 7rem);
+      font-weight: 800;
+      line-height: 0.95;
+      letter-spacing: -0.03em;
+      max-width: 900px;
+      margin-bottom: 32px;
+      animation: fadeUp 0.6s 0.15s ease both;
+    }
+
+    .hero h1 em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-family: var(--heading-font);
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--muted);
+      max-width: 560px;
+      margin-bottom: 40px;
+      line-height: 1.6;
+      animation: fadeUp 0.6s 0.3s ease both;
+    }
+
+    .hero-ctas {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+      margin-bottom: 48px;
+      animation: fadeUp 0.6s 0.4s ease both;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 13px 24px;
+      border-radius: 2px;
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.2s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .btn-primary:hover {
+      background: #7d75ff;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(108, 99, 255, 0.3);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-outline:hover {
+      border-color: var(--accent3);
+      color: var(--accent3);
+      transform: translateY(-2px);
+    }
+
+    .hero-meta {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      display: flex;
+      gap: 32px;
+      flex-wrap: wrap;
+      animation: fadeUp 0.6s 0.5s ease both;
+    }
+
+    .hero-meta span {
+      color: var(--accent);
+    }
+
+    .scroll-line {
+      position: absolute;
+      bottom: 40px;
+      left: 5vw;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.1em;
+      animation: bounce 2s ease-in-out infinite;
+    }
+
+    .scroll-line::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 40px;
+      background: linear-gradient(to bottom, var(--muted), transparent);
+    }
+
+    @keyframes bounce {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(6px);
+      }
+    }
+
+    @keyframes fadeUp {
+      from {
+        opacity: 0;
+        transform: translateY(28px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* SHARED */
+    .section-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: inline-block;
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-title {
+      font-family: var(--heading-font);
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+      line-height: 1.05;
+    }
+
+    .section-desc {
+      color: var(--muted);
+      font-size: 16px;
+      margin-bottom: 56px;
+      max-width: 560px;
+      font-family: var(--heading-font);
+      line-height: 1.6;
+    }
+
+    /* TOPIC CARDS */
+    .topics-section {
+      padding: 100px 5vw;
+      background: var(--surface);
+      position: relative;
+    }
+
+    .topics-section::before {
+      content: '01';
+      position: absolute;
+      top: 60px;
+      right: 5vw;
+      font-family: var(--heading-font);
+      font-size: 140px;
+      font-weight: 800;
+      color: rgba(255, 255, 255, 0.025);
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .topics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 20px;
+      max-width: 1200px;
+    }
+
+    .topic-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 28px 28px 24px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      color: var(--text);
+    }
+
+    .topic-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .topic-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+
+    .topic-card:hover::before {
+      opacity: 1;
+    }
+
+    .c1:hover {
+      border-color: #6c63ff;
+    }
+
+    .c1::before {
+      background: #6c63ff;
+    }
+
+    .c2:hover {
+      border-color: #ff6b9d;
+    }
+
+    .c2::before {
+      background: #ff6b9d;
+    }
+
+    .c3:hover {
+      border-color: #00d4aa;
+    }
+
+    .c3::before {
+      background: #00d4aa;
+    }
+
+    .c4:hover {
+      border-color: #ffbe0b;
+    }
+
+    .c4::before {
+      background: #ffbe0b;
+    }
+
+    .c5:hover {
+      border-color: #fb5607;
+    }
+
+    .c5::before {
+      background: #fb5607;
+    }
+
+    .c6:hover {
+      border-color: #3a86ff;
+    }
+
+    .c6::before {
+      background: #3a86ff;
+    }
+
+    .c7:hover {
+      border-color: #8338ec;
+    }
+
+    .c7::before {
+      background: #8338ec;
+    }
+
+    .c8:hover {
+      border-color: #00b4d8;
+    }
+
+    .c8::before {
+      background: #00b4d8;
+    }
+
+    .card-icon {
+      font-size: 30px;
+      margin-bottom: 18px;
+      display: block;
+    }
+
+    .card-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--muted);
+      letter-spacing: 0.15em;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-family: var(--heading-font);
+      font-size: 19px;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+      line-height: 1.2;
+    }
+
+    .card-desc {
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.65;
+      font-family: var(--heading-font);
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 18px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 1px;
+      color: var(--muted);
+    }
+
+    .card-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: auto;
+      padding-top: 16px;
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent3);
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.2s, transform 0.2s;
+    }
+
+    .topic-card:hover .card-cta {
+      opacity: 1;
+      transform: translateX(0);
+    }
+
+    /* DEEP DIVES */
+    .deep-section {
+      padding: 100px 5vw;
+    }
+
+    .deep-section.alt {
+      background: var(--surface);
+    }
+
+    .container {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    .content-block h3 {
+      font-family: var(--heading-font);
+      font-size: clamp(1.4rem, 3vw, 2rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin: 52px 0 18px;
+      line-height: 1.15;
+    }
+
+    .content-block h3:first-child {
+      margin-top: 0;
+    }
+
+    .content-block p {
+      color: #c0c0d0;
+      margin-bottom: 18px;
+      font-size: 17px;
+      line-height: 1.8;
+    }
+
+    .callout {
+      background: var(--surface2);
+      border-left: 3px solid var(--accent);
+      padding: 18px 22px;
+      border-radius: 0 2px 2px 0;
+      margin: 28px 0;
+      font-size: 15px;
+      color: var(--text);
+      font-family: var(--heading-font);
+      line-height: 1.65;
+    }
+
+    .callout.green {
+      border-color: var(--accent3);
+    }
+
+    .callout.pink {
+      border-color: var(--accent2);
+    }
+
+    .callout.yellow {
+      border-color: #ffbe0b;
+    }
+
+    .callout strong {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent);
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .callout.green strong {
+      color: var(--accent3);
+    }
+
+    .callout.pink strong {
+      color: var(--accent2);
+    }
+
+    .callout.yellow strong {
+      color: #ffbe0b;
+    }
+
+    .code-block {
+      background: #0d0d14;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 22px 24px;
+      margin: 24px 0;
+      font-family: var(--mono);
+      font-size: 13px;
+      line-height: 1.75;
+      overflow-x: auto;
+    }
+
+    .code-block .comment {
+      color: #484860;
+    }
+
+    .code-block .keyword {
+      color: var(--accent2);
+    }
+
+    .code-block .string {
+      color: var(--accent3);
+    }
+
+    .code-block .value {
+      color: #ffbe0b;
+    }
+
+    .code-wrapper {
+      position: relative;
+      margin: 24px 0;
+    }
+
+    .code-wrapper .code-block {
+      margin: 0;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      z-index: 1;
+    }
+
+    .copy-btn:hover {
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .copy-btn.copied {
+      color: var(--accent3);
+      border-color: var(--accent3);
+    }
+
+    .steps {
+      counter-reset: step;
+      margin: 28px 0;
+    }
+
+    .step {
+      display: flex;
+      gap: 18px;
+      margin-bottom: 24px;
+      align-items: flex-start;
+    }
+
+    .step-num {
+      min-width: 38px;
+      height: 38px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .step-content h4 {
+      font-family: var(--heading-font);
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .step-content p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 0;
+    }
+
+    .resource-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 20px 0;
+    }
+
+    .resource-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      background: var(--surface2);
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--text);
+      text-decoration: none;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .resource-pill:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .resource-pill .pill-icon {
+      font-size: 14px;
+    }
+
+    /* YOUTUBE SECTION */
+    .yt-section {
+      padding: 100px 5vw;
+      background: var(--surface);
+    }
+
+    .yt-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      max-width: 1100px;
+      margin: 56px auto 0;
+    }
+
+    .yt-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .yt-card:hover {
+      border-color: #ff3333;
+      transform: translateY(-4px);
+      box-shadow: 0 12px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .yt-thumb {
+      width: 100%;
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 42px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .yt-play {
+      position: absolute;
+      width: 50px;
+      height: 50px;
+      background: rgba(255, 0, 0, 0.9);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      color: white;
+      padding-left: 5px;
+      transition: transform 0.2s, background 0.2s;
+    }
+
+    .yt-card:hover .yt-play {
+      transform: scale(1.12);
+      background: #ff0000;
+    }
+
+    .yt-info {
+      padding: 18px 20px 20px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+
+    .yt-topic {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--accent3);
+      margin-bottom: 6px;
+    }
+
+    .yt-title {
+      font-family: var(--heading-font);
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+      margin-bottom: 10px;
+    }
+
+    .yt-desc {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-family: var(--heading-font);
+      margin-bottom: 10px;
+    }
+
+    .yt-meta {
+      font-family: var(--mono);
+      font-size: 11px;
+      margin-top: auto;
+      padding-top: 12px;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .yt-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 1px;
+      font-family: var(--mono);
+      font-size: 9px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      background: rgba(108, 99, 255, 0.15);
+      color: var(--accent);
+      border: 1px solid rgba(108, 99, 255, 0.25);
+    }
+
+    .yt-badge.green {
+      background: rgba(0, 212, 170, 0.1);
+      color: var(--accent3);
+      border-color: rgba(0, 212, 170, 0.2);
+    }
+
+    .yt-badge.red {
+      background: rgba(255, 68, 68, 0.1);
+      color: #ff6666;
+      border-color: rgba(255, 68, 68, 0.2);
+    }
+
+    /* ROADMAP */
+    .roadmap {
+      padding: 100px 5vw;
+      background: var(--bg);
+    }
+
+    .roadmap-track {
+      max-width: 720px;
+      margin: 56px auto 0;
+      position: relative;
+    }
+
+    .roadmap-track::before {
+      content: '';
+      position: absolute;
+      left: 19px;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--accent), var(--accent2), var(--accent3), #ffbe0b);
+    }
+
+    .roadmap-item {
+      display: flex;
+      gap: 28px;
+      margin-bottom: 44px;
+      align-items: flex-start;
+      position: relative;
+    }
+
+    .roadmap-dot {
+      min-width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 2px solid;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--mono);
+      font-size: 11px;
+      flex-shrink: 0;
+      background: var(--bg);
+      position: relative;
+      z-index: 1;
+    }
+
+    .roadmap-item:nth-child(1) .roadmap-dot {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .roadmap-item:nth-child(2) .roadmap-dot {
+      border-color: var(--accent2);
+      color: var(--accent2);
+    }
+
+    .roadmap-item:nth-child(3) .roadmap-dot {
+      border-color: var(--accent3);
+      color: var(--accent3);
+    }
+
+    .roadmap-item:nth-child(4) .roadmap-dot {
+      border-color: #ffbe0b;
+      color: #ffbe0b;
+    }
+
+    .roadmap-item:nth-child(5) .roadmap-dot {
+      border-color: #fb5607;
+      color: #fb5607;
+    }
+
+    .roadmap-content h4 {
+      font-family: var(--heading-font);
+      font-size: 19px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+
+    .roadmap-content p {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 0;
+      font-family: var(--heading-font);
+      line-height: 1.65;
+    }
+
+    .roadmap-resources {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .roadmap-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border: 1px solid var(--border);
+      border-radius: 1px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .roadmap-link:hover {
+      border-color: var(--accent3);
+      color: var(--accent3);
+    }
+
+    .roadmap-badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border: 1px solid var(--border);
+      border-radius: 1px;
+      color: var(--muted);
+      margin-top: 10px;
+    }
+
+    /* FAQ */
+    .faq-section {
+      padding: 100px 5vw;
+      background: var(--surface2);
+    }
+
+    .faq-list {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .faq-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      transition: border-color 0.2s;
+    }
+
+    .faq-item:hover {
+      border-color: var(--accent);
+    }
+
+    .faq-question {
+      padding: 22px 24px;
+      font-family: var(--heading-font);
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text);
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+
+    .faq-question::-webkit-details-marker {
+      display: none;
+    }
+
+    .faq-question::after {
+      content: '+';
+      font-family: var(--mono);
+      color: var(--accent);
+      font-size: 20px;
+      transition: transform 0.3s;
+    }
+
+    .faq-item[open] {
+      border-color: var(--accent);
+    }
+
+    .faq-item[open] .faq-question::after {
+      content: '−';
+      transform: rotate(180deg);
+    }
+
+    .faq-item[open] .faq-question {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-answer {
+      padding: 20px 24px;
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.7;
+      font-family: var(--heading-font);
+    }
+
+    /* FOOTER */
+    footer {
+      padding: 56px 5vw;
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .footer-logo {
+      font-family: var(--heading-font);
+      font-size: 30px;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 14px;
+    }
+
+    .footer-logo em {
+      font-style: normal;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    footer p {
+      font-size: 13px;
+      color: var(--muted);
+      font-family: var(--mono);
+      line-height: 1.8;
+    }
+
+    footer a {
+      color: var(--accent3);
+      text-decoration: none;
+    }
+
+    footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 640px) {
+
+      .topics-grid,
+      .yt-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .hero {
+        padding-top: 100px;
+      }
+
+      .hero-ctas {
+        flex-direction: column;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAV -->
-<nav>
-  <a class="nav-logo" href="#">claude<em>OS</em></a>
-  <ul class="nav-links">
-    <li><a href="#topics">Topics</a></li>
-    <li><a href="#deep">Deep Dive</a></li>
-    <li><a href="#videos">Videos</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-  </ul>
-</nav>
+  <!-- NAV -->
+  <nav aria-label="Main Navigation">
+    <a class="nav-logo" href="#">claude<em>OS</em></a>
+    <ul class="nav-links">
+      <li><a href="#topics">Topics</a></li>
+      <li><a href="#deep">Deep Dive</a></li>
+      <li><a href="#videos">Videos</a></li>
+      <li><a href="#roadmap">Roadmap</a></li>
+      <li><a href="#faq">FAQ</a></li>
+    </ul>
+  </nav>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-tag">The Definitive Guide · 2026 Edition</div>
-  <h1>Master <em>Claude</em><br>From Zero<br>to Hero</h1>
-  <p class="hero-sub">Everything you need to harness Claude's full potential — agents, context management, token optimization, CLAUDE.md, prompt engineering, and beyond.</p>
-  <div class="hero-ctas">
-    <a class="btn btn-primary" href="#topics">▶ Explore All Topics</a>
-    <a class="btn btn-outline" href="#videos">🎬 Watch Video Playlist</a>
-    <a class="btn btn-outline" href="https://docs.claude.com" target="_blank" rel="noopener">📖 Official Docs ↗</a>
-  </div>
-  <div class="hero-meta">
-    <div>Reading Time <span>~15 min</span></div>
-    <div>Topics Covered <span>7 Core Concepts</span></div>
-    <div>Videos Included <span>17 Curated</span></div>
-    <div>Level <span>Beginner → Advanced</span></div>
-  </div>
-  <div class="scroll-line">scroll</div>
-</section>
-
-<!-- TOPIC CARDS — each card links to the relevant YouTube video -->
-<section class="topics-section" id="topics">
-  <div class="section-label">What You'll Learn</div>
-  <h2 class="section-title">7 Concepts That Unlock Claude's Power</h2>
-  <p class="section-desc">Click any card to watch the best YouTube video on that topic. Each concept builds on the last — master them in order.</p>
-
-  <div class="topics-grid">
-
-    <a class="topic-card c1" href="https://www.youtube.com/watch?v=nWzXyjXCoCE" target="_blank" rel="noopener">
-      <span class="card-icon">🎯</span>
-      <div class="card-num">01 — Foundation</div>
-      <div class="card-title">Prompt Harness Engineering</div>
-      <div class="card-desc">Structure your instructions so Claude consistently delivers exactly what you need. Covers role assignment, XML tags, output formatting, and constraint-setting.</div>
-      <div class="card-tags"><span class="tag">system prompts</span><span class="tag">XML structure</span><span class="tag">output control</span></div>
-      <div class="card-cta">▶ Watch on YouTube →</div>
-    </a>
-
-    <a class="topic-card c2" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener">
-      <span class="card-icon">🤖</span>
-      <div class="card-num">02 — Automation</div>
-      <div class="card-title">AI Agents</div>
-      <div class="card-desc">Teach Claude to take multi-step actions autonomously — browsing the web, writing code, calling APIs, and completing complex workflows without hand-holding.</div>
-      <div class="card-tags"><span class="tag">tool use</span><span class="tag">multi-step</span><span class="tag">autonomous</span></div>
-      <div class="card-cta">▶ Watch on YouTube →</div>
-    </a>
-
-    <a class="topic-card c3" href="https://www.youtube.com/watch?v=h7QJL2_gEXA" target="_blank" rel="noopener">
-      <span class="card-icon">📄</span>
-      <div class="card-num">03 — Configuration</div>
-      <div class="card-title">CLAUDE.md Files</div>
-      <div class="card-desc">A special memory file read at session start. Write your project conventions once; Claude remembers them every session — no more re-explaining the same context.</div>
-      <div class="card-tags"><span class="tag">persistent memory</span><span class="tag">project config</span><span class="tag">CLAUDE.md</span></div>
-      <div class="card-cta">▶ Watch on YouTube →</div>
-    </a>
-
-    <a class="topic-card c4" href="https://www.youtube.com/watch?v=E6seSBly2Ok" target="_blank" rel="noopener">
-      <span class="card-icon">🗺️</span>
-      <div class="card-num">04 — Strategy</div>
-      <div class="card-title">Planning & Task Management</div>
-      <div class="card-desc">Before acting, make Claude think. /plan mode forces reasoning before execution — dramatically improving output on complex multi-file tasks. Use TodoWrite for tracked subtasks.</div>
-      <div class="card-tags"><span class="tag">chain-of-thought</span><span class="tag">/plan mode</span><span class="tag">TodoWrite</span></div>
-      <div class="card-cta">▶ Watch on YouTube →</div>
-    </a>
-
-    <a class="topic-card c5" href="https://www.youtube.com/watch?v=-zzbkh9B-5Q" target="_blank" rel="noopener">
-      <span class="card-icon">🏗️</span>
-      <div class="card-num">05 — Scale</div>
-      <div class="card-title">Agent Teams & Orchestration</div>
-      <div class="card-desc">One agent is powerful. A team of specialised agents is unstoppable. Learn to orchestrate subagents — one plans, one researches, one writes, one reviews.</div>
-      <div class="card-tags"><span class="tag">subagents</span><span class="tag">orchestration</span><span class="tag">parallel tasks</span></div>
-      <div class="card-cta">▶ Watch on YouTube →</div>
-    </a>
-
-    <a class="topic-card c6" href="https://www.youtube.com/watch?v=I1EGbrH5Xdk&t=65s" target="_blank" rel="noopener">
-      <span class="card-icon">🧠</span>
-      <div class="card-num">06 — Memory</div>
-      <div class="card-title">Context Window Management</div>
-      <div class="card-desc">Claude has no persistent memory between calls — every message replays the full history. Learn to manage what's in the context window and when to use /compact.</div>
-      <div class="card-tags"><span class="tag">context window</span><span class="tag">/compact</span><span class="tag">session design</span></div>
-      <div class="card-cta">▶ Watch on YouTube →</div>
-    </a>
-
-    <a class="topic-card c7" href="https://www.youtube.com/watch?v=49V-5Ock8LU" target="_blank" rel="noopener">
-      <span class="card-icon">💰</span>
-      <div class="card-num">07 — Efficiency</div>
-      <div class="card-title">Token Savings</div>
-      <div class="card-desc">Tokens = money + speed. Write tighter prompts, trim file context, use session handoffs, and batch related changes to get more done per dollar on the API.</div>
-      <div class="card-tags"><span class="tag">cost optimization</span><span class="tag">prompt compression</span><span class="tag">batching</span></div>
-      <div class="card-cta">▶ Watch on YouTube →</div>
-    </a>
-
-  </div>
-</section>
-
-<!-- DEEP DIVES -->
-<section class="deep-section" id="deep">
-  <div class="container">
-    <div class="section-label">Deep Dives</div>
-    <h2 class="section-title">The Concepts, Fully Explained</h2>
-
-    <div class="content-block">
-
-      <!-- 01 -->
-      <h3>🎯 Prompt Harness Engineering</h3>
-      <p>Think of your prompt as a harness — a structured framework that directs Claude's energy precisely. Raw prompts produce average results. Harnessed prompts define a role, context, constraints, and output format all at once.</p>
-      <p>Claude is trained to recognise XML tag structures. Wrapping sections inside <code>&lt;context&gt;</code>, <code>&lt;task&gt;</code>, and <code>&lt;format&gt;</code> tags produces far more precise responses than free-form text.</p>
-
-      <div class="callout">
-        <strong>Pro Pattern — The 4-Part Harness</strong>
-        <b>Role</b>: Who is Claude in this conversation? &nbsp;·&nbsp; <b>Context</b>: What does it need to know? &nbsp;·&nbsp; <b>Task</b>: What exactly should it do? &nbsp;·&nbsp; <b>Format</b>: How should the output look? Never skip Format — it's where most beginners leave quality on the table.
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-tag">The Definitive Guide · 2026 Edition</div>
+      <h1>Master <em>Claude</em><br>From Zero<br>to Hero</h1>
+      <p class="hero-sub">Everything you need to harness Claude's full potential — agents, context management, token
+        optimization, CLAUDE.md, prompt engineering, and beyond.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#topics">▶ Explore All Topics</a>
+        <a class="btn btn-outline" href="#videos">🎬 Watch Video Playlist</a>
+        <a class="btn btn-outline" href="https://docs.claude.com" target="_blank" rel="noopener">📖 Official Docs ↗</a>
       </div>
-
-      <div class="code-block">
-        <span class="comment"># ✗ Bare prompt (generic output guaranteed)</span><br>
-        <span class="string">"Write a product description for my coffee maker"</span><br><br>
-        <span class="comment"># ✓ Harnessed prompt (precise, repeatable output)</span><br>
-        <span class="keyword">&lt;role&gt;</span>You are a conversion copywriter specialising in DTC brands.<span class="keyword">&lt;/role&gt;</span><br>
-        <span class="keyword">&lt;context&gt;</span>Product: AeroPress Go. Audience: remote workers 25–40. USP: brews in 60 sec.<span class="keyword">&lt;/context&gt;</span><br>
-        <span class="keyword">&lt;task&gt;</span>Write a description that emphasises speed and portability.<span class="keyword">&lt;/task&gt;</span><br>
-        <span class="keyword">&lt;format&gt;</span>One punchy headline (max 8 words) + two short benefit sentences. No fluff.<span class="keyword">&lt;/format&gt;</span>
+      <div class="hero-meta">
+        <div>Reading Time <span>~15 min</span></div>
+        <div>Topics Covered <span>7 Core Concepts</span></div>
+        <div>Videos Included <span>17 Curated</span></div>
+        <div>Level <span>Beginner → Advanced</span></div>
       </div>
+      <div class="scroll-line" aria-hidden="true">scroll</div>
+    </section>
 
-      <div class="resource-row">
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=XTWb5oEfqdY" target="_blank" rel="noopener"><span class="pill-icon">▶</span> Full Claude Tutorial 2026 — YouTube</a>
-        <a class="resource-pill" href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener"><span class="pill-icon">📖</span> Official Prompt Engineering Docs</a>
-        <a class="resource-pill" href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener"><span class="pill-icon">🧪</span> Anthropic Interactive Tutorial (GitHub)</a>
+    <!-- TOPIC CARDS — each card links to the relevant YouTube video -->
+    <section class="topics-section" id="topics">
+      <div class="section-label">What You'll Learn</div>
+      <h2 class="section-title">7 Concepts That Unlock Claude's Power</h2>
+      <p class="section-desc">Click any card to watch the best YouTube video on that topic. Each concept builds on the
+        last — master them in order.</p>
+
+      <div class="topics-grid">
+
+        <a class="topic-card c1" href="https://www.youtube.com/watch?v=nWzXyjXCoCE" target="_blank" rel="noopener">
+          <span class="card-icon">🎯</span>
+          <div class="card-num">01 — Foundation</div>
+          <div class="card-title">Prompt Harness Engineering</div>
+          <div class="card-desc">Structure your instructions so Claude consistently delivers exactly what you need.
+            Covers role assignment, XML tags, output formatting, and constraint-setting.</div>
+          <div class="card-tags"><span class="tag">system prompts</span><span class="tag">XML structure</span><span
+              class="tag">output control</span></div>
+          <div class="card-cta">▶ Watch on YouTube →</div>
+        </a>
+
+        <a class="topic-card c2" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener">
+          <span class="card-icon">🤖</span>
+          <div class="card-num">02 — Automation</div>
+          <div class="card-title">AI Agents</div>
+          <div class="card-desc">Teach Claude to take multi-step actions autonomously — browsing the web, writing code,
+            calling APIs, and completing complex workflows without hand-holding.</div>
+          <div class="card-tags"><span class="tag">tool use</span><span class="tag">multi-step</span><span
+              class="tag">autonomous</span></div>
+          <div class="card-cta">▶ Watch on YouTube →</div>
+        </a>
+
+        <a class="topic-card c3" href="https://www.youtube.com/watch?v=h7QJL2_gEXA" target="_blank" rel="noopener">
+          <span class="card-icon">📄</span>
+          <div class="card-num">03 — Configuration</div>
+          <div class="card-title">CLAUDE.md Files</div>
+          <div class="card-desc">A special memory file read at session start. Write your project conventions once;
+            Claude remembers them every session — no more re-explaining the same context.</div>
+          <div class="card-tags"><span class="tag">persistent memory</span><span class="tag">project config</span><span
+              class="tag">CLAUDE.md</span></div>
+          <div class="card-cta">▶ Watch on YouTube →</div>
+        </a>
+
+        <a class="topic-card c4" href="https://www.youtube.com/watch?v=E6seSBly2Ok" target="_blank" rel="noopener">
+          <span class="card-icon">🗺️</span>
+          <div class="card-num">04 — Strategy</div>
+          <div class="card-title">Planning & Task Management</div>
+          <div class="card-desc">Before acting, make Claude think. /plan mode forces reasoning before execution —
+            dramatically improving output on complex multi-file tasks. Use TodoWrite for tracked subtasks.</div>
+          <div class="card-tags"><span class="tag">chain-of-thought</span><span class="tag">/plan mode</span><span
+              class="tag">TodoWrite</span></div>
+          <div class="card-cta">▶ Watch on YouTube →</div>
+        </a>
+
+        <a class="topic-card c5" href="https://www.youtube.com/watch?v=-zzbkh9B-5Q" target="_blank" rel="noopener">
+          <span class="card-icon">🏗️</span>
+          <div class="card-num">05 — Scale</div>
+          <div class="card-title">Agent Teams & Orchestration</div>
+          <div class="card-desc">One agent is powerful. A team of specialised agents is unstoppable. Learn to
+            orchestrate subagents — one plans, one researches, one writes, one reviews.</div>
+          <div class="card-tags"><span class="tag">subagents</span><span class="tag">orchestration</span><span
+              class="tag">parallel tasks</span></div>
+          <div class="card-cta">▶ Watch on YouTube →</div>
+        </a>
+
+        <a class="topic-card c6" href="https://www.youtube.com/watch?v=I1EGbrH5Xdk&t=65s" target="_blank"
+          rel="noopener">
+          <span class="card-icon">🧠</span>
+          <div class="card-num">06 — Memory</div>
+          <div class="card-title">Context Window Management</div>
+          <div class="card-desc">Claude has no persistent memory between calls — every message replays the full history.
+            Learn to manage what's in the context window and when to use /compact.</div>
+          <div class="card-tags"><span class="tag">context window</span><span class="tag">/compact</span><span
+              class="tag">session design</span></div>
+          <div class="card-cta">▶ Watch on YouTube →</div>
+        </a>
+
+        <a class="topic-card c7" href="https://www.youtube.com/watch?v=49V-5Ock8LU" target="_blank" rel="noopener">
+          <span class="card-icon">💰</span>
+          <div class="card-num">07 — Efficiency</div>
+          <div class="card-title">Token Savings</div>
+          <div class="card-desc">Tokens = money + speed. Write tighter prompts, trim file context, use session handoffs,
+            and batch related changes to get more done per dollar on the API.</div>
+          <div class="card-tags"><span class="tag">cost optimization</span><span class="tag">prompt
+              compression</span><span class="tag">batching</span></div>
+          <div class="card-cta">▶ Watch on YouTube →</div>
+        </a>
+
+        <a class="topic-card c8" href="https://docs.claude.com/en/api/getting-started" target="_blank" rel="noopener">
+          <span class="card-icon">🔌</span>
+          <div class="card-num">08 — Extension</div>
+          <div class="card-title">API Integrations</div>
+          <div class="card-desc">Connect Claude directly into your own applications. Learn how to authenticate, format
+            API
+            requests, handle streaming responses, and integrate Claude's capabilities into your codebase.</div>
+          <div class="card-tags"><span class="tag">REST API</span><span class="tag">streaming</span><span
+              class="tag">endpoints</span></div>
+          <div class="card-cta">▶ Read the Docs →</div>
+        </a>
+
       </div>
+    </section>
 
-      <!-- 02 -->
-      <h3>🤖 Understanding AI Agents</h3>
-      <p>An agent is Claude given <em>tools</em> — the ability to take real-world actions. Instead of just answering questions, an agent can read files, browse websites, write and run code, call APIs, and loop through multi-step workflows on its own.</p>
-      <p>The mental model: <strong>Agent = Claude + a loop + tools.</strong> Claude decides what to do, does it, observes the result, then decides the next step. This cycle repeats until the goal is achieved.</p>
+    <!-- DEEP DIVES -->
+    <section class="deep-section" id="deep">
+      <div class="container">
+        <div class="section-label">Deep Dives</div>
+        <h2 class="section-title">The Concepts, Fully Explained</h2>
 
-      <div class="callout green">
-        <strong>The 3 Laws of Good Agents</strong>
-        1. Give Claude a <b>goal</b>, not a script. &nbsp;·&nbsp;
-        2. Provide exactly the tools the goal requires. &nbsp;·&nbsp;
-        3. Define guardrails (what NOT to do) rather than micromanaging every step.
-      </div>
+        <div class="content-block">
 
-      <div class="steps">
-        <div class="step"><div class="step-num">1</div><div class="step-content"><h4>Define a clear, measurable goal</h4><p>"Research the top 5 competitors and summarise their pricing in a table" — not "search Google for competitors."</p></div></div>
-        <div class="step"><div class="step-num">2</div><div class="step-content"><h4>Equip it with the right tools</h4><p>Web search, file read/write, code execution. Only give Claude tools it actually needs — fewer tools means fewer mistakes.</p></div></div>
-        <div class="step"><div class="step-num">3</div><div class="step-content"><h4>Set guardrails, not micromanagement</h4><p>Specify what Claude should NOT do ("don't make purchases, don't delete files") and let it figure out the how.</p></div></div>
-        <div class="step"><div class="step-num">4</div><div class="step-content"><h4>Review before irreversible actions</h4><p>For anything that can't be undone (sending emails, database writes), have Claude confirm before proceeding.</p></div></div>
-      </div>
+          <!-- 01 -->
+          <h3>🎯 Prompt Harness Engineering</h3>
+          <p>Think of your prompt as a harness — a structured framework that directs Claude's energy precisely. Raw
+            prompts produce average results. Harnessed prompts define a role, context, constraints, and output format
+            all at once.</p>
+          <p>Claude is trained to recognise XML tag structures. Wrapping sections inside <code>&lt;context&gt;</code>,
+            <code>&lt;task&gt;</code>, and <code>&lt;format&gt;</code> tags produces far more precise responses than
+            free-form text.
+          </p>
 
-      <div class="resource-row">
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener"><span class="pill-icon">▶</span> How AI Agents & Claude Skills Work — YouTube</a>
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank" rel="noopener"><span class="pill-icon">▶</span> Zero to Agentic Workflow in 26 Min — YouTube</a>
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=vDVSGVpB2vc" target="_blank" rel="noopener"><span class="pill-icon">▶</span> Build Claude Agent Teams — YouTube</a>
-      </div>
+          <div class="callout">
+            <strong>Pro Pattern — The 4-Part Harness</strong>
+            <b>Role</b>: Who is Claude in this conversation? &nbsp;·&nbsp; <b>Context</b>: What does it need to know?
+            &nbsp;·&nbsp; <b>Task</b>: What exactly should it do? &nbsp;·&nbsp; <b>Format</b>: How should the output
+            look? Never skip Format — it's where most beginners leave quality on the table.
+          </div>
 
-      <!-- 03 -->
-      <h3>📄 The CLAUDE.md File — Persistent Project Memory</h3>
-      <p>Claude Code reads a <code>CLAUDE.md</code> file at the root of your project at the start of every session. This is your project's memory. Write your conventions, architecture decisions, and preferred patterns here <strong>once</strong>, and Claude will never need them explained again.</p>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy code to clipboard">Copy</button>
+            <div class="code-block">
+              <span class="comment"># ✗ Bare prompt (generic output guaranteed)</span><br>
+              <span class="string">"Write a product description for my coffee maker"</span><br><br>
+              <span class="comment"># ✓ Harnessed prompt (precise, repeatable output)</span><br>
+              <span class="keyword">&lt;role&gt;</span>You are a conversion copywriter specialising in DTC brands.<span
+                class="keyword">&lt;/role&gt;</span><br>
+              <span class="keyword">&lt;context&gt;</span>Product: AeroPress Go. Audience: remote workers 25–40. USP:
+              brews in 60 sec.<span class="keyword">&lt;/context&gt;</span><br>
+              <span class="keyword">&lt;task&gt;</span>Write a description that emphasises speed and portability.<span
+                class="keyword">&lt;/task&gt;</span><br>
+              <span class="keyword">&lt;format&gt;</span>One punchy headline (max 8 words) + two short benefit
+              sentences.
+              No fluff.<span class="keyword">&lt;/format&gt;</span>
+            </div>
+          </div>
 
-      <div class="callout yellow">
-        <strong>What Belongs in CLAUDE.md</strong>
-        Project overview &amp; folder structure &nbsp;·&nbsp; Tech stack + versions &nbsp;·&nbsp; Naming conventions &nbsp;·&nbsp; What Claude should NEVER do &nbsp;·&nbsp; Test &amp; build commands &nbsp;·&nbsp; Key architectural decisions &nbsp;·&nbsp; External API notes &nbsp;·&nbsp; Preferred code patterns
-      </div>
+          <div class="resource-row">
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=XTWb5oEfqdY" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> Full Claude Tutorial 2026 — YouTube</a>
+            <a class="resource-pill"
+              href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank"
+              rel="noopener"><span class="pill-icon">📖</span> Official Prompt Engineering Docs</a>
+            <a class="resource-pill" href="https://github.com/anthropics/prompt-eng-interactive-tutorial"
+              target="_blank" rel="noopener"><span class="pill-icon">🧪</span> Anthropic Interactive Tutorial
+              (GitHub)</a>
+          </div>
 
-      <div class="code-block">
-        <span class="comment"># Example CLAUDE.md snippet</span><br><br>
-        <span class="value">## Project</span><br>
-        <span class="string">E-commerce dashboard. Next.js 14 App Router + Tailwind + Prisma + PostgreSQL.</span><br><br>
-        <span class="value">## Conventions</span><br>
-        <span class="string">- Components: PascalCase in /components/ui/</span><br>
-        <span class="string">- API routes: kebab-case in /app/api/</span><br>
-        <span class="string">- Always use TypeScript strict mode. Never use `any`.</span><br><br>
-        <span class="value">## NEVER</span><br>
-        <span class="string">- Do not delete migration files</span><br>
-        <span class="string">- Do not commit directly to main</span><br><br>
-        <span class="value">## Commands</span><br>
-        <span class="string">npm run dev &nbsp;·&nbsp; npm run build &nbsp;·&nbsp; npm run test</span>
-      </div>
+          <!-- 02 -->
+          <h3>🤖 Understanding AI Agents</h3>
+          <p>An agent is Claude given <em>tools</em> — the ability to take real-world actions. Instead of just answering
+            questions, an agent can read files, browse websites, write and run code, call APIs, and loop through
+            multi-step workflows on its own.</p>
+          <p>The mental model: <strong>Agent = Claude + a loop + tools.</strong> Claude decides what to do, does it,
+            observes the result, then decides the next step. This cycle repeats until the goal is achieved.</p>
 
-      <div class="resource-row">
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=gHB4JFG9i3k" target="_blank" rel="noopener"><span class="pill-icon">▶</span> Claude Code: Build Your First Agent — YouTube</a>
-        <a class="resource-pill" href="https://www.mindstudio.ai/blog/claude-code-token-management-hacks" target="_blank" rel="noopener"><span class="pill-icon">📝</span> 18 Token Management Hacks (covers CLAUDE.md)</a>
-      </div>
+          <div class="callout green">
+            <strong>The 3 Laws of Good Agents</strong>
+            1. Give Claude a <b>goal</b>, not a script. &nbsp;·&nbsp;
+            2. Provide exactly the tools the goal requires. &nbsp;·&nbsp;
+            3. Define guardrails (what NOT to do) rather than micromanaging every step.
+          </div>
 
-      <!-- 04 -->
-      <h3>🗺️ Planning Mode & Task Management</h3>
-      <p>For multi-step or complex tasks, making Claude plan before acting is the single biggest quality multiplier available. Use <code>/plan</code> in Claude Code, or ask Claude to "think through the approach first" in regular chat.</p>
-      <p>For ongoing projects, Claude Code's <code>TodoWrite</code> tool maintains a live task list that Claude updates as it works — so you always know what's done, what's in progress, and what's next.</p>
+          <div class="steps">
+            <div class="step">
+              <div class="step-num">1</div>
+              <div class="step-content">
+                <h4>Define a clear, measurable goal</h4>
+                <p>"Research the top 5 competitors and summarise their pricing in a table" — not "search Google for
+                  competitors."</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">2</div>
+              <div class="step-content">
+                <h4>Equip it with the right tools</h4>
+                <p>Web search, file read/write, code execution. Only give Claude tools it actually needs — fewer tools
+                  means fewer mistakes.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">3</div>
+              <div class="step-content">
+                <h4>Set guardrails, not micromanagement</h4>
+                <p>Specify what Claude should NOT do ("don't make purchases, don't delete files") and let it figure out
+                  the how.</p>
+              </div>
+            </div>
+            <div class="step">
+              <div class="step-num">4</div>
+              <div class="step-content">
+                <h4>Review before irreversible actions</h4>
+                <p>For anything that can't be undone (sending emails, database writes), have Claude confirm before
+                  proceeding.</p>
+              </div>
+            </div>
+          </div>
 
-      <div class="callout">
-        <strong>Planning Prompt Template</strong>
-        "Before you write any code, think through: (1) what files will need to change, (2) what could go wrong, (3) what you'll do first, second, and third. Write a numbered plan, then wait for my approval before starting."
-      </div>
+          <div class="resource-row">
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> How AI Agents & Claude Skills Work — YouTube</a>
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> Zero to Agentic Workflow in 26 Min — YouTube</a>
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=vDVSGVpB2vc" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> Build Claude Agent Teams — YouTube</a>
+          </div>
 
-      <div class="resource-row">
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank" rel="noopener"><span class="pill-icon">▶</span> Zero to Agentic Workflow in 26 Min — YouTube</a>
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=gHB4JFG9i3k" target="_blank" rel="noopener"><span class="pill-icon">▶</span> Claude Code — Plan Mode Demo — YouTube</a>
-      </div>
+          <!-- 03 -->
+          <h3>📄 The CLAUDE.md File — Persistent Project Memory</h3>
+          <p>Claude Code reads a <code>CLAUDE.md</code> file at the root of your project at the start of every session.
+            This is your project's memory. Write your conventions, architecture decisions, and preferred patterns here
+            <strong>once</strong>, and Claude will never need them explained again.
+          </p>
 
-      <!-- 05 -->
-      <h3>🏗️ Agent Teams & Orchestration</h3>
-      <p>One agent is powerful. A team of specialised agents is transformative. In an agent team, one Claude instance acts as the <strong>orchestrator</strong> — it breaks down a goal and delegates to specialised <strong>subagents</strong>: one that searches, one that writes, one that reviews, one that tests.</p>
+          <div class="callout yellow">
+            <strong>What Belongs in CLAUDE.md</strong>
+            Project overview &amp; folder structure &nbsp;·&nbsp; Tech stack + versions &nbsp;·&nbsp; Naming conventions
+            &nbsp;·&nbsp; What Claude should NEVER do &nbsp;·&nbsp; Test &amp; build commands &nbsp;·&nbsp; Key
+            architectural decisions &nbsp;·&nbsp; External API notes &nbsp;·&nbsp; Preferred code patterns
+          </div>
 
-      <div class="callout pink">
-        <strong>Orchestrator Pattern</strong>
-        Orchestrator receives goal → breaks it into subtasks → spins up subagents with specific roles → collects results → synthesises final output. The orchestrator manages and integrates — it never does the work itself.
-      </div>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy code to clipboard">Copy</button>
+            <div class="code-block">
+              <span class="comment"># Example CLAUDE.md snippet</span><br><br>
+              <span class="value">## Project</span><br>
+              <span class="string">E-commerce dashboard. Next.js 14 App Router + Tailwind + Prisma +
+                PostgreSQL.</span><br><br>
+              <span class="value">## Conventions</span><br>
+              <span class="string">- Components: PascalCase in /components/ui/</span><br>
+              <span class="string">- API routes: kebab-case in /app/api/</span><br>
+              <span class="string">- Always use TypeScript strict mode. Never use `any`.</span><br><br>
+              <span class="value">## NEVER</span><br>
+              <span class="string">- Do not delete migration files</span><br>
+              <span class="string">- Do not commit directly to main</span><br><br>
+              <span class="value">## Commands</span><br>
+              <span class="string">npm run dev &nbsp;·&nbsp; npm run build &nbsp;·&nbsp; npm run test</span>
+            </div>
+          </div>
 
-      <div class="resource-row">
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=vDVSGVpB2vc" target="_blank" rel="noopener"><span class="pill-icon">▶</span> Build Claude Agent Teams — YouTube</a>
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener"><span class="pill-icon">▶</span> How Claude Skills Work — YouTube</a>
-      </div>
+          <div class="resource-row">
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=gHB4JFG9i3k" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> Claude Code: Build Your First Agent — YouTube</a>
+            <a class="resource-pill" href="https://www.mindstudio.ai/blog/claude-code-token-management-hacks"
+              target="_blank" rel="noopener"><span class="pill-icon">📝</span> 18 Token Management Hacks (covers
+              CLAUDE.md)</a>
+          </div>
 
-      <!-- 06 -->
-      <h3>🧠 Context Window Management</h3>
-      <p>Claude has <strong>no persistent memory between API calls.</strong> Every new message re-sends the entire conversation history from scratch. Context grows over time — and eventually old information gets pushed out or causes confusion.</p>
-      <p>Skilled users manage context proactively: use <code>/compact</code> before the window gets bloated, write crisp session handoff notes, and avoid re-injecting information Claude already has.</p>
+          <!-- 04 -->
+          <h3>🗺️ Planning Mode & Task Management</h3>
+          <p>For multi-step or complex tasks, making Claude plan before acting is the single biggest quality multiplier
+            available. Use <code>/plan</code> in Claude Code, or ask Claude to "think through the approach first" in
+            regular chat.</p>
+          <p>For ongoing projects, Claude Code's <code>TodoWrite</code> tool maintains a live task list that Claude
+            updates as it works — so you always know what's done, what's in progress, and what's next.</p>
 
-      <div class="callout green">
-        <strong>The Golden Rule of Context</strong>
-        Before every message, ask: "Does Claude still have the context it needs, or am I re-injecting information it already has?" This habit alone will dramatically improve response quality and cut costs.
-      </div>
+          <div class="callout">
+            <strong>Planning Prompt Template</strong>
+            "Before you write any code, think through: (1) what files will need to change, (2) what could go wrong, (3)
+            what you'll do first, second, and third. Write a numbered plan, then wait for my approval before starting."
+          </div>
 
-      <div class="code-block">
-        <span class="comment"># Session handoff note template (saves tokens next session)</span><br><br>
-        <span class="value">## Session Handoff — [Date]</span><br>
-        <span class="string">What we accomplished: [2–3 bullet points]</span><br>
-        <span class="string">Current state: [where the project sits right now]</span><br>
-        <span class="string">Next task: [the exact first thing to do in the next session]</span><br>
-        <span class="string">Blockers: [anything Claude should know upfront]</span>
-      </div>
+          <div class="resource-row">
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> Zero to Agentic Workflow in 26 Min — YouTube</a>
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=gHB4JFG9i3k" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> Claude Code — Plan Mode Demo — YouTube</a>
+          </div>
 
-      <div class="resource-row">
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=jw0pMr54Ztc" target="_blank" rel="noopener"><span class="pill-icon">▶</span> Ultimate Beginner's Guide To Claude — YouTube</a>
-        <a class="resource-pill" href="https://www.mindstudio.ai/blog/claude-code-token-management-hacks" target="_blank" rel="noopener"><span class="pill-icon">📝</span> 18 Token Management Hacks</a>
-      </div>
+          <!-- 05 -->
+          <h3>🏗️ Agent Teams & Orchestration</h3>
+          <p>One agent is powerful. A team of specialised agents is transformative. In an agent team, one Claude
+            instance acts as the <strong>orchestrator</strong> — it breaks down a goal and delegates to specialised
+            <strong>subagents</strong>: one that searches, one that writes, one that reviews, one that tests.
+          </p>
 
-      <!-- 07 -->
-      <h3>💰 Token Savings — Work Smarter, Not Longer</h3>
-      <p>Tokens are the currency of Claude. Every word you send, every word Claude responds with, and every word of prior conversation costs tokens — meaning money on the API and slower responses in the UI.</p>
-      <p>Highest-leverage moves: (1) use CLAUDE.md to replace dozens of re-explanations, (2) write one complete scoped prompt instead of five back-and-forth exchanges, (3) trim files to relevant lines before pasting, (4) compact early and often, (5) use session handoff notes.</p>
+          <div class="callout pink">
+            <strong>Orchestrator Pattern</strong>
+            Orchestrator receives goal → breaks it into subtasks → spins up subagents with specific roles → collects
+            results → synthesises final output. The orchestrator manages and integrates — it never does the work itself.
+          </div>
 
-      <div class="callout yellow">
-        <strong>Quick Token Wins — Do These Today</strong>
-        ✓ Create CLAUDE.md before every project session &nbsp;·&nbsp;
-        ✓ Write your full task spec before opening a session &nbsp;·&nbsp;
-        ✓ Paste only the relevant 20 lines of a file, not the full 400 &nbsp;·&nbsp;
-        ✓ Run /compact after every 10–15 exchanges &nbsp;·&nbsp;
-        ✓ End each session with a handoff note for next time
-      </div>
+          <div class="resource-row">
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=vDVSGVpB2vc" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> Build Claude Agent Teams — YouTube</a>
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> How Claude Skills Work — YouTube</a>
+          </div>
 
-      <div class="resource-row">
-        <a class="resource-pill" href="https://www.mindstudio.ai/blog/claude-code-token-management-hacks" target="_blank" rel="noopener"><span class="pill-icon">📝</span> 18 Claude Code Token Management Hacks</a>
-        <a class="resource-pill" href="https://www.youtube.com/watch?v=XTWb5oEfqdY" target="_blank" rel="noopener"><span class="pill-icon">▶</span> Full Claude Tutorial 2026 — YouTube</a>
-      </div>
+          <!-- 06 -->
+          <h3>🧠 Context Window Management</h3>
+          <p>Claude has <strong>no persistent memory between API calls.</strong> Every new message re-sends the entire
+            conversation history from scratch. Context grows over time — and eventually old information gets pushed out
+            or causes confusion.</p>
+          <p>Skilled users manage context proactively: use <code>/compact</code> before the window gets bloated, write
+            crisp session handoff notes, and avoid re-injecting information Claude already has.</p>
 
-    </div>
-  </div>
-</section>
+          <div class="callout green">
+            <strong>The Golden Rule of Context</strong>
+            Before every message, ask: "Does Claude still have the context it needs, or am I re-injecting information it
+            already has?" This habit alone will dramatically improve response quality and cut costs.
+          </div>
 
-<!-- ALL 7 YOUTUBE VIDEOS -->
-<section class="yt-section" id="videos">
-  <div class="section-label">Video Playlist</div>
-  <h2 class="section-title">All 17 Recommended Videos</h2>
-  <p class="section-desc">Every video recommended in this guide, in one place. Grouped by topic — click any card to open directly on YouTube.</p>
+          <div class="code-wrapper">
+            <button class="copy-btn" onclick="copyCode(this)" aria-label="Copy code to clipboard">Copy</button>
+            <div class="code-block">
+              <span class="comment"># Session handoff note template (saves tokens next session)</span><br><br>
+              <span class="value">## Session Handoff — [Date]</span><br>
+              <span class="string">What we accomplished: [2–3 bullet points]</span><br>
+              <span class="string">Current state: [where the project sits right now]</span><br>
+              <span class="string">Next task: [the exact first thing to do in the next session]</span><br>
+              <span class="string">Blockers: [anything Claude should know upfront]</span>
+            </div>
+          </div>
 
-  <div class="yt-grid">
+          <div class="resource-row">
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=jw0pMr54Ztc" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> Ultimate Beginner's Guide To Claude — YouTube</a>
+            <a class="resource-pill" href="https://www.mindstudio.ai/blog/claude-code-token-management-hacks"
+              target="_blank" rel="noopener"><span class="pill-icon">📝</span> 18 Token Management Hacks</a>
+          </div>
 
-    <!-- Start Here -->
-    <a class="yt-card" href="https://www.youtube.com/watch?v=jw0pMr54Ztc" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #0d1b2a, #1b4332);">📘<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Start Here · Beginner Overview</div>
-        <div class="yt-title">The Ultimate Beginner's Guide To Claude</div>
-        <div class="yt-desc">The best first video for anyone new to Claude. Covers the full interface, how to write good prompts, and key features most beginners miss.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge green">Start Here</span></div>
-      </div>
-    </a>
+          <!-- 07 -->
+          <h3>💰 Token Savings — Work Smarter, Not Longer</h3>
+          <p>Tokens are the currency of Claude. Every word you send, every word Claude responds with, and every word of
+            prior conversation costs tokens — meaning money on the API and slower responses in the UI.</p>
+          <p>Highest-leverage moves: (1) use CLAUDE.md to replace dozens of re-explanations, (2) write one complete
+            scoped prompt instead of five back-and-forth exchanges, (3) trim files to relevant lines before pasting, (4)
+            compact early and often, (5) use session handoff notes.</p>
 
-    <!-- Prompt Harness Engineering -->
-    <a class="yt-card" href="https://www.youtube.com/watch?v=nWzXyjXCoCE" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #0f3460, #533483);">🎯<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Foundation · Prompt Harness Engineering</div>
-        <div class="yt-title">Claude AI Full Tutorial: From Basics to Agentic AI (2026)</div>
-        <div class="yt-desc">The most comprehensive single video available — covers every major feature from free basics to agentic tools, prompt engineering, and token management.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">Most Comprehensive</span></div>
-      </div>
-    </a>
+          <div class="callout yellow">
+            <strong>Quick Token Wins — Do These Today</strong>
+            ✓ Create CLAUDE.md before every project session &nbsp;·&nbsp;
+            ✓ Write your full task spec before opening a session &nbsp;·&nbsp;
+            ✓ Paste only the relevant 20 lines of a file, not the full 400 &nbsp;·&nbsp;
+            ✓ Run /compact after every 10–15 exchanges &nbsp;·&nbsp;
+            ✓ End each session with a handoff note for next time
+          </div>
 
-    <!-- AI Agents -->
-    <a class="yt-card" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #1b1b2f, #2b2d42);">🤖<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Agents · Context Windows · Claude Skills</div>
-        <div class="yt-title">How AI Agents & Claude Skills Work (Clearly Explained)</div>
-        <div class="yt-desc">Breaks down how agents really work under the hood, why most people use them wrong, and how context windows affect agent performance.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge green">Best for Agents</span></div>
-      </div>
-    </a>
+          <div class="resource-row">
+            <a class="resource-pill" href="https://www.mindstudio.ai/blog/claude-code-token-management-hacks"
+              target="_blank" rel="noopener"><span class="pill-icon">📝</span> 18 Claude Code Token Management Hacks</a>
+            <a class="resource-pill" href="https://www.youtube.com/watch?v=XTWb5oEfqdY" target="_blank"
+              rel="noopener"><span class="pill-icon">▶</span> Full Claude Tutorial 2026 — YouTube</a>
+          </div>
 
-    <a class="yt-card" href="https://www.youtube.com/watch?v=EH5jx5qPabU" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #1b2f1b, #2d422d);">🤖<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Automation · AI Agents</div>
-        <div class="yt-title">Teach Claude to Take Multi-Step Actions Autonomously</div>
-        <div class="yt-desc">Teach Claude to take multi-step actions autonomously — browsing the web, writing code, calling APIs, and completing complex workflows without hand-holding.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge green">AI Agents</span></div>
-      </div>
-    </a>
-
-    <a class="yt-card" href="https://www.youtube.com/watch?v=gHB4JFG9i3k&t=88s" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #240046, #5a189a);">💻<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Claude Code · CLAUDE.md · No Code Required</div>
-        <div class="yt-title">Claude Code: Build Your First AI Agent</div>
-        <div class="yt-desc">Proof you don't need to code to build agents. Covers Claude Code setup, writing CLAUDE.md, using /plan mode, and deploying your first working agent.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">No Coding Required</span></div>
-      </div>
-    </a>
-
-    <a class="yt-card" href="https://www.youtube.com/watch?v=XASPkhYLtnk" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #2f1b2f, #422d42);">🤖<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Automation · AI Agents</div>
-        <div class="yt-title">AI Agents — Autonomous Workflows with Claude</div>
-        <div class="yt-desc">Teach Claude to take multi-step actions autonomously — browsing the web, writing code, calling APIs, and completing complex workflows without hand-holding.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge green">AI Agents</span></div>
-      </div>
-    </a>
-
-    <a class="yt-card" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #12372a, #436850);">⚡<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Agentic Workflows · Planning · Task Management</div>
-        <div class="yt-title">From Zero to Your First Agentic AI Workflow in 26 Minutes</div>
-        <div class="yt-desc">Hands-on project walkthrough — build a real agentic workflow from scratch in under 30 minutes. Covers planning mode, tool use, and task execution.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge green">Hands-On Project</span></div>
-      </div>
-    </a>
-
-    <!-- CLAUDE.md Files -->
-    <a class="yt-card" href="https://www.youtube.com/watch?v=h7QJL2_gEXA" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #240046, #3d0066);">📄<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Configuration · CLAUDE.md Files</div>
-        <div class="yt-title">CLAUDE.md Files — Persistent Project Memory</div>
-        <div class="yt-desc">A special memory file read at session start. Write your project conventions once; Claude remembers them every session — no more re-explaining the same context.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">CLAUDE.md</span></div>
-      </div>
-    </a>
-
-    <!-- Planning & Task Management -->
-    <a class="yt-card" href="https://www.youtube.com/watch?v=E6seSBly2Ok" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #1a2f1a, #2d4a2d);">🗺️<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Strategy · Planning & Task Management</div>
-        <div class="yt-title">Planning & Task Management with Claude</div>
-        <div class="yt-desc">Before acting, make Claude think. /plan mode forces reasoning before execution — dramatically improving output on complex multi-file tasks. Use TodoWrite for tracked subtasks.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">/plan mode</span></div>
-      </div>
-    </a>
-
-    <a class="yt-card" href="https://www.youtube.com/watch?v=UYzCXC2hh0I" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #2a2f1a, #3d4a2d);">🗺️<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Strategy · Planning & Task Management</div>
-        <div class="yt-title">TodoWrite & Subtask Planning in Claude Code</div>
-        <div class="yt-desc">Before acting, make Claude think. /plan mode forces reasoning before execution — dramatically improving output on complex multi-file tasks. Use TodoWrite for tracked subtasks.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">TodoWrite</span></div>
-      </div>
-    </a>
-
-    <!-- Agent Teams & Orchestration -->
-    <a class="yt-card" href="https://www.youtube.com/watch?v=-zzbkh9B-5Q" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #370617, #9d0208);">🏗️<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Agent Teams · Orchestration · Advanced</div>
-        <div class="yt-title">How to Build Claude Agent Teams Better Than 99% of People</div>
-        <div class="yt-desc">Deep dive into multi-agent orchestration. Specialised subagents for research, writing, code review, and testing working in parallel.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge red">Advanced</span></div>
-      </div>
-    </a>
-
-    <a class="yt-card" href="https://www.youtube.com/watch?v=-BhfcPseWFQ" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #3d0a0a, #7a0404);">🏗️<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Scale · Agent Teams & Orchestration</div>
-        <div class="yt-title">Agent Teams & Orchestration — Advanced Patterns</div>
-        <div class="yt-desc">One agent is powerful. A team of specialised agents is unstoppable. Learn to orchestrate subagents — one plans, one researches, one writes, one reviews.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge red">Advanced</span></div>
-      </div>
-    </a>
-
-    <!-- Context Window Management -->
-    <a class="yt-card" href="https://www.youtube.com/watch?v=I1EGbrH5Xdk&t=65s" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #0f2a4a, #1a4a6e);">🧠<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Memory · Context Window Management</div>
-        <div class="yt-title">Context Window Management — Master /compact</div>
-        <div class="yt-desc">Claude has no persistent memory between calls — every message replays the full history. Learn to manage what's in the context window and when to use /compact.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">/compact</span></div>
-      </div>
-    </a>
-
-    <a class="yt-card" href="https://www.youtube.com/watch?v=lN5tLx2_7HQ" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #0a1f3a, #0f3060);">🧠<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Memory · Context Window Management</div>
-        <div class="yt-title">Session Design & Context Strategy for Claude</div>
-        <div class="yt-desc">Claude has no persistent memory between calls — every message replays the full history. Learn to manage what's in the context window and when to use /compact.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">Session Design</span></div>
-      </div>
-    </a>
-
-    <!-- Token Savings -->
-    <a class="yt-card" href="https://www.youtube.com/watch?v=49V-5Ock8LU" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #1a1a2e, #2e2e16);">💰<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Efficiency · Token Savings</div>
-        <div class="yt-title">Token Savings — Work Smarter, Not Longer</div>
-        <div class="yt-desc">Tokens = money + speed. Write tighter prompts, trim file context, use session handoffs, and batch related changes to get more done per dollar on the API.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">Cost Optimization</span></div>
-      </div>
-    </a>
-
-    <a class="yt-card" href="https://www.youtube.com/watch?v=boilaC1Qo2c" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #2e2a16, #4a4010);">💰<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Efficiency · Token Savings</div>
-        <div class="yt-title">Prompt Compression & Batching for Token Efficiency</div>
-        <div class="yt-desc">Tokens = money + speed. Write tighter prompts, trim file context, use session handoffs, and batch related changes to get more done per dollar on the API.</div>
-        <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">Batching</span></div>
-      </div>
-    </a>
-
-    <!-- Udemy Course -->
-    <a class="yt-card" href="https://www.udemy.com/course/ai-prompt-engineering-chatgpt-claude-claude-code/" target="_blank" rel="noopener">
-      <div class="yt-thumb" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">🔬<div class="yt-play">▶</div></div>
-      <div class="yt-info">
-        <div class="yt-topic">Prompt Engineering · Tokens · Context Management</div>
-        <div class="yt-title">AI Prompt Engineering: ChatGPT, Claude & Claude Code 2026</div>
-        <div class="yt-desc">Covers what tokens are, how context windows work, 10 professional prompting techniques with live demos, and practical token optimisation strategies for Claude Code.</div>
-        <div class="yt-meta"><span>▶ Udemy Free Course</span><span class="yt-badge">Prompt Engineering</span></div>
-      </div>
-    </a>
-
-  </div>
-
-  <!-- Written Resources -->
-  <div style="max-width: 1100px; margin: 40px auto 0;">
-    <p style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px;">📖 Essential Written Resources</p>
-    <div class="resource-row">
-      <a class="resource-pill" href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener"><span class="pill-icon">📖</span> Official Prompt Engineering Docs</a>
-      <a class="resource-pill" href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener"><span class="pill-icon">🧪</span> Anthropic Interactive Tutorial — GitHub</a>
-      <a class="resource-pill" href="https://www.mindstudio.ai/blog/claude-code-token-management-hacks" target="_blank" rel="noopener"><span class="pill-icon">💡</span> 18 Token Management Hacks — MindStudio</a>
-      <a class="resource-pill" href="https://www.techlifeadventures.com/post/claude-code-tutorial-beginners-guide-2026" target="_blank" rel="noopener"><span class="pill-icon">📝</span> Claude Code Beginner Guide 2026</a>
-    </div>
-  </div>
-</section>
-
-<!-- ROADMAP -->
-<section class="roadmap" id="roadmap">
-  <div class="section-label">Your Learning Path</div>
-  <h2 class="section-title">The Zero to Hero Roadmap</h2>
-  <p class="section-desc">Follow this 5-week plan and you'll go from total beginner to building real production workflows with Claude.</p>
-
-  <div class="roadmap-track">
-
-    <div class="roadmap-item">
-      <div class="roadmap-dot">W1</div>
-      <div class="roadmap-content">
-        <h4>Week 1 — Get Comfortable with Claude</h4>
-        <p>Use claude.ai daily. Practice having conversations. Focus on getting clear, useful answers. Don't worry about structure yet — just explore what Claude can do.</p>
-        <div class="roadmap-resources">
-          <a class="roadmap-link" href="https://www.youtube.com/watch?v=jw0pMr54Ztc" target="_blank" rel="noopener">▶ Ultimate Beginner's Guide</a>
-          <a class="roadmap-link" href="https://claude.ai" target="_blank" rel="noopener">🔗 Try Claude</a>
         </div>
-        <span class="roadmap-badge">Beginner</span>
       </div>
-    </div>
+    </section>
 
-    <div class="roadmap-item">
-      <div class="roadmap-dot">W2</div>
-      <div class="roadmap-content">
-        <h4>Week 2 — Harness Engineering & Prompt Structure</h4>
-        <p>Learn XML prompt structure. Practice the Role + Context + Task + Format pattern on real tasks. Work through Anthropic's official interactive tutorial.</p>
-        <div class="roadmap-resources">
-          <a class="roadmap-link" href="https://www.youtube.com/watch?v=XTWb5oEfqdY" target="_blank" rel="noopener">▶ Full Tutorial 2026</a>
-          <a class="roadmap-link" href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">🧪 Anthropic Tutorial</a>
-          <a class="roadmap-link" href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank" rel="noopener">📖 Official Docs</a>
+    <!-- ALL 7 YOUTUBE VIDEOS -->
+    <section class="yt-section" id="videos">
+      <div class="section-label">Video Playlist</div>
+      <h2 class="section-title">All 17 Recommended Videos</h2>
+      <p class="section-desc">Every video recommended in this guide, in one place. Grouped by topic — click any card to
+        open directly on YouTube.</p>
+
+      <div class="yt-grid">
+
+        <!-- Start Here -->
+        <a class="yt-card" href="https://www.youtube.com/watch?v=jw0pMr54Ztc" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #0d1b2a, #1b4332);">📘<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Start Here · Beginner Overview</div>
+            <div class="yt-title">The Ultimate Beginner's Guide To Claude</div>
+            <div class="yt-desc">The best first video for anyone new to Claude. Covers the full interface, how to write
+              good prompts, and key features most beginners miss.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge green">Start Here</span></div>
+          </div>
+        </a>
+
+        <!-- Prompt Harness Engineering -->
+        <a class="yt-card" href="https://www.youtube.com/watch?v=nWzXyjXCoCE" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #0f3460, #533483);">🎯<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Foundation · Prompt Harness Engineering</div>
+            <div class="yt-title">Claude AI Full Tutorial: From Basics to Agentic AI (2026)</div>
+            <div class="yt-desc">The most comprehensive single video available — covers every major feature from free
+              basics to agentic tools, prompt engineering, and token management.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">Most Comprehensive</span></div>
+          </div>
+        </a>
+
+        <!-- AI Agents -->
+        <a class="yt-card" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #1b1b2f, #2b2d42);">🤖<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Agents · Context Windows · Claude Skills</div>
+            <div class="yt-title">How AI Agents & Claude Skills Work (Clearly Explained)</div>
+            <div class="yt-desc">Breaks down how agents really work under the hood, why most people use them wrong, and
+              how context windows affect agent performance.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge green">Best for Agents</span></div>
+          </div>
+        </a>
+
+        <a class="yt-card" href="https://www.youtube.com/watch?v=EH5jx5qPabU" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #1b2f1b, #2d422d);">🤖<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Automation · AI Agents</div>
+            <div class="yt-title">Teach Claude to Take Multi-Step Actions Autonomously</div>
+            <div class="yt-desc">Teach Claude to take multi-step actions autonomously — browsing the web, writing code,
+              calling APIs, and completing complex workflows without hand-holding.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge green">AI Agents</span></div>
+          </div>
+        </a>
+
+        <a class="yt-card" href="https://www.youtube.com/watch?v=gHB4JFG9i3k&t=88s" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #240046, #5a189a);">💻<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Claude Code · CLAUDE.md · No Code Required</div>
+            <div class="yt-title">Claude Code: Build Your First AI Agent</div>
+            <div class="yt-desc">Proof you don't need to code to build agents. Covers Claude Code setup, writing
+              CLAUDE.md, using /plan mode, and deploying your first working agent.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">No Coding Required</span></div>
+          </div>
+        </a>
+
+        <a class="yt-card" href="https://www.youtube.com/watch?v=XASPkhYLtnk" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #2f1b2f, #422d42);">🤖<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Automation · AI Agents</div>
+            <div class="yt-title">AI Agents — Autonomous Workflows with Claude</div>
+            <div class="yt-desc">Teach Claude to take multi-step actions autonomously — browsing the web, writing code,
+              calling APIs, and completing complex workflows without hand-holding.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge green">AI Agents</span></div>
+          </div>
+        </a>
+
+        <a class="yt-card" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #12372a, #436850);">⚡<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Agentic Workflows · Planning · Task Management</div>
+            <div class="yt-title">From Zero to Your First Agentic AI Workflow in 26 Minutes</div>
+            <div class="yt-desc">Hands-on project walkthrough — build a real agentic workflow from scratch in under 30
+              minutes. Covers planning mode, tool use, and task execution.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge green">Hands-On Project</span></div>
+          </div>
+        </a>
+
+        <!-- CLAUDE.md Files -->
+        <a class="yt-card" href="https://www.youtube.com/watch?v=h7QJL2_gEXA" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #240046, #3d0066);">📄<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Configuration · CLAUDE.md Files</div>
+            <div class="yt-title">CLAUDE.md Files — Persistent Project Memory</div>
+            <div class="yt-desc">A special memory file read at session start. Write your project conventions once;
+              Claude remembers them every session — no more re-explaining the same context.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">CLAUDE.md</span></div>
+          </div>
+        </a>
+
+        <!-- Planning & Task Management -->
+        <a class="yt-card" href="https://www.youtube.com/watch?v=E6seSBly2Ok" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #1a2f1a, #2d4a2d);">🗺️<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Strategy · Planning & Task Management</div>
+            <div class="yt-title">Planning & Task Management with Claude</div>
+            <div class="yt-desc">Before acting, make Claude think. /plan mode forces reasoning before execution —
+              dramatically improving output on complex multi-file tasks. Use TodoWrite for tracked subtasks.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">/plan mode</span></div>
+          </div>
+        </a>
+
+        <a class="yt-card" href="https://www.youtube.com/watch?v=UYzCXC2hh0I" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #2a2f1a, #3d4a2d);">🗺️<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Strategy · Planning & Task Management</div>
+            <div class="yt-title">TodoWrite & Subtask Planning in Claude Code</div>
+            <div class="yt-desc">Before acting, make Claude think. /plan mode forces reasoning before execution —
+              dramatically improving output on complex multi-file tasks. Use TodoWrite for tracked subtasks.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">TodoWrite</span></div>
+          </div>
+        </a>
+
+        <!-- Agent Teams & Orchestration -->
+        <a class="yt-card" href="https://www.youtube.com/watch?v=-zzbkh9B-5Q" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #370617, #9d0208);">🏗️<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Agent Teams · Orchestration · Advanced</div>
+            <div class="yt-title">How to Build Claude Agent Teams Better Than 99% of People</div>
+            <div class="yt-desc">Deep dive into multi-agent orchestration. Specialised subagents for research, writing,
+              code review, and testing working in parallel.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge red">Advanced</span></div>
+          </div>
+        </a>
+
+        <a class="yt-card" href="https://www.youtube.com/watch?v=-BhfcPseWFQ" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #3d0a0a, #7a0404);">🏗️<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Scale · Agent Teams & Orchestration</div>
+            <div class="yt-title">Agent Teams & Orchestration — Advanced Patterns</div>
+            <div class="yt-desc">One agent is powerful. A team of specialised agents is unstoppable. Learn to
+              orchestrate subagents — one plans, one researches, one writes, one reviews.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge red">Advanced</span></div>
+          </div>
+        </a>
+
+        <!-- Context Window Management -->
+        <a class="yt-card" href="https://www.youtube.com/watch?v=I1EGbrH5Xdk&t=65s" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #0f2a4a, #1a4a6e);">🧠<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Memory · Context Window Management</div>
+            <div class="yt-title">Context Window Management — Master /compact</div>
+            <div class="yt-desc">Claude has no persistent memory between calls — every message replays the full history.
+              Learn to manage what's in the context window and when to use /compact.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">/compact</span></div>
+          </div>
+        </a>
+
+        <a class="yt-card" href="https://www.youtube.com/watch?v=lN5tLx2_7HQ" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #0a1f3a, #0f3060);">🧠<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Memory · Context Window Management</div>
+            <div class="yt-title">Session Design & Context Strategy for Claude</div>
+            <div class="yt-desc">Claude has no persistent memory between calls — every message replays the full history.
+              Learn to manage what's in the context window and when to use /compact.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">Session Design</span></div>
+          </div>
+        </a>
+
+        <!-- Token Savings -->
+        <a class="yt-card" href="https://www.youtube.com/watch?v=49V-5Ock8LU" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #1a1a2e, #2e2e16);">💰<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Efficiency · Token Savings</div>
+            <div class="yt-title">Token Savings — Work Smarter, Not Longer</div>
+            <div class="yt-desc">Tokens = money + speed. Write tighter prompts, trim file context, use session handoffs,
+              and batch related changes to get more done per dollar on the API.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">Cost Optimization</span></div>
+          </div>
+        </a>
+
+        <a class="yt-card" href="https://www.youtube.com/watch?v=boilaC1Qo2c" target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #2e2a16, #4a4010);">💰<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Efficiency · Token Savings</div>
+            <div class="yt-title">Prompt Compression & Batching for Token Efficiency</div>
+            <div class="yt-desc">Tokens = money + speed. Write tighter prompts, trim file context, use session handoffs,
+              and batch related changes to get more done per dollar on the API.</div>
+            <div class="yt-meta"><span>▶ youtube.com</span><span class="yt-badge">Batching</span></div>
+          </div>
+        </a>
+
+        <!-- Udemy Course -->
+        <a class="yt-card" href="https://www.udemy.com/course/ai-prompt-engineering-chatgpt-claude-claude-code/"
+          target="_blank" rel="noopener">
+          <div class="yt-thumb" style="background: linear-gradient(135deg, #1a1a2e, #16213e);">🔬<div class="yt-play">▶
+            </div>
+          </div>
+          <div class="yt-info">
+            <div class="yt-topic">Prompt Engineering · Tokens · Context Management</div>
+            <div class="yt-title">AI Prompt Engineering: ChatGPT, Claude & Claude Code 2026</div>
+            <div class="yt-desc">Covers what tokens are, how context windows work, 10 professional prompting techniques
+              with live demos, and practical token optimisation strategies for Claude Code.</div>
+            <div class="yt-meta"><span>▶ Udemy Free Course</span><span class="yt-badge">Prompt Engineering</span></div>
+          </div>
+        </a>
+
+      </div>
+
+      <!-- Written Resources -->
+      <div style="max-width: 1100px; margin: 40px auto 0;">
+        <p
+          style="font-family: var(--mono); font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); margin-bottom: 16px;">
+          📖 Essential Written Resources</p>
+        <div class="resource-row">
+          <a class="resource-pill" href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview"
+            target="_blank" rel="noopener"><span class="pill-icon">📖</span> Official Prompt Engineering Docs</a>
+          <a class="resource-pill" href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank"
+            rel="noopener"><span class="pill-icon">🧪</span> Anthropic Interactive Tutorial — GitHub</a>
+          <a class="resource-pill" href="https://www.mindstudio.ai/blog/claude-code-token-management-hacks"
+            target="_blank" rel="noopener"><span class="pill-icon">💡</span> 18 Token Management Hacks — MindStudio</a>
+          <a class="resource-pill"
+            href="https://www.techlifeadventures.com/post/claude-code-tutorial-beginners-guide-2026" target="_blank"
+            rel="noopener"><span class="pill-icon">📝</span> Claude Code Beginner Guide 2026</a>
         </div>
-        <span class="roadmap-badge">Intermediate</span>
       </div>
-    </div>
+    </section>
 
-    <div class="roadmap-item">
-      <div class="roadmap-dot">W3</div>
-      <div class="roadmap-content">
-        <h4>Week 3 — Context, Tokens & CLAUDE.md</h4>
-        <p>Study context window management. Write your first CLAUDE.md for a real project. Practice /compact. Read the 18 Token Management Hacks article cover-to-cover.</p>
-        <div class="roadmap-resources">
-          <a class="roadmap-link" href="https://www.youtube.com/watch?v=gHB4JFG9i3k" target="_blank" rel="noopener">▶ Claude Code & CLAUDE.md</a>
-          <a class="roadmap-link" href="https://www.mindstudio.ai/blog/claude-code-token-management-hacks" target="_blank" rel="noopener">💡 Token Hacks Article</a>
+    <!-- ROADMAP -->
+    <section class="roadmap" id="roadmap">
+      <div class="section-label">Your Learning Path</div>
+      <h2 class="section-title">The Zero to Hero Roadmap</h2>
+      <p class="section-desc">Follow this 5-week plan and you'll go from total beginner to building real production
+        workflows with Claude.</p>
+
+      <div class="roadmap-track">
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot">W1</div>
+          <div class="roadmap-content">
+            <h4>Week 1 — Get Comfortable with Claude</h4>
+            <p>Use claude.ai daily. Practice having conversations. Focus on getting clear, useful answers. Don't worry
+              about structure yet — just explore what Claude can do.</p>
+            <div class="roadmap-resources">
+              <a class="roadmap-link" href="https://www.youtube.com/watch?v=jw0pMr54Ztc" target="_blank"
+                rel="noopener">▶ Ultimate Beginner's Guide</a>
+              <a class="roadmap-link" href="https://claude.ai" target="_blank" rel="noopener">🔗 Try Claude</a>
+            </div>
+            <span class="roadmap-badge">Beginner</span>
+          </div>
         </div>
-        <span class="roadmap-badge">Intermediate</span>
-      </div>
-    </div>
 
-    <div class="roadmap-item">
-      <div class="roadmap-dot">W4</div>
-      <div class="roadmap-content">
-        <h4>Week 4 — Agents, Planning & Automation</h4>
-        <p>Install Claude Code. Build your first agentic workflow using the 26-minute tutorial. Experiment with /plan mode, TodoWrite tasks, and multi-step tool use.</p>
-        <div class="roadmap-resources">
-          <a class="roadmap-link" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank" rel="noopener">▶ Agentic Workflow in 26 Min</a>
-          <a class="roadmap-link" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank" rel="noopener">▶ How Agents Work</a>
+        <div class="roadmap-item">
+          <div class="roadmap-dot">W2</div>
+          <div class="roadmap-content">
+            <h4>Week 2 — Harness Engineering & Prompt Structure</h4>
+            <p>Learn XML prompt structure. Practice the Role + Context + Task + Format pattern on real tasks. Work
+              through Anthropic's official interactive tutorial.</p>
+            <div class="roadmap-resources">
+              <a class="roadmap-link" href="https://www.youtube.com/watch?v=XTWb5oEfqdY" target="_blank"
+                rel="noopener">▶ Full Tutorial 2026</a>
+              <a class="roadmap-link" href="https://github.com/anthropics/prompt-eng-interactive-tutorial"
+                target="_blank" rel="noopener">🧪 Anthropic Tutorial</a>
+              <a class="roadmap-link"
+                href="https://docs.claude.com/en/docs/build-with-claude/prompt-engineering/overview" target="_blank"
+                rel="noopener">📖 Official Docs</a>
+            </div>
+            <span class="roadmap-badge">Intermediate</span>
+          </div>
         </div>
-        <span class="roadmap-badge">Advanced</span>
-      </div>
-    </div>
 
-    <div class="roadmap-item">
-      <div class="roadmap-dot">W5</div>
-      <div class="roadmap-content">
-        <h4>Week 5+ — Agent Teams & Real Projects</h4>
-        <p>Build multi-agent orchestration systems. Apply everything to real projects. Create production-ready CLAUDE.md files. Start your website and share what you build.</p>
-        <div class="roadmap-resources">
-          <a class="roadmap-link" href="https://www.youtube.com/watch?v=vDVSGVpB2vc" target="_blank" rel="noopener">▶ Build Agent Teams</a>
-          <a class="roadmap-link" href="https://docs.claude.com" target="_blank" rel="noopener">📖 Full Claude Docs</a>
+        <div class="roadmap-item">
+          <div class="roadmap-dot">W3</div>
+          <div class="roadmap-content">
+            <h4>Week 3 — Context, Tokens & CLAUDE.md</h4>
+            <p>Study context window management. Write your first CLAUDE.md for a real project. Practice /compact. Read
+              the 18 Token Management Hacks article cover-to-cover.</p>
+            <div class="roadmap-resources">
+              <a class="roadmap-link" href="https://www.youtube.com/watch?v=gHB4JFG9i3k" target="_blank"
+                rel="noopener">▶ Claude Code & CLAUDE.md</a>
+              <a class="roadmap-link" href="https://www.mindstudio.ai/blog/claude-code-token-management-hacks"
+                target="_blank" rel="noopener">💡 Token Hacks Article</a>
+            </div>
+            <span class="roadmap-badge">Intermediate</span>
+          </div>
         </div>
-        <span class="roadmap-badge">Expert</span>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot">W4</div>
+          <div class="roadmap-content">
+            <h4>Week 4 — Agents, Planning & Automation</h4>
+            <p>Install Claude Code. Build your first agentic workflow using the 26-minute tutorial. Experiment with
+              /plan mode, TodoWrite tasks, and multi-step tool use.</p>
+            <div class="roadmap-resources">
+              <a class="roadmap-link" href="https://www.youtube.com/watch?v=tDGiWn0flK8" target="_blank"
+                rel="noopener">▶ Agentic Workflow in 26 Min</a>
+              <a class="roadmap-link" href="https://www.youtube.com/watch?v=S_oN3vlzpMw" target="_blank"
+                rel="noopener">▶ How Agents Work</a>
+            </div>
+            <span class="roadmap-badge">Advanced</span>
+          </div>
+        </div>
+
+        <div class="roadmap-item">
+          <div class="roadmap-dot">W5</div>
+          <div class="roadmap-content">
+            <h4>Week 5+ — Agent Teams & Real Projects</h4>
+            <p>Build multi-agent orchestration systems. Apply everything to real projects. Create production-ready
+              CLAUDE.md files. Start your website and share what you build.</p>
+            <div class="roadmap-resources">
+              <a class="roadmap-link" href="https://www.youtube.com/watch?v=vDVSGVpB2vc" target="_blank"
+                rel="noopener">▶ Build Agent Teams</a>
+              <a class="roadmap-link" href="https://docs.claude.com" target="_blank" rel="noopener">📖 Full Claude
+                Docs</a>
+            </div>
+            <span class="roadmap-badge">Expert</span>
+          </div>
+        </div>
+
       </div>
-    </div>
+    </section>
 
-  </div>
-</section>
+    <!-- FAQ -->
+    <section class="faq-section" id="faq">
+      <div class="container">
+        <div class="section-label">Questions & Answers</div>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-desc">Got a question? We've got answers. Here are some of the most common questions about
+          using Claude effectively.</p>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">claude<em>OS</em></div>
-  <p>A beginner's guide to mastering Claude · Published 2026 · Verified against official Anthropic documentation</p>
-  <p style="margin-top: 10px;">
-    <a href="https://docs.claude.com" target="_blank" rel="noopener">Official Docs</a> &nbsp;·&nbsp;
-    <a href="https://claude.ai" target="_blank" rel="noopener">Try Claude</a> &nbsp;·&nbsp;
-    <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Free Tutorial</a> &nbsp;·&nbsp;
-    <a href="https://www.youtube.com/watch?v=XTWb5oEfqdY" target="_blank" rel="noopener">Full Video Guide</a>
-  </p>
-  <p style="margin-top: 14px;">Built for newcomers who want to go from zero to hero 🚀</p>
-</footer>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary class="faq-question">What is the difference between Claude Sonnet and Opus?</summary>
+            <div class="faq-answer">Sonnet is faster and cheaper, making it ideal for most daily coding, writing, and
+              agentic tasks. Opus is the heavyweight model, meant for highly complex, multi-step logic problems where
+              raw reasoning power is prioritized over speed.</div>
+          </details>
 
+          <details class="faq-item">
+            <summary class="faq-question">Do I need to know how to code to use Claude Agents?</summary>
+            <div class="faq-answer">Not at all! While developers can build custom agents using APIs, tools like Claude
+              Code and other no-code platforms allow anyone to set up autonomous agents using plain English instructions
+              and a simple CLAUDE.md file.</div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">What exactly does the /compact command do?</summary>
+            <div class="faq-answer">The <code>/compact</code> command compresses your ongoing conversation history. It
+              takes the key context and summarizes it, dropping verbatim past messages. This keeps the context window
+              lean, reducing API costs and preventing Claude from getting confused by outdated instructions.</div>
+          </details>
+
+          <details class="faq-item">
+            <summary class="faq-question">Is the Udemy course completely free?</summary>
+            <div class="faq-answer">Yes, the AI Prompt Engineering course listed in our videos section is a free
+              resource designed to get you up to speed with ChatGPT, Claude, and Claude Code fast.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-logo">claude<em>OS</em></div>
+    <p>A beginner's guide to mastering Claude · Published 2026 · Verified against official Anthropic documentation</p>
+    <p style="margin-top: 10px;">
+      <a href="https://docs.claude.com" target="_blank" rel="noopener">Official Docs</a> &nbsp;·&nbsp;
+      <a href="https://claude.ai" target="_blank" rel="noopener">Try Claude</a> &nbsp;·&nbsp;
+      <a href="https://github.com/anthropics/prompt-eng-interactive-tutorial" target="_blank" rel="noopener">Free
+        Tutorial</a> &nbsp;·&nbsp;
+      <a href="https://www.youtube.com/watch?v=XTWb5oEfqdY" target="_blank" rel="noopener">Full Video Guide</a>
+    </p>
+    <p style="margin-top: 14px;">Built for newcomers who want to go from zero to hero 🚀</p>
+  </footer>
+
+  <script>
+    function copyCode(button) {
+      const wrapper = button.closest('.code-wrapper');
+      const codeBlock = wrapper.querySelector('.code-block');
+
+      // .innerText intelligently respects <br> tags and visual line breaks
+      const textToCopy = codeBlock.innerText;
+
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        const originalText = button.innerText;
+        button.innerText = 'Copied!';
+        button.classList.add('copied');
+
+        setTimeout(() => {
+          button.innerText = originalText;
+          button.classList.remove('copied');
+        }, 2000);
+      }).catch(err => {
+        console.error('Failed to copy text: ', err);
+      });
+    }
+  </script>
 </body>
+
 </html>
