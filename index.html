@@ -1488,7 +1488,7 @@
       font-family: var(--mono);
       font-size: 11px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-      animation: fadeUp 1s ease 1s both;
+      animation: fadeUp 0.6s ease 0.3s both;
       cursor: pointer;
       transition: border-color 0.2s, box-shadow 0.2s;
       user-select: none;
@@ -3856,7 +3856,12 @@
       var closeBtn = document.getElementById('toast-close');
       var widget   = document.getElementById('liveStatusWidget');
       var STALE_DAYS = 14;
-      var loadedUpdate = null;  // stored so widget can re-open
+      var loadedUpdate = null;
+
+      if (!toast || !closeBtn || !widget) {
+        console.warn('[toast] missing elements: toast=', !!toast, 'closeBtn=', !!closeBtn, 'widget=', !!widget);
+        return;
+      }
 
       function populateToast(update) {
         document.getElementById('toast-badge').textContent   = update.badge || 'Update';
@@ -3884,43 +3889,56 @@
         }
       }
 
-      // X button — just hides (not permanent dismiss, so widget can re-open)
       closeBtn.addEventListener('click', function(e) {
         e.stopPropagation();
         hideToast();
       });
 
-      // Widget click — toggle the toast
-      if (widget) {
-        widget.addEventListener('click', function() {
-          toggleToast();
-        });
-      }
+      widget.addEventListener('click', function(e) {
+        e.stopPropagation();
+        toggleToast();
+      });
 
-      // Fetch updates.json
       fetch('./updates.json')
-        .then(function(r) { return r.json(); })
+        .then(function(r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        })
         .then(function(data) {
           var updates = data.updates || [];
-          if (!updates.length) return;
+          if (!updates.length) {
+            console.log('[toast] no updates in data');
+            return;
+          }
 
           var latest = updates[0];
-          var age = (Date.now() - new Date(latest.date).getTime()) / 86400000;
-          if (age > STALE_DAYS) return;
+          var updateDate = new Date(latest.date + 'T00:00:00Z');
+          var age = (Date.now() - updateDate.getTime()) / 86400000;
+
+          console.log('[toast] update age:', age.toFixed(2), 'days, stale threshold:', STALE_DAYS);
+
+          if (age > STALE_DAYS) {
+            console.log('[toast] update too old, skipping');
+            return;
+          }
 
           loadedUpdate = latest;
+          widget.classList.add('has-update');
+          console.log('[toast] loaded update:', latest.id);
 
-          // Show notification dot on widget
-          if (widget) widget.classList.add('has-update');
-
-          // Auto-show once after 3s if not previously dismissed this session
           var sessionKey = 'claudeos_toast_seen_' + latest.id;
+          console.log('[toast] session check:', 'cached=' + (!!sessionStorage.getItem(sessionKey)));
           if (!sessionStorage.getItem(sessionKey)) {
             sessionStorage.setItem(sessionKey, '1');
-            setTimeout(showToast, 3000);
+            console.log('[toast] fresh — auto-showing in 2s');
+            setTimeout(showToast, 2000);
+          } else {
+            console.log('[toast] seen before — click widget to view');
           }
         })
-        .catch(function() { /* no updates.json — skip silently */ });
+        .catch(function(err) {
+          console.error('[toast] fetch failed:', err.message);
+        });
     })();
 
     // --- FLYTHROUGH OBJECTS ---
