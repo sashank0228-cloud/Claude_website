@@ -336,7 +336,7 @@
 
     .section-title {
       font-family: var(--heading-font);
-      font-size: clamp(2rem, 5vw, 3.2rem);
+      font-size: clamp(2.2rem, 5vw, 3.8rem);
       font-weight: 800;
       letter-spacing: -0.03em;
       margin-bottom: 14px;
@@ -354,7 +354,7 @@
 
     /* TOPIC CARDS */
     .topics-section {
-      padding: 100px 5vw;
+      padding: 140px 5vw;
       background: var(--surface);
       position: relative;
     }
@@ -549,7 +549,7 @@
 
     /* DEEP DIVES */
     .deep-section {
-      padding: 100px 5vw;
+      padding: 140px 5vw;
     }
 
     .deep-section.alt {
@@ -765,7 +765,7 @@
 
     /* YOUTUBE SECTION */
     .yt-section {
-      padding: 100px 5vw;
+      padding: 140px 5vw;
       background: var(--surface);
     }
 
@@ -906,7 +906,7 @@
 
     /* ROADMAP */
     .roadmap {
-      padding: 100px 5vw;
+      padding: 140px 5vw;
       background: #070710;
     }
 
@@ -1033,7 +1033,7 @@
 
     /* FAQ */
     .faq-section {
-      padding: 100px 5vw;
+      padding: 140px 5vw;
       background: var(--surface2);
     }
 
@@ -1545,6 +1545,70 @@
     }
     .copy-prompt-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
 
+    /* CUSTOM CURSOR */
+    body.custom-cursor { cursor: none; }
+    body.custom-cursor a,
+    body.custom-cursor button,
+    body.custom-cursor .topic-card,
+    body.custom-cursor .yt-card,
+    body.custom-cursor .filter-btn,
+    body.custom-cursor .copy-btn,
+    body.custom-cursor .roadmap-item { cursor: none; }
+    #cursor-dot {
+      position: fixed;
+      top: 0; left: 0;
+      width: 8px; height: 8px;
+      background: var(--accent3);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99998;
+      transform: translate(-50%, -50%);
+      transition: width 0.2s ease, height 0.2s ease, background 0.2s ease, opacity 0.3s;
+      will-change: left, top;
+    }
+    #cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      width: 36px; height: 36px;
+      border: 1.5px solid var(--accent);
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 99997;
+      transform: translate(-50%, -50%);
+      transition: width 0.3s ease, height 0.3s ease, border-color 0.3s ease, opacity 0.3s;
+      opacity: 0.55;
+      will-change: left, top;
+    }
+    body.cursor-hover #cursor-dot {
+      width: 14px; height: 14px;
+      background: var(--accent2);
+    }
+    body.cursor-hover #cursor-ring {
+      width: 52px; height: 52px;
+      border-color: var(--accent2);
+      opacity: 0.35;
+    }
+
+    /* CARD GLOW TRACKING */
+    .topic-card { --glow-x: 50%; --glow-y: 50%; }
+    .yt-card    { --glow-x: 50%; --glow-y: 50%; position: relative; }
+    .topic-card::after,
+    .yt-card::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: radial-gradient(circle at var(--glow-x) var(--glow-y), rgba(108,99,255,0.13), transparent 65%);
+      opacity: 0;
+      transition: opacity 0.35s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .topic-card:hover::after,
+    .yt-card:hover::after { opacity: 1; }
+    .topic-card > *,
+    .yt-card > * { position: relative; z-index: 1; }
+
     /* LOADING SCREEN */
     #loader {
       position: fixed;
@@ -1717,6 +1781,10 @@
 <body>
 
   <!-- SIDE NAVIGATION -->
+  <!-- CUSTOM CURSOR -->
+  <div id="cursor-dot" aria-hidden="true"></div>
+  <div id="cursor-ring" aria-hidden="true"></div>
+
   <!-- LOADING SCREEN -->
   <div id="loader" aria-hidden="true">
     <div id="loader-count"><em>0</em></div>
@@ -2989,6 +3057,65 @@
         setTimeout(function() { button.innerText = 'Copy'; button.classList.remove('copied'); }, 2000);
       }).catch(function(err) { console.error('Copy failed:', err); });
     }
+
+    // --- CUSTOM CURSOR ---
+    (function() {
+      if (!window.matchMedia('(pointer: fine)').matches) return;
+      document.body.classList.add('custom-cursor');
+      const dot = document.getElementById('cursor-dot');
+      const ring = document.getElementById('cursor-ring');
+      let mx = 0, my = 0, rx = 0, ry = 0;
+
+      document.addEventListener('mousemove', function(e) {
+        mx = e.clientX; my = e.clientY;
+        dot.style.left = mx + 'px';
+        dot.style.top  = my + 'px';
+      });
+
+      (function tick() {
+        rx += (mx - rx) * 0.10;
+        ry += (my - ry) * 0.10;
+        ring.style.left = rx + 'px';
+        ring.style.top  = ry + 'px';
+        requestAnimationFrame(tick);
+      })();
+
+      const HOVER_TARGETS = 'a, button, .topic-card, .yt-card, .filter-btn, .copy-btn, .roadmap-item, .faq-question';
+      document.addEventListener('mouseover', function(e) {
+        if (e.target.closest(HOVER_TARGETS)) document.body.classList.add('cursor-hover');
+      });
+      document.addEventListener('mouseout', function(e) {
+        if (e.target.closest(HOVER_TARGETS)) document.body.classList.remove('cursor-hover');
+      });
+      document.addEventListener('mouseleave', function() {
+        dot.style.opacity = '0'; ring.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', function() {
+        dot.style.opacity = '1'; ring.style.opacity = '';
+      });
+    })();
+
+    // --- MAGNETIC BUTTONS ---
+    document.querySelectorAll('.hero .btn').forEach(function(btn) {
+      btn.addEventListener('mousemove', function(e) {
+        const r = btn.getBoundingClientRect();
+        const dx = (e.clientX - (r.left + r.width  / 2)) * 0.28;
+        const dy = (e.clientY - (r.top  + r.height / 2)) * 0.28;
+        btn.style.transform = 'translate(' + dx + 'px,' + dy + 'px) translateY(-2px)';
+      });
+      btn.addEventListener('mouseleave', function() {
+        btn.style.transform = '';
+      });
+    });
+
+    // --- CARD GLOW TRACKING ---
+    document.querySelectorAll('.topic-card, .yt-card').forEach(function(card) {
+      card.addEventListener('mousemove', function(e) {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--glow-x', ((e.clientX - r.left) / r.width  * 100).toFixed(1) + '%');
+        card.style.setProperty('--glow-y', ((e.clientY - r.top)  / r.height * 100).toFixed(1) + '%');
+      });
+    });
 
     // --- INIT ---
     loadProgress();
