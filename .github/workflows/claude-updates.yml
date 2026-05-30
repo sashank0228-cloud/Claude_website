@@ -1,0 +1,42 @@
+name: Claude Updates Agent
+
+on:
+  schedule:
+    - cron: '0 9 * * 1'   # Every Monday at 9:00 AM UTC
+  workflow_dispatch:        # Manual trigger from GitHub Actions tab
+
+permissions:
+  contents: write           # Needed to commit updates.json back to repo
+
+jobs:
+  fetch-updates:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install agent dependencies
+        run: cd agent && npm install
+
+      - name: Run Claude Updates Agent
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node agent/fetch-updates.js
+
+      - name: Commit and push updates.json
+        run: |
+          git config user.name  "Claude Updates Agent"
+          git config user.email "claude-agent@users.noreply.github.com"
+          git add updates.json
+          git diff --staged --quiet && echo "No changes to commit" || (
+            git commit -m "chore: update claude news [$(date -u +%Y-%m-%d)] [skip ci]"
+            git push
+          )
