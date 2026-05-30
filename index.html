@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <meta name="description"
     content="The definitive beginner's guide to mastering Claude AI. Learn prompt engineering, agents, CLAUDE.md, and token optimization.">
   <meta property="og:title" content="Claude: Zero to Hero — The Definitive Beginner's Guide">
@@ -1492,11 +1492,139 @@
       70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(0, 212, 170, 0); }
       100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(0, 212, 170, 0); }
     }
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE — TABLET  (≤ 1024px)
+    ═══════════════════════════════════════════════ */
     @media (max-width: 1024px) {
       .side-nav { display: none; }
+      .topics-section, .deep-section, .yt-section,
+      .roadmap, .faq-section { padding: 100px 5vw; }
+      .section-title { font-size: clamp(2rem, 4vw, 3rem); }
+      .topics-grid { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
     }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE — LARGE PHONE / SMALL TABLET (≤ 768px)
+    ═══════════════════════════════════════════════ */
+    @media (max-width: 768px) {
+      .topics-section, .deep-section, .yt-section,
+      .roadmap, .faq-section { padding: 80px 4vw; }
+      .topics-grid { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+      .yt-grid     { grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+      .section-title { font-size: clamp(1.9rem, 6vw, 2.8rem); }
+      .hero h1    { font-size: clamp(2.8rem, 9vw, 5rem); }
+      #loader-count { font-size: clamp(4.5rem, 20vw, 10rem); }
+    }
+
+    /* ═══════════════════════════════════════════════
+       RESPONSIVE — PHONE  (≤ 640px)
+    ═══════════════════════════════════════════════ */
     @media (max-width: 640px) {
-      .floating-widget { display: none; }
+
+      /* ── Safe area (iPhone notch / Dynamic Island / home bar) ── */
+      nav {
+        padding-top: max(18px, calc(18px + env(safe-area-inset-top, 0px)));
+        padding-left:  max(5vw, calc(5vw + env(safe-area-inset-left, 0px)));
+        padding-right: max(5vw, calc(5vw + env(safe-area-inset-right, 0px)));
+      }
+      #mascot {
+        bottom: calc(26px + env(safe-area-inset-bottom, 0px));
+        left:   max(18px, calc(18px + env(safe-area-inset-left, 0px)));
+      }
+      .aero-chat {
+        bottom: calc(120px + env(safe-area-inset-bottom, 0px));
+        left:   max(12px, calc(12px + env(safe-area-inset-left, 0px)));
+        right:  max(12px, calc(12px + env(safe-area-inset-right, 0px)));
+        width: auto;
+        max-height: 60vh;
+      }
+      #scrollTopBtn {
+        bottom: calc(32px + env(safe-area-inset-bottom, 0px));
+      }
+      #update-toast {
+        width: calc(100vw - 32px);
+        left: 16px;
+        right: 16px;
+        bottom: calc(115px + env(safe-area-inset-bottom, 0px));
+      }
+
+      /* ── Typography ── */
+      .hero h1    { font-size: clamp(2.4rem, 10vw, 3.5rem); line-height: 1.05; }
+      .hero-sub   { font-size: 14px; }
+      .hero-meta  { gap: 16px; font-size: 10px; flex-wrap: wrap; }
+      .section-title { font-size: clamp(1.7rem, 7vw, 2.4rem); }
+      .section-desc  { font-size: 14px; }
+      #loader-count  { font-size: clamp(4rem, 22vw, 8rem); }
+      #loader-label  { font-size: 10px; letter-spacing: 0.12em; }
+
+      /* ── Layout ── */
+      .topics-section, .deep-section, .yt-section,
+      .roadmap, .faq-section { padding: 64px 4vw; }
+      .hero { padding-top: 90px; padding-bottom: 40px; }
+      .hero-ctas { flex-direction: column; }
+      .hero-ctas .btn { width: 100%; text-align: center; justify-content: center; }
+      .topics-grid, .yt-grid { grid-template-columns: 1fr; }
+      .nav-links { display: none; }
+
+      /* ── Topic cards ── */
+      .card-icon { font-size: 40px; }
+      .topic-card { padding: 20px; }
+
+      /* ── Video filter bar ── */
+      .yt-filters { gap: 6px; }
+      .filter-btn { font-size: 10px; padding: 6px 12px; }
+
+      /* ── Video modal: full-screen on phones ── */
+      #videoModal { align-items: flex-end; }
+      .modal-box {
+        width: 100vw;
+        max-width: 100vw;
+        border-radius: 16px 16px 0 0;
+        padding: 14px 14px calc(14px + env(safe-area-inset-bottom, 0px));
+      }
+      .modal-close {
+        top: 10px; right: 10px;
+        width: 44px; height: 44px; font-size: 18px;
+      }
+
+      /* ── Roadmap ── */
+      .roadmap-item { gap: 14px; }
+      .roadmap-dot  { width: 36px; height: 36px; font-size: 9px; flex-shrink: 0; }
+      .roadmap-content h4 { font-size: 14px; }
+      .roadmap-content p  { font-size: 13px; }
+
+      /* ── Floating widget: show but compact ── */
+      .floating-widget {
+        display: flex !important;
+        padding: 8px 12px;
+        font-size: 10px;
+        bottom: calc(20px + env(safe-area-inset-bottom, 0px));
+        right: max(12px, calc(12px + env(safe-area-inset-right, 0px)));
+        gap: 8px;
+      }
+      .widget-text span { font-size: 8px; }
+
+      /* ── Performance: hide heavy fixed layers on mobile ── */
+      #marks { display: none; }
+
+      /* ── Progress badge in nav ── */
+      #progressBadge { font-size: 9px; padding: 3px 7px; }
+
+      /* ── Code blocks ── */
+      .code-block { font-size: 11px; }
+      .copy-btn   { font-size: 9px; padding: 4px 8px; }
+
+      /* ── Deep dive callouts ── */
+      .callout { font-size: 13px; padding: 14px 16px; }
+
+      /* ── FAQ ── */
+      .faq-question { font-size: 15px; padding: 16px 18px; }
+    }
+
+    /* ── Viewport height fix for short phones (landscape) ── */
+    @media (max-height: 500px) {
+      .hero { min-height: auto; padding: 80px 5vw 40px; }
+      #loader { justify-content: center; }
     }
 
     /* SOCIAL PROOF */
@@ -3281,7 +3409,8 @@
       const ctx = canvas.getContext('2d');
       let width, height, particles = [], mouse = { x: -9999, y: -9999 };
       const COLORS = ['rgba(108,99,255,', 'rgba(0,212,170,', 'rgba(255,107,157,'];
-      const LINE_DIST = 130;
+      const isMobile  = window.innerWidth < 768;
+      const LINE_DIST = isMobile ? 80 : 130;
 
       function resize() {
         width = canvas.width = window.innerWidth;
@@ -3329,7 +3458,8 @@
         }
       }
 
-      for (let i = 0; i < 90; i++) particles.push(new Particle());
+      const PARTICLE_COUNT = isMobile ? 35 : 90;
+      for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
 
       function animate() {
         ctx.clearRect(0, 0, width, height);
@@ -3857,6 +3987,7 @@
     (function(){
       var layer = document.getElementById('marks');
       if (!layer) return;
+      if (window.innerWidth < 768) return; // skip on mobile for performance
       var colors = ['#6c63ff','#00d4aa','#6c63ff','#00d4aa','#7c75ff'];
       var N = 14, html = '';
       for (var i = 0; i < N; i++) {
@@ -3882,6 +4013,7 @@
     (function(){
       var layer = document.getElementById('emojis');
       if (!layer) return;
+      if (window.innerWidth < 768) return; // skip on mobile for performance
       var set = ['🎯','🤖','📄','🗺️','🏗️','🧠','💰','🔌'];
       var N = 22, html = '';
       for (var i = 0; i < N; i++) {
@@ -3901,6 +4033,7 @@
     (function(){
       var wrap = document.getElementById('neuralSvgWrap');
       if (!wrap) return;
+      if (window.innerWidth < 768) return; // skip on mobile for performance
       var W = 1280, H = 560;
       var layers = [
         {x: 120,  n: 3, col: '#6c63ff'},
