@@ -1446,7 +1446,27 @@
       font-size: 11px;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       animation: fadeUp 1s ease 1s both;
+      cursor: pointer;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      user-select: none;
     }
+    .floating-widget:hover {
+      border-color: var(--accent3);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5), 0 0 0 1px var(--accent3);
+    }
+    .widget-notif-dot {
+      position: absolute;
+      top: -5px;
+      right: -5px;
+      width: 10px;
+      height: 10px;
+      background: var(--accent2);
+      border-radius: 50%;
+      border: 2px solid var(--bg);
+      animation: pulse 2s infinite;
+      display: none;
+    }
+    .floating-widget.has-update .widget-notif-dot { display: block; }
     .widget-indicator {
       width: 8px;
       height: 8px;
@@ -2296,7 +2316,8 @@
   </div>
 
   <!-- FLOATING WIDGET -->
-  <div class="floating-widget">
+  <div class="floating-widget" id="liveStatusWidget" role="button" aria-label="View latest Claude update" style="position:relative">
+    <div class="widget-notif-dot" aria-hidden="true"></div>
     <div class="widget-indicator"></div>
     <div class="widget-text">
       <span>Live Status</span>
@@ -3658,48 +3679,75 @@
 
     // --- UPDATE TOAST ---
     (function() {
-      const toast   = document.getElementById('update-toast');
-      const closeBtn = document.getElementById('toast-close');
-      const STALE_DAYS = 14;
+      var toast    = document.getElementById('update-toast');
+      var closeBtn = document.getElementById('toast-close');
+      var widget   = document.getElementById('liveStatusWidget');
+      var STALE_DAYS = 14;
+      var loadedUpdate = null;  // stored so widget can re-open
 
-      function showToast(update) {
+      function populateToast(update) {
         document.getElementById('toast-badge').textContent   = update.badge || 'Update';
         document.getElementById('toast-title').textContent   = update.title;
         document.getElementById('toast-summary').textContent = update.summary;
-        const link = document.getElementById('toast-link');
-        link.href = update.link;
-        setTimeout(function() { toast.classList.add('show'); }, 3000);
+        document.getElementById('toast-link').href = update.link;
+        toast.dataset.updateId = update.id;
       }
 
-      function dismiss(id) {
+      function showToast() {
+        if (!loadedUpdate) return;
+        populateToast(loadedUpdate);
+        toast.classList.add('show');
+      }
+
+      function hideToast() {
         toast.classList.remove('show');
-        try { localStorage.setItem('claudeos_toast_' + id, '1'); } catch(e) {}
       }
 
-      closeBtn.addEventListener('click', function() {
-        const id = toast.dataset.updateId;
-        if (id) dismiss(id);
+      function toggleToast() {
+        if (toast.classList.contains('show')) {
+          hideToast();
+        } else {
+          showToast();
+        }
+      }
+
+      // X button — just hides (not permanent dismiss, so widget can re-open)
+      closeBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        hideToast();
       });
 
-      // Fetch updates.json — works both locally and on GitHub Pages
+      // Widget click — toggle the toast
+      if (widget) {
+        widget.addEventListener('click', function() {
+          toggleToast();
+        });
+      }
+
+      // Fetch updates.json
       fetch('./updates.json')
         .then(function(r) { return r.json(); })
         .then(function(data) {
-          const updates = data.updates || [];
+          var updates = data.updates || [];
           if (!updates.length) return;
 
-          const latest = updates[0];
-          const dismissed = localStorage.getItem('claudeos_toast_' + latest.id);
-          if (dismissed) return;
-
-          // Only show if update is within STALE_DAYS
-          const age = (Date.now() - new Date(latest.date).getTime()) / 86400000;
+          var latest = updates[0];
+          var age = (Date.now() - new Date(latest.date).getTime()) / 86400000;
           if (age > STALE_DAYS) return;
 
-          toast.dataset.updateId = latest.id;
-          showToast(latest);
+          loadedUpdate = latest;
+
+          // Show notification dot on widget
+          if (widget) widget.classList.add('has-update');
+
+          // Auto-show once after 3s if not previously dismissed this session
+          var sessionKey = 'claudeos_toast_seen_' + latest.id;
+          if (!sessionStorage.getItem(sessionKey)) {
+            sessionStorage.setItem(sessionKey, '1');
+            setTimeout(showToast, 3000);
+          }
         })
-        .catch(function() { /* silently skip if no updates.json */ });
+        .catch(function() { /* no updates.json — skip silently */ });
     })();
 
     // --- FLYTHROUGH OBJECTS ---
