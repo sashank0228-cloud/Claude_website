@@ -2022,8 +2022,8 @@
     /* UPDATE TOAST */
     #update-toast {
       position: fixed;
-      bottom: 32px;
-      right: 32px;
+      bottom: 110px;
+      right: 5vw;
       width: 320px;
       background: var(--surface);
       border: 1px solid var(--border);
@@ -3790,7 +3790,7 @@
   </script>
 
   <!-- AERO MASCOT (§8) -->
-  <div id="mascot" aria-hidden="true" title="Chat with Aero 💬">
+  <div id="mascot" aria-hidden="true" title="Chat with Shanky 💬">
     <div class="m-bubble" id="mBubble">go!</div>
     <div class="m-speed"><span></span><span></span><span></span></div>
     <div class="m-stack">
@@ -3832,7 +3832,7 @@
         <span class="blip"></span>
       </div>
       <div class="chat-id">
-        <div class="nm">Aero</div>
+        <div class="nm">Shanky</div>
         <div class="st mono">Claude Guide · Help Agent</div>
       </div>
       <button class="chat-ctrl" id="aerMuteBtn" title="Mute voice" aria-label="Mute voice">
@@ -3845,7 +3845,7 @@
     <div class="chat-body" id="aerChatBody"></div>
     <div class="chat-chips" id="aerChips"></div>
     <form class="chat-form" id="aerChatForm">
-      <input id="aerChatInput" type="text" placeholder="Ask Aero anything about Claude…" autocomplete="off"/>
+      <input id="aerChatInput" type="text" placeholder="Ask Shanky anything about Claude…" autocomplete="off"/>
       <button class="chat-send" type="submit" aria-label="Send">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/></svg>
       </button>
@@ -4033,7 +4033,7 @@
     var chatHistory = [];
 
     // Persona for this site
-    var KB = 'You are Aero, the cheerful guide for "Claude: Zero to Hero" — a free learning hub teaching beginners to master Claude AI. The site covers 8 topics: Prompt Harness Engineering, AI Agents, CLAUDE.md Files, Planning & Task Management, Agent Teams, Context Window Management, Token Savings, and API Integrations. It includes 17 curated YouTube videos, deep-dive guides, a 5-week roadmap, and an in-page video player. Style: warm, encouraging, concise — 1-3 short sentences, plain language, no markdown. An occasional emoji is fine. Help beginners feel confident about learning Claude.';
+    var KB = 'You are Shanky, the cheerful guide for "Claude: Zero to Hero" — a free learning hub teaching beginners to master Claude AI. The site covers 8 topics: Prompt Harness Engineering, AI Agents, CLAUDE.md Files, Planning & Task Management, Agent Teams, Context Window Management, Token Savings, and API Integrations. It includes 17 curated YouTube videos, deep-dive guides, a 5-week roadmap, and an in-page video player. IMPORTANT: Always respond in English only, regardless of what language the user writes in. Style: warm, encouraging, concise — 1-3 short sentences, plain English, no markdown. An occasional emoji is fine. Help beginners feel confident about learning Claude.';
 
     var fallbacks = {
       topic:  'This site covers 8 topics: Prompt Engineering, AI Agents, CLAUDE.md, Planning, Agent Teams, Context Windows, Token Savings, and API Integrations — each with a video and a deep-dive guide! 🎯',
@@ -4096,7 +4096,7 @@
       var typing = showTyping();
       var reply;
       // Attempt Claude API call (falls back gracefully in static context)
-      var prompt = KB + '\n\nConversation:\n' + chatHistory.slice(-8).join('\n') + '\nAero:';
+      var prompt = KB + '\n\nConversation:\n' + chatHistory.slice(-8).join('\n') + '\nShanky:';
       Promise.resolve().then(function() {
         if (window.claude && window.claude.complete) {
           return window.claude.complete(prompt);
@@ -4110,7 +4110,7 @@
       }).finally(function() {
         typing.remove();
         addMsg('bot', reply);
-        chatHistory.push('Aero: ' + reply);
+        chatHistory.push('Shanky: ' + reply);
         speak(reply);
       });
     }
@@ -4136,7 +4136,7 @@
         greeted = true;
         renderChips();
         setTimeout(function() {
-          var hi = "Hi! I'm Aero — your guide to mastering Claude AI! Ask me anything about the topics, videos, or how to get started. 🚀";
+          var hi = "Hi! I'm Shanky — your guide to mastering Claude AI! Ask me anything about the topics, videos, or how to get started. 🚀";
           addMsg('bot', hi);
           speak(hi);
         }, 350);
