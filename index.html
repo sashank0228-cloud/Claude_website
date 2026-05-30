@@ -4245,11 +4245,15 @@
       return d;
     }
 
-    function speak(text) {
-      if (muted || !('speechSynthesis' in window)) return;
+    // ── SPEAK — ElevenLabs (primary) with speechSynthesis fallback ──
+    var audioEl = null; // single reusable audio element
+
+    function speakFallback(text) {
+      if (!('speechSynthesis' in window)) return;
       try {
         speechSynthesis.cancel();
-        var u = new SpeechSynthesisUtterance(text.replace(/[🚀🤖🧠💰🔌✨🎯🎬🆓→]/g, ''));
+        var clean = text.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}→]/gu, '');
+        var u = new SpeechSynthesisUtterance(clean);
         u.rate = 1.06; u.pitch = 1.2; u.volume = 1;
         var vs = speechSynthesis.getVoices();
         var pref = vs.find(function(v) { return /Google US English|Samantha|Jenny|Aria|Zira/i.test(v.name); })
@@ -4263,6 +4267,35 @@
     }
     if ('speechSynthesis' in window) {
       speechSynthesis.onvoiceschanged = function() { speechSynthesis.getVoices(); };
+    }
+
+    function speak(text) {
+      if (muted) return;
+      var clean = text.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}→]/gu, '').trim();
+      if (!clean) return;
+
+      // Try ElevenLabs via Netlify function
+      fetch('/.netlify/functions/speak', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ text: clean })
+      })
+      .then(function(res) {
+        if (!res.ok) throw new Error('EL ' + res.status);
+        return res.blob();
+      })
+      .then(function(blob) {
+        if (audioEl) { audioEl.pause(); URL.revokeObjectURL(audioEl.src); }
+        audioEl = new Audio(URL.createObjectURL(blob));
+        audioEl.onplay  = function() { if (mascot) mascot.classList.add('talking'); };
+        audioEl.onended = function() { if (mascot) mascot.classList.remove('talking'); };
+        audioEl.onerror = function() { if (mascot) mascot.classList.remove('talking'); speakFallback(text); };
+        audioEl.play().catch(function() { speakFallback(text); });
+      })
+      .catch(function() {
+        // ElevenLabs unavailable (local dev, keys not set) — fall back silently
+        speakFallback(text);
+      });
     }
 
     function askAero(q) {
@@ -4325,6 +4358,7 @@
       aeroChat.classList.remove('open');
       if (mascot) mascot.classList.remove('chatting', 'talking');
       if ('speechSynthesis' in window) speechSynthesis.cancel();
+      if (audioEl) { audioEl.pause(); }
     }
 
     if (mascot) mascot.addEventListener('click', function() { chatOpen ? closeChat() : openChat(); });
@@ -4333,7 +4367,11 @@
       muted = !muted;
       aerMute.classList.toggle('muted', muted);
       aerMute.title = muted ? 'Unmute voice' : 'Mute voice';
-      if (muted && 'speechSynthesis' in window) { speechSynthesis.cancel(); if (mascot) mascot.classList.remove('talking'); }
+      if (muted) {
+        if ('speechSynthesis' in window) speechSynthesis.cancel();
+        if (audioEl) audioEl.pause();
+        if (mascot) mascot.classList.remove('talking');
+      }
     });
     if (aerForm) aerForm.addEventListener('submit', function(e) {
       e.preventDefault();
