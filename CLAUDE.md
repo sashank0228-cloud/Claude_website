@@ -178,18 +178,60 @@ Each card: `href`, `data-video-id` (YouTube only), optional `data-start` (second
 ## Aero Mascot & Chat
 
 - **Mascot** (`#mascot`) — runs in from left 600ms after load; hops + shows bubble on each section scroll
-- **Chat** (`#aeroChat`) — opens on mascot click; voice via `speechSynthesis`; `KB` persona string describes this site; `fallbacks` object handles common questions without an API
+- **Chat** (`#aeroChat`) — opens on mascot click; voice via ElevenLabs (Netlify) + speechSynthesis fallback; `KB` persona string describes this site; `fallbacks` object handles common questions without an API
 - **Customise:** edit `KB`, `chips[]`, and `fallbacks{}` in second `<script>` block
 - **Wire real AI:** replace the `window.claude.complete` stub with a `fetch('/api/chat', ...)` call to your backend
+
+### Voice System
+
+- **Primary (Netlify):** `/.netlify/functions/speak` → ElevenLabs TTS (requires `ELEVENLABS_API_KEY` and `ELEVENLABS_VOICE_ID` env vars)
+- **Fallback (Local/GitHub Pages):** Browser `speechSynthesis` API with voice preference chain:
+  1. Google US English Male, David, Mark, Daniel
+  2. Any male voice (name contains "male", "man", "guy", "boy")
+  3. Any English voice
+  4. System default
+- **Settings:** `pitch: 0.95` (0.95 = lower/masculine), `rate: 1.06`, `volume: 1`
+- **Implementation:** `speak()` function (line ~4272) tries ElevenLabs first, falls back silently if unavailable
+- **Netlify setup:** Add secrets in repo Settings → Secrets → Actions: `ELEVENLABS_API_KEY`, `ELEVENLABS_VOICE_ID`
 
 ---
 
 ## Update Toast & Agent
 
-- `updates.json` — fetched by the site on load; shows toast if latest entry is within 14 days
-- `#liveStatusWidget` click → toggles `#update-toast` open/closed; X button hides (not permanent dismiss)
-- Pink dot (`.widget-notif-dot`) appears on widget when a live update is loaded
-- Agent (`agent/fetch-updates.js`) runs weekly via GitHub Actions, scrapes `anthropic.com/news`, calls Claude API, commits new entries to `updates.json`
+- `updates.json` — fetched on load; shows toast if latest entry is within 14 days (date checked with UTC offset: `date + 'T00:00:00Z'`)
+- `#liveStatusWidget` — fixed bottom-right, appears after 0.9s animation; click toggles `#update-toast`
+- `.widget-notif-dot` — pink dot appears when fresh update exists; indicates notification without auto-show
+- `#update-toast` — slides up with content: badge, title, summary, link; fetches from `updates.json`; sessionStorage tracks if shown this session
+- **Auto-show:** First load within session if update < 14 days old; subsequent visits require manual widget click
+- **Mobile:** Toast width full-screen minus margins, positioned above widget
+- Agent (`agent/fetch-updates.js`) runs weekly (Mon 9am UTC) via GitHub Actions; scrapes anthropic.com/news, calls Claude API, commits to `updates.json`
+- **To test locally:** `ANTHROPIC_API_KEY=sk-... node agent/fetch-updates.js`
+
+---
+
+## Testing
+
+Since there's no build step, test by opening `index.html` locally in a browser:
+
+```bash
+# Option 1: Python HTTP server
+python3 -m http.server 8000
+# Open http://localhost:8000 in browser
+
+# Option 2: Live GitHub Pages
+# https://sashank0228-cloud.github.io/Claude_website/
+```
+
+**Key things to manually verify:**
+- Floating widget appears in bottom-right after ~1s
+- Click widget → update toast slides up with Claude news
+- Scroll → card reveal animations + flythrough objects (left-to-right per section)
+- Hero → canvas particles respond to mouse
+- Roadmap → scroll rocket animates and milestone badges update
+- Click Aero mascot (bottom-left) → chat opens, voice responds with male voice
+- Check browser console (F12) for toast loading logs: `[toast]` prefix
+
+**Browser compatibility:** Modern browsers only (ES6, CSS Grid, fetch, Web Speech API). No IE support.
 
 ---
 
@@ -230,8 +272,80 @@ Each card: `href`, `data-video-id` (YouTube only), optional `data-start` (second
 
 ## Deployment
 
-No build step. Static file only.
+No build step. Static file only. `index.html` is the entire application.
 
-- **GitHub Pages** — push `index.html`, enable Pages in repo Settings
-- **Netlify Drop** — drag `index.html` to app.netlify.com/drop
-- **Vercel** — `vercel` CLI in project folder
+**GitHub Pages:**
+- Push to `main` branch, enable Pages in repo Settings → Pages
+- Serves from `https://sashank0228-cloud.github.io/Claude_website/`
+- Fallback voice system (no ElevenLabs)
+
+**Netlify:**
+- Deploy `index.html` (drag-and-drop or git push)
+- Set environment variables for voice:
+  - `ELEVENLABS_API_KEY` (from elevenlabs.io)
+  - `ELEVENLABS_VOICE_ID` (voice ID from ElevenLabs dashboard)
+- Serverless function `netlify/functions/speak.js` handles TTS requests
+- Serves from custom domain (e.g., `claude-zero-2-hero.netlify.app`)
+
+**Vercel:**
+- `vercel` CLI in project folder
+- No serverless function support for voice (use GitHub Pages fallback behavior)
+
+**Cache busting:** GitHub Pages may cache old versions. Force refresh: `Cmd+Shift+R` (Mac) or `Ctrl+Shift+F5` (Windows). Hard refresh clears CSS/JS cache.
+
+---
+
+## Debugging
+
+**Widget/toast not showing?**
+- Check browser console for `[toast]` logs (DevTools F12)
+- Verify `updates.json` loads: Network tab → check response
+- Check if sessionStorage cached the update: `sessionStorage.clear()` then reload
+- Widget animates in after 0.9s — wait before concluding it's missing
+
+**Voice not working?**
+- Local dev: speechSynthesis fallback (uses system voices)
+- Netlify: check env vars `ELEVENLABS_API_KEY` and `ELEVENLABS_VOICE_ID` are set
+- Browser console may show `[toast] fetch failed` if ElevenLabs unavailable
+- Test fallback: open DevTools, run `speechSynthesis.getVoices()` to see available voices
+
+**Animations stuttering?**
+- Check browser DevTools Performance tab
+- Disable custom cursor if performance is critical: remove `#cursor-dot` / `#cursor-ring` CSS
+- Marks layer (`#marks`) is hidden on mobile (`display: none`) to save render budget
+
+**Updates.json not updating?**
+- GitHub Actions workflow `claude-updates.yml` runs Mon 9am UTC
+- Manually trigger: Actions tab → `Claude Updates` → `Run workflow`
+- Check workflow logs for errors (API key, quota, scraper changes)
+
+---
+
+## Recent Improvements (Phase 1–4)
+
+**Phase 1:** ElevenLabs custom voice (Shanky) + speechSynthesis fallback
+- Netlify serverless function (`netlify/functions/speak.js`) proxies ElevenLabs API
+- Local/GitHub Pages: browser speechSynthesis with male voice preference (pitch 0.95)
+
+**Phase 2:** Netlify deployment config, canonical URL, SEO meta tags
+- Redirects from Netlify to main site configured
+- OpenGraph and Twitter Card metadata
+- JSON-LD structured data for search engines
+
+**Phase 4:** Full mobile & tablet responsiveness
+- Tested on iPhone 13, Samsung S25, iPad
+- Floating widget, update toast, animations all responsive
+- Safe-area insets for notched devices
+
+**AETHER System:** Generative JS for cinematic elements
+- C-marks (14 SVG marks), rising emojis (22), neural network visualization
+- Scroll rocket with flame animation and milestone tracking
+- Aero mascot with context-aware chat and voice support
+
+**Update Toast Fixes:**
+- UTC date parsing (`date + 'T00:00:00Z'`) for consistent age calculation
+- Widget animation reduced from 2s to 0.9s (appears faster)
+- Console logging `[toast]` prefix for debugging
+- Notification dot + manual widget click as fallback when sessionStorage cached
+
+**No planned features** — scope complete. Future iterations: API integration, user accounts, advanced analytics.
