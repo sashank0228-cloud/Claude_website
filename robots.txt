@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://claude-zero-2-hero.netlify.app/sitemap.xml
