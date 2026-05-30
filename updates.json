@@ -1,0 +1,13 @@
+{
+  "lastChecked": "2026-05-30T00:00:00.000Z",
+  "updates": [
+    {
+      "id": "claude-4-models",
+      "date": "2026-05-22",
+      "title": "Claude 4 Model Family Released",
+      "summary": "Anthropic launched Claude Opus 4 and Claude Sonnet 4 — the most capable Claude models yet, with stronger reasoning, coding, and instruction-following. If you're learning Claude, these are the models you'll want to use for complex tasks and agents.",
+      "badge": "New Model",
+      "link": "https://www.anthropic.com/news/claude-4"
+    }
+  ]
+}

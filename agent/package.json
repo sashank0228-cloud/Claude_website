@@ -1,0 +1,13 @@
+{
+  "name": "claude-updates-agent",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Fetches latest Anthropic/Claude news and writes updates.json",
+  "main": "fetch-updates.js",
+  "scripts": {
+    "start": "node fetch-updates.js"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0"
+  }
+}
