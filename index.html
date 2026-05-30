@@ -4254,9 +4254,10 @@
         speechSynthesis.cancel();
         var clean = text.replace(/[\u{1F000}-\u{1FFFF}\u{2600}-\u{27FF}→]/gu, '');
         var u = new SpeechSynthesisUtterance(clean);
-        u.rate = 1.06; u.pitch = 1.2; u.volume = 1;
+        u.rate = 1.06; u.pitch = 0.95; u.volume = 1;
         var vs = speechSynthesis.getVoices();
-        var pref = vs.find(function(v) { return /Google US English|Samantha|Jenny|Aria|Zira/i.test(v.name); })
+        var pref = vs.find(function(v) { return /Google US English Male|David|Mark|Daniel/i.test(v.name); })
+                || vs.find(function(v) { return v.name && /male|man|guy|boy|guy/i.test(v.name) && v.lang && v.lang.startsWith('en'); })
                 || vs.find(function(v) { return v.lang && v.lang.startsWith('en'); });
         if (pref) u.voice = pref;
         u.onstart = function() { if (mascot) mascot.classList.add('talking'); };
