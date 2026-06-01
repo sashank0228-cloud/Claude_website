@@ -1,6 +1,46 @@
 {
-  "lastChecked": "2026-05-30T00:00:00.000Z",
+  "lastChecked": "2026-06-01T15:26:48.144Z",
   "updates": [
+    {
+      "id": "claude-opus-4-8",
+      "date": "2026-06-01",
+      "title": "Introducing Claude Opus 4.8",
+      "summary": "Our latest model, Claude Opus 4.8, is an upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consistency to handle long-running work.",
+      "badge": "New Model",
+      "link": "https://www.anthropic.com/news/claude-opus-4-8"
+    },
+    {
+      "id": "claude-design-anthropic-labs",
+      "date": "2026-06-01",
+      "title": "Introducing Claude Design by Anthropic Labs",
+      "summary": "Today, we’re launching Claude Design, a new Anthropic Labs product that lets you collaborate with Claude to create polished visual work like designs, prototypes, slides, one-pagers, and more.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/claude-design-anthropic-labs"
+    },
+    {
+      "id": "claude-is-a-space-to-think",
+      "date": "2026-06-01",
+      "title": "Claude is a space to think",
+      "summary": "We’ve made a choice: Claude will remain ad-free. We explain why advertising incentives are incompatible with a genuinely helpful AI assistant, and how we plan to expand access without compromising user trust.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/claude-is-a-space-to-think"
+    },
+    {
+      "id": "series-h",
+      "date": "2026-06-01",
+      "title": "Anthropic raises $65B in Series H funding at $965B post-money valuation",
+      "summary": "Anthropic has raised $65 billion in Series H funding led by Altimeter Capital, Dragoneer, Greenoaks, and Sequoia Capital.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/series-h"
+    },
+    {
+      "id": "milan-office-opening",
+      "date": "2026-06-01",
+      "title": "Anthropic opens Milan office to support Italian enterprise, research, and developers",
+      "summary": "We&#x27;re opening a new office in Milan, our sixth in Europe.",
+      "badge": "Research",
+      "link": "https://www.anthropic.com/news/milan-office-opening"
+    },
     {
       "id": "claude-4-models",
       "date": "2026-05-22",
