@@ -1,6 +1,14 @@
 {
-  "lastChecked": "2026-06-22T14:44:52.073Z",
+  "lastChecked": "2026-06-29T13:10:06.548Z",
   "updates": [
+    {
+      "id": "introducing-claude-tag",
+      "date": "2026-06-29",
+      "title": "Introducing Claude Tag",
+      "summary": "Claude Tag is a new way for teams to work with Claude.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/introducing-claude-tag"
+    },
     {
       "id": "fable-mythos-access",
       "date": "2026-06-15",
@@ -72,14 +80,6 @@
       "summary": "We’ve made a choice: Claude will remain ad-free. We explain why advertising incentives are incompatible with a genuinely helpful AI assistant, and how we plan to expand access without compromising user trust.",
       "badge": "News",
       "link": "https://www.anthropic.com/news/claude-is-a-space-to-think"
-    },
-    {
-      "id": "series-h",
-      "date": "2026-06-01",
-      "title": "Anthropic raises $65B in Series H funding at $965B post-money valuation",
-      "summary": "Anthropic has raised $65 billion in Series H funding led by Altimeter Capital, Dragoneer, Greenoaks, and Sequoia Capital.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/series-h"
     }
   ]
 }
