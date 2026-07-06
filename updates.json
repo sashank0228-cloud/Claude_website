@@ -1,6 +1,38 @@
 {
-  "lastChecked": "2026-06-29T13:10:06.548Z",
+  "lastChecked": "2026-07-06T12:52:25.981Z",
   "updates": [
+    {
+      "id": "redeploying-fable-5",
+      "date": "2026-07-06",
+      "title": "Redeploying Claude Fable 5",
+      "summary": "Anthropic is redeploying Claude Fable 5 starting July 1 following the lifting of export controls, with updated cybersecurity safeguards and a new industry jailbreak framework.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/redeploying-fable-5"
+    },
+    {
+      "id": "claude-sonnet-5",
+      "date": "2026-07-06",
+      "title": "Introducing Claude Sonnet 5",
+      "summary": "Our most agentic Sonnet yet, with top-tier intelligence for coding and everyday professional work.",
+      "badge": "New Model",
+      "link": "https://www.anthropic.com/news/claude-sonnet-5"
+    },
+    {
+      "id": "claude-science-ai-workbench",
+      "date": "2026-07-06",
+      "title": "Claude Science, an AI workbench for scientists",
+      "summary": "Claude Science is a customizable app that integrates the tools and packages researchers most often use, produces auditable artifacts, and provides flexible access to computing resources.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/claude-science-ai-workbench"
+    },
+    {
+      "id": "fable-safeguards-jailbreak-framework",
+      "date": "2026-07-06",
+      "title": "More details on Fable 5’s cyber safeguards and our jailbreak framework",
+      "summary": "What is and isn&#x27;t blocked by our cyber classifiers, and a first draft of our jailbreak severity framework",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/fable-safeguards-jailbreak-framework"
+    },
     {
       "id": "introducing-claude-tag",
       "date": "2026-06-29",
@@ -48,38 +80,6 @@
       "summary": "Over the past several months, we’ve been organizing dialogues with groups whose work and traditions bear on the questions raised by AI. ",
       "badge": "News",
       "link": "https://www.anthropic.com/news/widening-conversation-ai"
-    },
-    {
-      "id": "election-safeguards-update",
-      "date": "2026-06-08",
-      "title": "An update on our election safeguards",
-      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
-      "badge": "Feature",
-      "link": "https://www.anthropic.com/news/election-safeguards-update"
-    },
-    {
-      "id": "claude-opus-4-8",
-      "date": "2026-06-01",
-      "title": "Introducing Claude Opus 4.8",
-      "summary": "Our latest model, Claude Opus 4.8, is an upgrade to our Opus class of models, with stronger performance across coding, agentic tasks, and professional work, and the consistency to handle long-running work.",
-      "badge": "New Model",
-      "link": "https://www.anthropic.com/news/claude-opus-4-8"
-    },
-    {
-      "id": "claude-design-anthropic-labs",
-      "date": "2026-06-01",
-      "title": "Introducing Claude Design by Anthropic Labs",
-      "summary": "Today, we’re launching Claude Design, a new Anthropic Labs product that lets you collaborate with Claude to create polished visual work like designs, prototypes, slides, one-pagers, and more.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/claude-design-anthropic-labs"
-    },
-    {
-      "id": "claude-is-a-space-to-think",
-      "date": "2026-06-01",
-      "title": "Claude is a space to think",
-      "summary": "We’ve made a choice: Claude will remain ad-free. We explain why advertising incentives are incompatible with a genuinely helpful AI assistant, and how we plan to expand access without compromising user trust.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/claude-is-a-space-to-think"
     }
   ]
 }
