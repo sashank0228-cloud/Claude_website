@@ -1,6 +1,14 @@
 {
-  "lastChecked": "2026-07-27T12:26:54.431Z",
+  "lastChecked": "2026-08-03T12:27:48.849Z",
   "updates": [
+    {
+      "id": "investigating-incidents-cybersecurity-evals",
+      "date": "2026-08-03",
+      "title": "Investigating three real-world incidents in our cybersecurity evaluations",
+      "summary": "In a review of our cybersecurity evaluation transcripts, we found three incidents in which a Claude model reached the internet from within or while interacting with a third-party evaluation environment, and then gained unauthorized access to the real systems of three different organizations.  Below we describe what happened, how it happened, and what we’re changing. We encourage other AI labs to perform similar reviews.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals"
+    },
     {
       "id": "claude-opus-5",
       "date": "2026-07-27",
@@ -72,14 +80,6 @@
       "summary": "What is and isn&#x27;t blocked by our cyber classifiers, and a first draft of our jailbreak severity framework",
       "badge": "News",
       "link": "https://www.anthropic.com/news/fable-safeguards-jailbreak-framework"
-    },
-    {
-      "id": "introducing-claude-tag",
-      "date": "2026-06-29",
-      "title": "Introducing Claude Tag",
-      "summary": "Claude Tag is a new way for teams to work with Claude.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/introducing-claude-tag"
     }
   ]
 }
