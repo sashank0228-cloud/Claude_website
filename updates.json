@@ -1,6 +1,14 @@
 {
-  "lastChecked": "2026-08-03T12:27:48.849Z",
+  "lastChecked": "2026-08-10T10:19:15.708Z",
   "updates": [
+    {
+      "id": "improving-fable-5-s-biology-safeguards",
+      "date": "2026-08-10",
+      "title": "Improving Fable 5 Safeguards",
+      "summary": "We’re making updates to Claude Fable 5’s biology safeguards in a way that substantially reduces fallbacks.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/improving-fable-5-s-biology-safeguards"
+    },
     {
       "id": "investigating-incidents-cybersecurity-evals",
       "date": "2026-08-03",
@@ -72,14 +80,6 @@
       "summary": "Claude Science is a customizable app that integrates the tools and packages researchers most often use, produces auditable artifacts, and provides flexible access to computing resources.",
       "badge": "News",
       "link": "https://www.anthropic.com/news/claude-science-ai-workbench"
-    },
-    {
-      "id": "fable-safeguards-jailbreak-framework",
-      "date": "2026-07-06",
-      "title": "More details on Fable 5’s cyber safeguards and our jailbreak framework",
-      "summary": "What is and isn&#x27;t blocked by our cyber classifiers, and a first draft of our jailbreak severity framework",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/fable-safeguards-jailbreak-framework"
     }
   ]
 }
