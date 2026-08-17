@@ -1,6 +1,14 @@
 {
-  "lastChecked": "2026-08-10T10:19:15.708Z",
+  "lastChecked": "2026-08-17T09:45:22.866Z",
   "updates": [
+    {
+      "id": "claude-text-watermark",
+      "date": "2026-08-17",
+      "title": "How Claude&#x27;s text watermarking works",
+      "summary": "Future Claude models will generate text that contains a watermark. This is a way of determining the likelihood that Claude was involved in writing the text, and we, along with several other major AI providers, are implementing this change to comply with the EU AI Act.  In this article, we share answers to some of the questions we’ve received about how our chosen watermarking method works, whether it affects Claude’s outputs, and why we’re making this change.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/claude-text-watermark"
+    },
     {
       "id": "improving-fable-5-s-biology-safeguards",
       "date": "2026-08-10",
@@ -72,14 +80,6 @@
       "summary": "Our most agentic Sonnet yet, with top-tier intelligence for coding and everyday professional work.",
       "badge": "New Model",
       "link": "https://www.anthropic.com/news/claude-sonnet-5"
-    },
-    {
-      "id": "claude-science-ai-workbench",
-      "date": "2026-07-06",
-      "title": "Claude Science, an AI workbench for scientists",
-      "summary": "Claude Science is a customizable app that integrates the tools and packages researchers most often use, produces auditable artifacts, and provides flexible access to computing resources.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/claude-science-ai-workbench"
     }
   ]
 }
