@@ -1,6 +1,22 @@
 {
-  "lastChecked": "2026-08-24T09:51:00.745Z",
+  "lastChecked": "2026-08-31T16:52:06.487Z",
   "updates": [
+    {
+      "id": "model-hardware-standard-research-preview",
+      "date": "2026-08-31",
+      "title": "Previewing the Model Hardware Standard",
+      "summary": "Anthropic is opening a research preview of the Model Hardware Standard (MHS), a shared specification for AI agents to safely operate physical devices, to a first group of scientific research labs and advanced manufacturers. ",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/model-hardware-standard-research-preview"
+    },
+    {
+      "id": "expanding-support-for-scientists",
+      "date": "2026-08-31",
+      "title": "Expanding our support for scientists",
+      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/expanding-support-for-scientists"
+    },
     {
       "id": "claude-text-watermark",
       "date": "2026-08-17",
@@ -64,22 +80,6 @@
       "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
       "badge": "News",
       "link": "https://www.anthropic.com/news/ust-claude"
-    },
-    {
-      "id": "redeploying-fable-5",
-      "date": "2026-07-06",
-      "title": "Redeploying Claude Fable 5",
-      "summary": "Anthropic is redeploying Claude Fable 5 starting July 1 following the lifting of export controls, with updated cybersecurity safeguards and a new industry jailbreak framework.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/redeploying-fable-5"
-    },
-    {
-      "id": "claude-sonnet-5",
-      "date": "2026-07-06",
-      "title": "Introducing Claude Sonnet 5",
-      "summary": "Our most agentic Sonnet yet, with top-tier intelligence for coding and everyday professional work.",
-      "badge": "New Model",
-      "link": "https://www.anthropic.com/news/claude-sonnet-5"
     }
   ]
 }
