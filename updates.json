@@ -1,6 +1,22 @@
 {
-  "lastChecked": "2026-08-31T16:52:06.487Z",
+  "lastChecked": "2026-09-07T14:54:17.773Z",
   "updates": [
+    {
+      "id": "enterprise-frontier-safeguards",
+      "date": "2026-09-07",
+      "title": "Developing Enterprise Frontier Safeguards with our customers",
+      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/enterprise-frontier-safeguards"
+    },
+    {
+      "id": "improving-alignment-security-efforts",
+      "date": "2026-09-07",
+      "title": "Improving our alignment and security practices",
+      "summary": "On July 30, we reported three incidents in which Claude models gained unauthorized access to real computer systems. We are conducting an in-depth analysis of both incidents, and planning to work with METR for an independent review. In the meantime, we’re sharing some of the changes we’ve made over the past month.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/improving-alignment-security-efforts"
+    },
     {
       "id": "model-hardware-standard-research-preview",
       "date": "2026-08-31",
@@ -64,22 +80,6 @@
       "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
       "badge": "News",
       "link": "https://www.anthropic.com/news/claude-for-teachers"
-    },
-    {
-      "id": "hard-questions",
-      "date": "2026-07-13",
-      "title": "Inviting hard questions",
-      "summary": "We&#x27;re asking the public for their hardest questions about AI, and committing to show our work as we address them.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/hard-questions"
-    },
-    {
-      "id": "ust-claude",
-      "date": "2026-07-13",
-      "title": "UST is bringing Claude to physical AI",
-      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/ust-claude"
     }
   ]
 }
