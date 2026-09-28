@@ -1,6 +1,14 @@
 {
-  "lastChecked": "2026-09-21T15:45:10.919Z",
+  "lastChecked": "2026-09-28T17:28:18.041Z",
   "updates": [
+    {
+      "id": "claude-discovers-novel-enzyme-system",
+      "date": "2026-09-28",
+      "title": "Claude discovers a novel enzyme system",
+      "summary": "In early results from our new life sciences research lab, Claude agents found an enzyme system whose function is still unknown.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/claude-discovers-novel-enzyme-system"
+    },
     {
       "id": "accenture-embedded-evaluation",
       "date": "2026-09-21",
@@ -72,14 +80,6 @@
       "summary": "In a review of our cybersecurity evaluation transcripts, we found three incidents in which a Claude model reached the internet from within or while interacting with a third-party evaluation environment, and then gained unauthorized access to the real systems of three different organizations.  Below we describe what happened, how it happened, and what we’re changing. We encourage other AI labs to perform similar reviews.",
       "badge": "News",
       "link": "https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals"
-    },
-    {
-      "id": "claude-opus-5",
-      "date": "2026-07-27",
-      "title": "Introducing Claude Opus 5",
-      "summary": "Opus 5 is a step change improvement for the Opus tier powering long-running agents while delivering improvements in coding and professional work.",
-      "badge": "New Model",
-      "link": "https://www.anthropic.com/news/claude-opus-5"
     }
   ]
 }
