@@ -1,6 +1,22 @@
 {
-  "lastChecked": "2026-09-28T17:28:18.041Z",
+  "lastChecked": "2026-10-05T18:07:42.161Z",
   "updates": [
+    {
+      "id": "claude-frontier-academy",
+      "date": "2026-10-02",
+      "title": "Claude Frontier Academy: $100M to train 10,000 engineers",
+      "summary": "Claude Frontier Academy trains Frontier Deployed Engineers to the standard of Anthropic’s own — a $100 million commitment to train 10,000 by the end of 2027.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/claude-frontier-academy"
+    },
+    {
+      "id": "barclays-scales-claude",
+      "date": "2026-10-01",
+      "title": "Barclays scales Claude to upgrade operations and improve client experience",
+      "summary": "Barclays, the British universal bank, is expanding its strategic collaboration with Anthropic to integrate secure, enterprise-grade AI systems across its global operations.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/barclays-scales-claude"
+    },
     {
       "id": "claude-discovers-novel-enzyme-system",
       "date": "2026-09-28",
@@ -64,22 +80,6 @@
       "summary": "Future Claude models will generate text that contains a watermark. This is a way of determining the likelihood that Claude was involved in writing the text, and we, along with several other major AI providers, are implementing this change to comply with the EU AI Act.  In this article, we share answers to some of the questions we’ve received about how our chosen watermarking method works, whether it affects Claude’s outputs, and why we’re making this change.",
       "badge": "News",
       "link": "https://www.anthropic.com/news/claude-text-watermark"
-    },
-    {
-      "id": "improving-fable-5-s-biology-safeguards",
-      "date": "2026-08-10",
-      "title": "Improving Fable 5 Safeguards",
-      "summary": "We’re making updates to Claude Fable 5’s biology safeguards in a way that substantially reduces fallbacks.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/improving-fable-5-s-biology-safeguards"
-    },
-    {
-      "id": "investigating-incidents-cybersecurity-evals",
-      "date": "2026-08-03",
-      "title": "Investigating three real-world incidents in our cybersecurity evaluations",
-      "summary": "In a review of our cybersecurity evaluation transcripts, we found three incidents in which a Claude model reached the internet from within or while interacting with a third-party evaluation environment, and then gained unauthorized access to the real systems of three different organizations.  Below we describe what happened, how it happened, and what we’re changing. We encourage other AI labs to perform similar reviews.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/investigating-incidents-cybersecurity-evals"
     }
   ]
 }
