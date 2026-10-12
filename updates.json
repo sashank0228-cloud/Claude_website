@@ -1,6 +1,38 @@
 {
-  "lastChecked": "2026-10-05T18:07:42.161Z",
+  "lastChecked": "2026-10-12T18:45:23.286Z",
   "updates": [
+    {
+      "id": "cyber-verification-program",
+      "date": "2026-10-06",
+      "title": "Expanding the Cyber Verification Program",
+      "summary": "We’re launching a new, expanded version of our Cyber Verification Program (CVP), which makes advanced cyber capabilities and reduced blocking classifiers available to qualifying security professionals.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/cyber-verification-program"
+    },
+    {
+      "id": "2026-usage-policy-update",
+      "date": "2026-10-08",
+      "title": "2026 Usage Policy update",
+      "summary": "We’re publishing a new version of our Usage Policy. In this post, we summarize the changes we’ve made.",
+      "badge": "Policy",
+      "link": "https://www.anthropic.com/news/2026-usage-policy-update"
+    },
+    {
+      "id": "genesis-mission-commitment",
+      "date": "2026-10-08",
+      "title": "Building on our commitment to American scientific discovery",
+      "summary": "Anthropic is committing $150 million over three years to the Genesis Mission, a federal initiative to accelerate scientific and technological discovery through AI. ",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/genesis-mission-commitment"
+    },
+    {
+      "id": "anthropic-cyber-mission",
+      "date": "2026-10-08",
+      "title": "Introducing the Anthropic Cyber Mission",
+      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/anthropic-cyber-mission"
+    },
     {
       "id": "claude-frontier-academy",
       "date": "2026-10-02",
@@ -48,38 +80,6 @@
       "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
       "badge": "News",
       "link": "https://www.anthropic.com/news/enterprise-frontier-safeguards"
-    },
-    {
-      "id": "improving-alignment-security-efforts",
-      "date": "2026-09-07",
-      "title": "Improving our alignment and security practices",
-      "summary": "On July 30, we reported three incidents in which Claude models gained unauthorized access to real computer systems. We are conducting an in-depth analysis of both incidents, and planning to work with METR for an independent review. In the meantime, we’re sharing some of the changes we’ve made over the past month.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/improving-alignment-security-efforts"
-    },
-    {
-      "id": "model-hardware-standard-research-preview",
-      "date": "2026-08-31",
-      "title": "Previewing the Model Hardware Standard",
-      "summary": "Anthropic is opening a research preview of the Model Hardware Standard (MHS), a shared specification for AI agents to safely operate physical devices, to a first group of scientific research labs and advanced manufacturers. ",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/model-hardware-standard-research-preview"
-    },
-    {
-      "id": "expanding-support-for-scientists",
-      "date": "2026-08-31",
-      "title": "Expanding our support for scientists",
-      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/expanding-support-for-scientists"
-    },
-    {
-      "id": "claude-text-watermark",
-      "date": "2026-08-17",
-      "title": "How Claude&#x27;s text watermarking works",
-      "summary": "Future Claude models will generate text that contains a watermark. This is a way of determining the likelihood that Claude was involved in writing the text, and we, along with several other major AI providers, are implementing this change to comply with the EU AI Act.  In this article, we share answers to some of the questions we’ve received about how our chosen watermarking method works, whether it affects Claude’s outputs, and why we’re making this change.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/claude-text-watermark"
     }
   ]
 }
