@@ -1,6 +1,38 @@
 {
-  "lastChecked": "2026-10-12T18:45:23.286Z",
+  "lastChecked": "2026-10-19T16:18:13.471Z",
   "updates": [
+    {
+      "id": "public-benefit-fund",
+      "date": "2026-10-18",
+      "title": "Investing in the public benefit",
+      "summary": "We’re committing a portion of Anthropic’s shares to the Anthropic Public Benefit Fund, a new entity with a structure that increases the stake as the company grows.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/public-benefit-fund"
+    },
+    {
+      "id": "an-update-on-independent-evaluators",
+      "date": "2026-10-15",
+      "title": "Anthropic update on independent evaluators",
+      "summary": "Anthropic announces updates to embedding independent evaluators",
+      "badge": "Feature",
+      "link": "https://www.anthropic.com/news/an-update-on-independent-evaluators"
+    },
+    {
+      "id": "2026-us-midterms",
+      "date": "2026-10-14",
+      "title": "Preparing for the 2026 US midterms",
+      "summary": "Earlier this year, we shared an update on our election safeguards. Here, we outline how we’ve continued to strengthen these safeguards ahead of this year’s US midterms.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/2026-us-midterms"
+    },
+    {
+      "id": "singapore-office-opening",
+      "date": "2026-10-14",
+      "title": "Singapore office and government MOU",
+      "summary": "Anthropic opens its fifth Asia-Pacific office in Singapore and signs an MOU with the government on AI safety, evaluation, and responsible adoption.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/singapore-office-opening"
+    },
     {
       "id": "cyber-verification-program",
       "date": "2026-10-06",
@@ -48,38 +80,6 @@
       "summary": "Barclays, the British universal bank, is expanding its strategic collaboration with Anthropic to integrate secure, enterprise-grade AI systems across its global operations.",
       "badge": "News",
       "link": "https://www.anthropic.com/news/barclays-scales-claude"
-    },
-    {
-      "id": "claude-discovers-novel-enzyme-system",
-      "date": "2026-09-28",
-      "title": "Claude discovers a novel enzyme system",
-      "summary": "In early results from our new life sciences research lab, Claude agents found an enzyme system whose function is still unknown.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/claude-discovers-novel-enzyme-system"
-    },
-    {
-      "id": "accenture-embedded-evaluation",
-      "date": "2026-09-21",
-      "title": "Partnering with Accenture on embedded evaluation",
-      "summary": "We’re partnering with Accenture on independent evaluation of frontier AI—part of our recent commitment to embed evaluators at Anthropic. Both we and Accenture expect to invest at least $1 billion to build capacity in this area over the next five years.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/accenture-embedded-evaluation"
-    },
-    {
-      "id": "life-sciences-verification-program",
-      "date": "2026-09-21",
-      "title": "Introducing the Life Sciences Verification Program",
-      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/life-sciences-verification-program"
-    },
-    {
-      "id": "enterprise-frontier-safeguards",
-      "date": "2026-09-07",
-      "title": "Developing Enterprise Frontier Safeguards with our customers",
-      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/enterprise-frontier-safeguards"
     }
   ]
 }
