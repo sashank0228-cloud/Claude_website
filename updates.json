@@ -1,6 +1,30 @@
 {
-  "lastChecked": "2026-10-19T16:18:13.471Z",
+  "lastChecked": "2026-10-26T15:57:27.700Z",
   "updates": [
+    {
+      "id": "announcements",
+      "date": "2026-10-26",
+      "title": "Announcements",
+      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/announcements"
+    },
+    {
+      "id": "features",
+      "date": "2026-10-26",
+      "title": "Features",
+      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
+      "badge": "Feature",
+      "link": "https://www.anthropic.com/news/features"
+    },
+    {
+      "id": "s1-sec",
+      "date": "2026-10-26",
+      "title": "Anthropic files S-1 with the SEC for proposed initial public offering",
+      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/s1-sec"
+    },
     {
       "id": "public-benefit-fund",
       "date": "2026-10-18",
@@ -56,30 +80,6 @@
       "summary": "Anthropic is committing $150 million over three years to the Genesis Mission, a federal initiative to accelerate scientific and technological discovery through AI. ",
       "badge": "News",
       "link": "https://www.anthropic.com/news/genesis-mission-commitment"
-    },
-    {
-      "id": "anthropic-cyber-mission",
-      "date": "2026-10-08",
-      "title": "Introducing the Anthropic Cyber Mission",
-      "summary": "Anthropic is an AI safety and research company that&#x27;s working to build reliable, interpretable, and steerable AI systems.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/anthropic-cyber-mission"
-    },
-    {
-      "id": "claude-frontier-academy",
-      "date": "2026-10-02",
-      "title": "Claude Frontier Academy: $100M to train 10,000 engineers",
-      "summary": "Claude Frontier Academy trains Frontier Deployed Engineers to the standard of Anthropic’s own — a $100 million commitment to train 10,000 by the end of 2027.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/claude-frontier-academy"
-    },
-    {
-      "id": "barclays-scales-claude",
-      "date": "2026-10-01",
-      "title": "Barclays scales Claude to upgrade operations and improve client experience",
-      "summary": "Barclays, the British universal bank, is expanding its strategic collaboration with Anthropic to integrate secure, enterprise-grade AI systems across its global operations.",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/barclays-scales-claude"
     }
   ]
 }
