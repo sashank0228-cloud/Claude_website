@@ -1,6 +1,14 @@
 {
-  "lastChecked": "2026-10-26T15:57:27.700Z",
+  "lastChecked": "2026-11-02T19:17:05.661Z",
   "updates": [
+    {
+      "id": "ai-for-science-expands-foundations-research-institutions",
+      "date": "2026-10-28",
+      "title": "AI for Science expands to foundations and institutions",
+      "summary": "We’re highlighting 20 scientific foundations, institutions, and research groups from around the world that we’ve partnered with in an expansion of our AI for Science program.",
+      "badge": "News",
+      "link": "https://www.anthropic.com/news/ai-for-science-expands-foundations-research-institutions"
+    },
     {
       "id": "announcements",
       "date": "2026-10-26",
@@ -72,14 +80,6 @@
       "summary": "We’re publishing a new version of our Usage Policy. In this post, we summarize the changes we’ve made.",
       "badge": "Policy",
       "link": "https://www.anthropic.com/news/2026-usage-policy-update"
-    },
-    {
-      "id": "genesis-mission-commitment",
-      "date": "2026-10-08",
-      "title": "Building on our commitment to American scientific discovery",
-      "summary": "Anthropic is committing $150 million over three years to the Genesis Mission, a federal initiative to accelerate scientific and technological discovery through AI. ",
-      "badge": "News",
-      "link": "https://www.anthropic.com/news/genesis-mission-commitment"
     }
   ]
 }
