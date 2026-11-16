@@ -1,6 +1,14 @@
 {
-  "lastChecked": "2026-11-09T19:37:05.652Z",
+  "lastChecked": "2026-11-16T19:23:51.364Z",
   "updates": [
+    {
+      "id": "roadshow-launch",
+      "date": "2026-11-10",
+      "title": "Anthropic launches roadshow for proposed initial public offering",
+      "summary": "Today Anthropic, PBC launched the roadshow for its proposed initial public offering of its Class A common stock.",
+      "badge": "Feature",
+      "link": "https://www.anthropic.com/news/roadshow-launch"
+    },
     {
       "id": "ai-for-science-expands-foundations-research-institutions",
       "date": "2026-10-28",
@@ -72,14 +80,6 @@
       "summary": "We’re launching a new, expanded version of our Cyber Verification Program (CVP), which makes advanced cyber capabilities and reduced blocking classifiers available to qualifying security professionals.",
       "badge": "News",
       "link": "https://www.anthropic.com/news/cyber-verification-program"
-    },
-    {
-      "id": "2026-usage-policy-update",
-      "date": "2026-10-08",
-      "title": "2026 Usage Policy update",
-      "summary": "We’re publishing a new version of our Usage Policy. In this post, we summarize the changes we’ve made.",
-      "badge": "Policy",
-      "link": "https://www.anthropic.com/news/2026-usage-policy-update"
     }
   ]
 }
